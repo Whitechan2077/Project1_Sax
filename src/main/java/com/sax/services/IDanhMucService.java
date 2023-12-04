@@ -8,4 +8,5 @@ import java.util.Set;
 
 public interface IDanhMucService extends ICrudServices<DanhMucDTO,Integer>{
     List<DanhMucDTO> getAllDanhMucCha();
+
 }

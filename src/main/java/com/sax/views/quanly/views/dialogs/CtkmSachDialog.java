@@ -93,7 +93,6 @@ public class CtkmSachDialog extends JDialog {
 //            obj.getCheckBoxDelete().addActionListener((e) -> {
 //                if (obj.getCheckBoxDelete().isSelected()) tempIdSet.add(obj.getSach().getId());
 //                else tempIdSet.remove(obj.getSach().getId());
-//                System.out.println(tempIdSet);
 //            });
             ((DefaultTableModel) table.getModel()).addRow(new Object[]{list.get(i).getCheckBoxDelete(), i + 1, obj.getSach(), obj.getGiaTriGiam()});
         }

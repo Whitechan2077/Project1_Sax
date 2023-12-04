@@ -97,8 +97,7 @@ public class ReadSachXlsxFile {
     private static List<SachDTO> readImage(Workbook workbook,List<SachDTO> sachDTO){
         List<? extends PictureData> lst = workbook.getAllPictures();
 
-        System.out.println(lst.size());
-        System.out.println(sachDTO.size());
+
 
         IntStream.range(0, lst.size()).forEach(i -> {
             byte[] img = lst.get(i).getData();

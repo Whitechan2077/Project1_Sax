@@ -59,7 +59,6 @@ public class KhachHangService implements IKhachHangService {
 
     @Override
     public void update(KhachHangDTO e) throws SQLServerException {
-        System.out.println(e.getNgayThem());
         repository.save(DTOUtils.getInstance().converter(e,KhachHang.class));
     }
 

@@ -25,9 +25,6 @@ import java.util.Set;
 import java.util.concurrent.ExecutorService;
 
 public class Session {
-    private static Timer timer;
-    private static  int secondsRemaining ;
-
     public static AccountDTO accountid;
     public static String otp;
 
@@ -129,7 +126,6 @@ public class Session {
             try {
                 configFile.createNewFile();
                 writeDefaultConfig();
-                System.out.println("Đã tạo file config.yaml mặc định.");
                 return false;
             } catch (IOException e) {
                 e.printStackTrace();

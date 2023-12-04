@@ -176,7 +176,6 @@ public class ImageUtils {
             imageData = new byte[(int) selectedFile.length()];
             fileInputStream.read(imageData);
         }
-        System.out.println(selectedFile.getPath());
         String imagePath = "images/" + selectedFile.getName();
 
         try (FileOutputStream fileOutputStream = new FileOutputStream(imagePath)) {

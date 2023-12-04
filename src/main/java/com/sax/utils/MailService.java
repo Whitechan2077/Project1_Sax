@@ -37,10 +37,10 @@ public class MailService{
             Message message = new MimeMessage(session);
                message.setFrom(new InternetAddress("dungbhph35753@fpt.edu.vn"));
                message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
-               message.setSubject("Lấy mã xác nhận lấy lại mật khẩu");
+               message.setSubject("Lấy mã xác nhận lấy lại mật");
                String otp = generateRandomString();
                com.sax.utils.Session.otp = otp;
-               message.setText("Mã xác nhân là  : "+otp);
+               message.setText("Mã xác nhân là: "+otp);
                Transport.send(message);
     }
 

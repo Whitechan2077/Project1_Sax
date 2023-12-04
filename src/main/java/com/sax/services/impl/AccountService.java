@@ -56,7 +56,6 @@ public class AccountService implements IAccountService {
         e.setNgayDangKi(LocalDateTime.now());
         try {
             File file = new File(e.getAnh());
-            System.out.println(file.getName());
             account.setAnh(file.getName());
             account.setPassword(HashUtils.hashPassword(e.getPassword()));
             accountDTO = DTOUtils.getInstance().converter(repository.save(account), AccountDTO.class);
