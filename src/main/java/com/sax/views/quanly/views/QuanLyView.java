@@ -10,7 +10,6 @@ import com.sax.utils.Session;
 import com.sax.views.LoginView;
 import com.sax.views.components.libraries.ButtonToolItem;
 import com.sax.views.components.menu.CustomMenu;
-import com.sax.views.quanly.viewmodel.*;
 import com.sax.views.quanly.views.panes.*;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -19,11 +18,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.Arrays;
 import java.util.TimerTask;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.stream.Collectors;
 
 public class QuanLyView extends JPanel {
     private JPanel p;
@@ -41,6 +36,7 @@ public class QuanLyView extends JPanel {
     private ThongKePane thongKe;
     private JButton btnLogout;
     private JPanel avatar;
+    public JLabel lblQL;
     private CardLayout cardLayout;
     private ISachService sachService = ContextUtils.getBean(SachService.class);
     private IDanhMucService danhMucService = ContextUtils.getBean(DanhMucService.class);
@@ -60,6 +56,7 @@ public class QuanLyView extends JPanel {
     private void initComponent() {
         title.setText("Quản lý sản phẩm");
         lblLogo.setIcon(new ImageIcon(ImageUtils.readImage("logo-com.png").getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
+        lblQL.setText(Session.accountid.getTenNhanVien());
         avatar.add(ImageUtils.getCircleImage(Session.accountid.getAnh(), 30, 20, null, 0));
     }
 
@@ -138,6 +135,8 @@ public class QuanLyView extends JPanel {
                     case 5 -> {
                         title.setText("Quản lý tài khoản nhân viên");
                         taiKhoan = new NhanVienPane();
+                        taiKhoan.setLblTenView(lblQL);
+                        taiKhoan.setAvatar(avatar);
                         content.add(taiKhoan);
                     }
                     case 6 -> {

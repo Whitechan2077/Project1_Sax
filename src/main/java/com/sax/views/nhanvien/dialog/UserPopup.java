@@ -8,6 +8,7 @@ import com.sax.views.LoginView;
 import com.sax.views.components.libraries.ButtonToolItem;
 import com.sax.views.components.libraries.PanelShadow;
 import com.sax.views.quanly.views.dialogs.NhanVienDialog;
+import lombok.Setter;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -19,14 +20,19 @@ public class UserPopup extends JDialog {
     private JButton btnThongTin;
     private JLabel lblTen;
     private JPanel contentPane;
+    private JButton btnClose;
     private JButton buttonOK;
     private JButton buttonCancel;
 
-    public UserPopup(JPanel parent) {
+    @Setter
+    private JLabel lblTenView;
+
+    public UserPopup() {
         btnThongTin.addActionListener((e) -> thongTinChiTiet());
         btnLogout.addActionListener((e) -> dangXuat());
 
         lblTen.setText(Session.accountid.getTenNhanVien());
+        btnClose.addActionListener((e) -> dispose());
         main.setBorder(new FlatLineBorder(new Insets(0, 0, 0, 0), Color.decode("#a0a0a0"), 1, 10));
         setUndecorated(true);
         getRootPane().setBackground(new Color(0, 0, 0, 0));
@@ -55,13 +61,13 @@ public class UserPopup extends JDialog {
         dialog.id = Session.accountid.getId();
         dialog.fillForm();
         dialog.getPanelRole().setVisible(false);
-        dialog.parentPane = null;
+        dialog.setLblTenView(lblTenView);
         dialog.setLocationRelativeTo(Application.app);
         dialog.setVisible(true);
     }
 
     private void dangXuat() {
-        this.dispose();
+        dispose();
         boolean check = MsgBox.confirm(Application.app, "Bạn có thực sự muốn đăng xuất không?");
         if (check) {
             Session.accountid = null;
@@ -75,5 +81,6 @@ public class UserPopup extends JDialog {
         contentPane = new PanelShadow(10);
         btnThongTin = new ButtonToolItem("info-c.svg", "info-c.svg");
         btnLogout = new ButtonToolItem("exit-c.svg", "exit-c.svg");
+        btnClose = new ButtonToolItem("x-c.svg","x-c.svg");
     }
 }

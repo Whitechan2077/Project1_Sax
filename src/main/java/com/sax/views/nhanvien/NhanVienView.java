@@ -54,7 +54,6 @@ public class NhanVienView extends JPanel {
     private JLabel lblChietKhau;
     private JList danhMuc;
     private JButton btnDonHang;
-    private JPanel cardPanel;
     private JButton btnTK;
     private JLabel lblLogo;
     private JPanel avatar;
@@ -112,7 +111,7 @@ public class NhanVienView extends JPanel {
         fillSach(sachService.getAllSachInOrNotInCTKM(), donItem);
         fillKhachHang(khachHangService.getAll());
         ((CustomCart) cart).initComponent();
-        lblNV.setText("Nhân viên: " + Session.accountid.getTenNhanVien());
+        lblNV.setText(Session.accountid.getTenNhanVien());
         avatar.add(ImageUtils.getCircleImage(Session.accountid.getAnh(), 40, 40, null, 0));
         lblLogo.setIcon(new ImageIcon(ImageUtils.readImage("logo.png").getScaledInstance(73, 50, Image.SCALE_SMOOTH)));
         ((JLayeredPane) avatar.getComponent(0)).getComponent(0).setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -227,8 +226,10 @@ public class NhanVienView extends JPanel {
     }
 
     private void openUserPopup() {
-        UserPopup userPopup = new UserPopup(cardPanel);
+        UserPopup userPopup = new UserPopup();
+        userPopup.setLblTenView(lblNV);
         userPopup.setVisible(true);
+        System.out.println(lblNV.getText());
     }
 
     public void searchByKeyword() {

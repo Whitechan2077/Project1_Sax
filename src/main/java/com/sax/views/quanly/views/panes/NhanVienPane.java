@@ -19,6 +19,7 @@ import com.sax.views.quanly.viewmodel.NhanVienViewObject;
 import com.sax.views.quanly.viewmodel.SachViewObject;
 import com.sax.views.quanly.views.dialogs.NhanVienDialog;
 import com.sax.views.quanly.views.dialogs.TaiKhoanDialog;
+import lombok.Setter;
 import org.jdesktop.swingworker.SwingWorker;
 import org.jdesktop.swingx.JXTable;
 import org.springframework.data.domain.PageRequest;
@@ -49,7 +50,6 @@ public class NhanVienPane extends JPanel {
     private JButton btnDel;
     private JButton btnEdit;
     private JCheckBox cbkSelectedAll;
-    private JComboBox comboBox1;
     private JPanel phanTrangPane;
     private JComboBox cboHienThi;
     private JList listPage;
@@ -65,6 +65,11 @@ public class NhanVienPane extends JPanel {
     private int size = 14;
     private Pageable pageable = PageRequest.of(0, 14);
     private Timer timer;
+
+    @Setter
+    private JLabel lblTenView;
+    @Setter
+    private JPanel avatar;
 
     public NhanVienPane() {
         initComponent();
@@ -134,6 +139,8 @@ public class NhanVienPane extends JPanel {
         if (table.getSelectedRow() >= 0) {
             NhanVienDialog nhanVienDialog = new NhanVienDialog();
             nhanVienDialog.parentPane = this;
+            nhanVienDialog.setLblTenView(lblTenView);
+            nhanVienDialog.setAvatar(avatar);
             nhanVienDialog.id = (int) table.getValueAt(table.getSelectedRow(), 1);
             nhanVienDialog.pageable = pageable;
             nhanVienDialog.fillForm();

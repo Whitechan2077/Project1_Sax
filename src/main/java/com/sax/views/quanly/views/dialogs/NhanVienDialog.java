@@ -1,5 +1,6 @@
 package com.sax.views.quanly.views.dialogs;
 
+import com.sax.Application;
 import com.sax.dtos.AccountDTO;
 import com.sax.services.IAccountService;
 import com.sax.services.impl.AccountService;
@@ -28,15 +29,18 @@ public class NhanVienDialog extends JDialog {
     private JRadioButton rdoNhanVien;
     private JRadioButton rdoQuanLy;
     private JButton btnImg;
-    private JLabel lblEmail;
     private IAccountService accountService = ContextUtils.getBean(AccountService.class);
     private JPanel pnImage;
     private String image;
+    private JRadioButton rdoDL;
+    private JRadioButton rdoDN;
+
     @Getter
     @Setter
     private JPanel panelRole;
-    private JRadioButton rdoDL;
-    private JRadioButton rdoDN;
+
+    private @Setter JLabel lblTenView;
+    private @Setter JPanel avatar;
 
     public JLabel lblTitle;
     public int id;
@@ -46,9 +50,8 @@ public class NhanVienDialog extends JDialog {
     public NhanVienDialog() {
         initComponent();
 
-        btnSave.addActionListener((e) -> save());
+        btnSave.addActionListener((e) -> update());
         btnImg.addActionListener(e -> image = ImageUtils.openImageFile(pnImage));
-        btnSave.addActionListener((e) -> save());
     }
 
     private void initComponent() {
@@ -73,16 +76,23 @@ public class NhanVienDialog extends JDialog {
         }
     }
 
-    private void save() {
+    private void update() {
         AccountDTO dto = readForm();
         if (dto != null) {
             try {
-                if (id > 0) {
-                    dto.setId(id);
-                    accountService.update(dto);
-                    dispose();
+                dto.setId(id);
+                accountService.update(dto);
+                if (Session.accountid.getId() == id)
+                {
+                    AccountDTO ac = accountService.getById(id);
+                    lblTenView.setText(ac.getTenNhanVien());
+                    avatar.removeAll();
+                    avatar.add(ImageUtils.getCircleImage(ac.getAnh(), 30,20,null,0));
+                    avatar.revalidate();
                 }
-                parentPane.fillTable(accountService.getPage(pageable).stream().map(NhanVienViewObject::new).collect(Collectors.toList()));
+                if (parentPane != null)
+                    parentPane.fillTable(accountService.getPage(pageable).stream().map(NhanVienViewObject::new).collect(Collectors.toList()));
+                dispose();
             } catch (Exception ex) {
                 ex.printStackTrace();
                 MsgBox.alert(this, "Có lỗi! " + ex.getMessage());
