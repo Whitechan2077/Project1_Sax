@@ -133,6 +133,10 @@ public class Session {
         }
         return true;
     }
+    public static String isConfigFileCreated() {
+        File configFile = new File(CONFIG_FILE_PATH);
+        return configFile.getAbsolutePath();
+    }
     private static void writeDefaultConfig() throws IOException {
         Map<String, String> defaultConfig = new HashMap<>();
         defaultConfig.put("server", "your_server");
