@@ -1,0 +1,5 @@
+    server: "localhost"
+    port: "1434"
+    username: "sa"
+    password: "Hoanglinh@99"
+    databaseName: "sax"
