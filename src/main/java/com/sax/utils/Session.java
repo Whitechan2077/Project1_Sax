@@ -8,12 +8,12 @@ import com.sax.views.components.table.CustomTableCellRender;
 import com.sax.views.quanly.viewmodel.AbstractViewObject;
 import org.jdesktop.swingx.JXTable;
 import org.springframework.data.domain.Pageable;
+import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.*;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -30,6 +30,8 @@ public class Session {
 
     public static AccountDTO accountid;
     public static String otp;
+
+    private static final String CONFIG_FILE_PATH = "./config.yaml";
 
     public void logout() {
         accountid = null;
@@ -112,7 +114,7 @@ public class Session {
     public static Map<String, String> getConfig() {
         Map<String, String> data = null;
         try {
-            FileInputStream input = new FileInputStream("./config.yaml");
+            FileInputStream input = new FileInputStream(CONFIG_FILE_PATH);
             Yaml yaml = new Yaml();
             data = yaml.load(input);
 
@@ -120,6 +122,37 @@ public class Session {
             e.printStackTrace();
         }
         return data;
+    }
+    public static boolean createDefaultConfigFile() {
+        File configFile = new File(CONFIG_FILE_PATH);
+        if (!configFile.exists()) {
+            try {
+                configFile.createNewFile();
+                writeDefaultConfig();
+                System.out.println("Đã tạo file config.yaml mặc định.");
+                return false;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return true;
+    }
+
+    private static void writeDefaultConfig() throws IOException {
+        Map<String, String> defaultConfig = new HashMap<>();
+        defaultConfig.put("server", "your_server");
+        defaultConfig.put("port", "your_port");
+        defaultConfig.put("username", "username");
+        defaultConfig.put("password", "pass");
+        defaultConfig.put("databaseName", "database_name");
+
+        DumperOptions options = new DumperOptions();
+        options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
+
+        Yaml yaml = new Yaml(options);
+        try (FileWriter writer = new FileWriter(CONFIG_FILE_PATH)) {
+            yaml.dump(defaultConfig, writer);
+        }
     }
 
     private static void startTimer(JButton jButton) {
