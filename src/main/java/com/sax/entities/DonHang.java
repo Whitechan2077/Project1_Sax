@@ -20,10 +20,10 @@ public class DonHang {
     private int id;
     @Basic
     @Column(name = "tien_hang")
-    private long tienHang;
+    private long tienHang = 0L;
     @Basic
     @Column(name = "chiet_khau")
-    private long chietKhau;
+    private long chietKhau = 0L;
     @Basic
     @Column(name = "tong_tien", nullable = true)
     private Long tongTien  = 0L;

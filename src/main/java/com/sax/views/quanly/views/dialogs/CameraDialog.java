@@ -3,7 +3,15 @@ package com.sax.views.quanly.views.dialogs;
 import com.google.zxing.*;
 import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
 import com.google.zxing.common.HybridBinarizer;
+import com.sax.Application;
+import com.sax.dtos.SachDTO;
+import com.sax.services.ISachService;
+import com.sax.services.impl.SachService;
+import com.sax.utils.Cart;
+import com.sax.utils.ContextUtils;
 import com.sax.utils.ImageUtils;
+import com.sax.views.nhanvien.cart.CartModel;
+import org.jdesktop.swingx.JXTable;
 import org.opencv.core.Mat;
 import org.opencv.videoio.VideoCapture;
 
@@ -11,23 +19,19 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.Dimension;
 import java.awt.image.BufferedImage;
+import java.util.Optional;
 
 public class CameraDialog extends JDialog {
     private JPanel contentPane;
     private JLabel camera;
-    private JComboBox cboCamera;
     private Thread thread;
+    private Mat frame;
     private VideoCapture videoCapture;
 
-    public CameraDialog(JTextField txtBarcode) {
-        setContentPane(contentPane);
-        setModal(true);
-        setSize(new Dimension(640, 360));
-        setLocationRelativeTo(null);
+    private ISachService sachService = ContextUtils.getBean(SachService.class);
 
-        nu.pattern.OpenCV.loadLocally();
-        videoCapture = new VideoCapture(0);
-        Mat frame = new Mat();
+    public CameraDialog(JTextField txtBarcode) {
+        initComponent();
 
         thread = new Thread(new Runnable() {
             @Override
@@ -48,9 +52,10 @@ public class CameraDialog extends JDialog {
                         Result result = reader.decode(bitmap);
 
                         if (result != null) {
-                            if (txtBarcode != null)
                             txtBarcode.setText(result.getText());
-                            dispose();
+                            frame.release();
+                            videoCapture.release();
+                            break;
                         }
                     } catch (NotFoundException | ChecksumException | IllegalArgumentException | FormatException e) {
 
@@ -59,5 +64,63 @@ public class CameraDialog extends JDialog {
             }
         });
         thread.start();
+        dispose();
+
+    }
+
+    public CameraDialog(JXTable table, JLabel lblTienHang, JLabel lblTrietKhau, JLabel lblTPT, JCheckBox chkDiem) {
+        initComponent();
+
+        thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                BufferedImage bufferedImage;
+                while (true) {
+                    videoCapture.read(frame);
+                    bufferedImage = ImageUtils.convertMatToBufferedImage(frame);
+
+                    Image icon = bufferedImage.getScaledInstance(640, 360, Image.SCALE_SMOOTH);
+                    ImageIcon imageIcon = new ImageIcon(icon);
+                    camera.setIcon(imageIcon);
+                    try {
+                        LuminanceSource source = new BufferedImageLuminanceSource(bufferedImage);
+                        BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
+
+                        Reader reader = new MultiFormatReader();
+                        Result result = reader.decode(bitmap);
+
+                        if (result != null) {
+                            SachDTO data = sachService.getByBarCode(result.getText());
+                            Optional<CartModel> cartModel = Cart.getCart().stream().filter(i -> i.getId() == data.getId()).findFirst();
+                            if (cartModel.isEmpty())
+                                Cart.getCart().add(new CartModel(data, table, lblTienHang, lblTrietKhau, lblTPT, chkDiem));
+                            else {
+                                JSpinner s = cartModel.get().getSoLuong();
+                                s.setValue(s.getNextValue());
+                                table.repaint();
+                            }
+                            Cart.tinhTien(table, lblTienHang, lblTrietKhau, lblTPT, chkDiem);
+                            table.packAll();
+                            Thread.sleep(1000);
+                        }
+                    } catch (NotFoundException | ChecksumException | IllegalArgumentException | FormatException |
+                             InterruptedException e) {
+
+                    }
+                }
+            }
+        });
+        thread.start();
+    }
+
+    private void initComponent() {
+        setContentPane(contentPane);
+        setModal(true);
+        setSize(new Dimension(640, 360));
+        setLocationRelativeTo(Application.app);
+
+        nu.pattern.OpenCV.loadLocally();
+        videoCapture = new VideoCapture(0);
+        frame = new Mat();
     }
 }

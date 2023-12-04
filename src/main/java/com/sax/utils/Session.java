@@ -12,6 +12,8 @@ import org.jdesktop.swingx.JXTable;
 import org.springframework.data.domain.Pageable;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.nodes.Tag;
+import org.yaml.snakeyaml.representer.Representer;
 
 import java.io.*;
 import java.nio.file.Paths;
@@ -151,17 +153,21 @@ public class Session {
     }
 
     private static void writeDefaultConfig() throws IOException {
-        Map<String, String> defaultConfig = new HashMap<>();
-        defaultConfig.put("server", "your_server");
-        defaultConfig.put("port", "your_port");
-        defaultConfig.put("username", "username");
-        defaultConfig.put("password", "pass");
-        defaultConfig.put("databaseName", "database_name");
+        Map<String, Object> defaultConfig = new HashMap<>();
+        defaultConfig.put("server", "'localhost'");
+        defaultConfig.put("password", "''");
+        defaultConfig.put("databaseName", "''");
+        defaultConfig.put("port", "''1433''");
+        defaultConfig.put("username", "''sa''");
 
         DumperOptions options = new DumperOptions();
         options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
+        options.setAllowReadOnlyProperties(true);
 
-        Yaml yaml = new Yaml(options);
+        Representer representer = new Representer();
+        representer.addClassTag(defaultConfig.getClass(), Tag.MAP);
+
+        Yaml yaml = new Yaml(representer, options);
         try (FileWriter writer = new FileWriter(CONFIG_FILE_PATH)) {
             yaml.dump(defaultConfig, writer);
         }

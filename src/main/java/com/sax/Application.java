@@ -1,13 +1,10 @@
 package com.sax;
 
 import com.formdev.flatlaf.FlatLightLaf;
-import com.sax.utils.ImageUtils;
 import com.sax.utils.JdbcConnection;
 import com.sax.utils.MsgBox;
 import com.sax.utils.Session;
 import com.sax.views.LoginView;
-import com.sax.views.nhanvien.NhanVienView;
-import com.sax.views.quanly.views.QuanLyView;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,7 +14,7 @@ public class Application extends JFrame {
     public static Application app;
 
     public static void main(String[] args) {
-        if (Session.createDefaultConfigFile()){
+        if (Session.createDefaultConfigFile()) {
             try {
                 JdbcConnection.getConnection();
                 JdbcConnection.getConnection().close();
@@ -38,19 +35,19 @@ public class Application extends JFrame {
                         throw new RuntimeException(e);
                     }
                     app = new Application();
-                    app.setContentPane(new LoginView(app));
+                    app.setContentPane(new LoginView());
                     app.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                     app.pack();
                     app.setLocationRelativeTo(null);
                     app.setVisible(true);
                 });
             } catch (SQLException e) {
-                MsgBox.alert(null,"Không thể kết nối CSDL");
+                MsgBox.alert(null, "Không thể kết nối CSDL, vui lòng kiểm tra lại file " + Session.isConfigFileCreated() + "!");
                 System.exit(0);
                 throw new RuntimeException(e);
             }
-        }else {
-            MsgBox.alert(null,"Đã tạo file config.yaml tại đường đẫn "+Session.isConfigFileCreated()+"vui lòng sửa file rồi chạy lại chương trình");
+        } else {
+            MsgBox.alert(null, "Đã tạo file config.yaml tại đường đẫn " + Session.isConfigFileCreated() + ", vui lòng cấu hình file và chạy lại chương trình!");
             System.exit(0);
         }
     }

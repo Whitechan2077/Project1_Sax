@@ -28,7 +28,6 @@ public class UserPopup extends JDialog {
     private @Setter JLabel lblTenView;
     private @Setter JPanel avatar;
 
-
     public UserPopup() {
         btnThongTin.addActionListener((e) -> thongTinChiTiet());
         btnLogout.addActionListener((e) -> Session.logout());

@@ -42,7 +42,11 @@ public class Cart {
             if (tienHang < km) {
                 lblChietKhau.setText("-" + CurrencyConvert.parseString(tienHang));
                 lblTPT.setText("0đ");
+
             }
+//            chkDiem.setText(
+//                    (Integer.parseInt(chkDiem.getText()) - CurrencyConvert.parseLong(lblChietKhau.getText())) / 1000 + ""
+//            );
         }
     }
 }

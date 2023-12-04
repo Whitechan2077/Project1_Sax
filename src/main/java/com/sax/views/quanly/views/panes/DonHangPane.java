@@ -100,7 +100,7 @@ public class DonHangPane extends JPanel {
         donHangService = ContextUtils.getBean(DonHangService.class);
         executorService = Executors.newSingleThreadExecutor();
         tableModel = (DefaultTableModel) table.getModel();
-        tableModel.setColumnIdentifiers(new String[]{"", "Mã đơn hàng", "Tên khách hàng", "Nhân viên", "Tổng tiền", "Phương thức thanh toán", "Ngày tạo"});
+        tableModel.setColumnIdentifiers(new String[]{"", "Mã đơn hàng", "Tên khách hàng", "Nhân viên", "Tiền hàng", "Chiết khấu", "Tổng tiền", "Phương thức thanh toán", "Ngày tạo"});
 
         new Worker(0).execute();
         loading.setVisible(true);

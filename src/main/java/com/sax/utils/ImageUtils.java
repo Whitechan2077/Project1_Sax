@@ -164,6 +164,7 @@ public class ImageUtils {
 
     public static void saveBufferImageToFile(BufferedImage image, String nameFile) {
         try {
+            System.out.println(nameFile);
             ImageIO.write(image, "png", new File("images/" + nameFile));
         } catch (IOException e) {
             throw new RuntimeException(e);

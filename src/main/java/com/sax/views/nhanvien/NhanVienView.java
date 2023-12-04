@@ -10,21 +10,27 @@ import com.sax.services.impl.KhachHangService;
 import com.sax.utils.*;
 import com.sax.views.components.ComboBoxSearch;
 import com.sax.views.components.Search;
-import com.sax.views.nhanvien.dialog.UserPopup;
-import com.sax.views.nhanvien.product.ProductItem;
-import com.sax.views.nhanvien.cart.CartModel;
+import com.sax.views.components.libraries.ButtonToolItem;
+import com.sax.views.components.libraries.CustomScrollPane;
+import com.sax.views.components.libraries.RoundPanel;
+import com.sax.views.components.libraries.WrapLayout;
 import com.sax.views.nhanvien.cart.CustomCart;
-import com.sax.views.components.libraries.*;
 import com.sax.views.nhanvien.dialog.DonHangDialog;
 import com.sax.views.nhanvien.dialog.HoaDonDialog;
+import com.sax.views.nhanvien.dialog.UserPopup;
+import com.sax.views.nhanvien.product.ProductItem;
 import com.sax.views.quanly.views.dialogs.CameraDialog;
 import org.jdesktop.swingx.JXTable;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.FileNotFoundException;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -175,10 +181,10 @@ public class NhanVienView extends JPanel {
         try {
             DonHangDTO donHangDTO = readCart();
             if (donHangDTO.getChiTietDonHangs().size() > 0) {
-                DonHangDTO dto = donHangService.insert(donHangDTO);
-                new HoaDonDialog(this, dto, true).setVisible(true);
+                donHangDTO.setId(donHangService.insert(donHangDTO).getId());
+                new HoaDonDialog(this, donHangDTO, true).setVisible(true);
                 fillSach(sachService.getAllSachInOrNotInCTKM(), donItem);
-                khachHangService.addPoint(dto);
+                khachHangService.addPoint(donHangDTO);
                 clear();
             }
         } catch (SQLServerException | FileNotFoundException | InvalidDataAccessApiUsageException e) {
@@ -199,16 +205,18 @@ public class NhanVienView extends JPanel {
     private DonHangDTO readCart() throws SQLServerException {
         KhachHangDTO kh = (KhachHangDTO) cboKH.getSelectedItem();
         AccountDTO nv = Session.accountid;
-        long tongTien = Long.valueOf(lblTPT.getText().substring(0, lblTPT.getText().length() - 1).replace(".", ""));
+        long tienHang = CurrencyConvert.parseLong(lblTienHang.getText());
+        long chietKhau = CurrencyConvert.parseLong(lblChietKhau.getText().replace("-", ""));
+        long tienPhaiTra = Long.valueOf(lblTPT.getText().substring(0, lblTPT.getText().length() - 1).replace(".", ""));
         boolean pttt = rdoTM.isSelected() ? true : false;
 
-        List<ChiTietDonHangDTO> chiTietDonHangDTOList = Cart.getCart().stream().map(i -> {
-            CartModel cm = (CartModel) i;
+
+        List<ChiTietDonHangDTO> chiTietDonHangDTOList = Cart.getCart().stream().map(cm -> {
             long giaGiam = cm.getGiaBan() - cm.getDonGia();
             int soLuong = (int) cm.getSoLuong().getValue();
             return new ChiTietDonHangDTO(sachService.getById(cm.getId()), giaGiam, cm.getGiaBan(), soLuong, "");
         }).collect(Collectors.toList());
-        return new DonHangDTO(kh, nv, tongTien, pttt, chiTietDonHangDTOList);
+        return new DonHangDTO(kh, nv, tienPhaiTra, LocalDateTime.now(), pttt, chietKhau, tienHang, chiTietDonHangDTOList);
     }
 
     private void openDonHang() {
@@ -249,7 +257,7 @@ public class NhanVienView extends JPanel {
     }
 
     private void openScan() {
-        new CameraDialog(new JTextField()).setVisible(true);
+        new CameraDialog(cart, lblTienHang, lblChietKhau, lblTPT, chkDiem).setVisible(true);
     }
 
     private void createUIComponents() {

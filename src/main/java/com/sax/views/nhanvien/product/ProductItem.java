@@ -28,17 +28,17 @@ public class ProductItem extends JPanel {
     private boolean selected = false;
     private SachDTO data;
 
-    public ProductItem(JXTable table, JLabel lblTT, JLabel lblKM, JLabel lblTPT, JCheckBox chkDiem) {
+    public ProductItem(JXTable table, JLabel lblTienHang, JLabel lblTrietKhau, JLabel lblTPT, JCheckBox chkDiem) {
         btnAddToCart.addActionListener((e) -> {
                 Optional<CartModel> cartModel = Cart.getCart().stream().filter(i -> i.getId() == data.getId()).findFirst();
                 if (cartModel.isEmpty())
-                    Cart.getCart().add(new CartModel(data, table, lblTT, lblKM, lblTPT, chkDiem));
+                    Cart.getCart().add(new CartModel(data, table, lblTienHang, lblTrietKhau, lblTPT, chkDiem));
                 else {
                     JSpinner s = cartModel.get().getSoLuong();
                     s.setValue(s.getNextValue());
                     table.repaint();
                 }
-                Cart.tinhTien(table, lblTT, lblKM, lblTPT, chkDiem);
+                Cart.tinhTien(table, lblTienHang, lblTrietKhau, lblTPT, chkDiem);
                 table.packAll();
         });
         setCursor(new Cursor(Cursor.HAND_CURSOR));

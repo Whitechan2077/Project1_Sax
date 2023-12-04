@@ -25,11 +25,4 @@ public class DonHangDTO extends AbstractDTO {
     private long tienHang;
     private List<ChiTietDonHangDTO> chiTietDonHangs;
 
-    public DonHangDTO(KhachHangDTO khach, AccountDTO account, Long tongTien, Boolean pttt, List<ChiTietDonHangDTO> chiTietDonHangs) {
-        this.khach = khach;
-        this.account = account;
-        this.tongTien = tongTien;
-        this.pttt = pttt;
-        this.chiTietDonHangs = chiTietDonHangs;
-    }
 }

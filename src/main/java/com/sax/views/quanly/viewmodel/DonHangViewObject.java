@@ -1,6 +1,7 @@
 package com.sax.views.quanly.viewmodel;
 
 import com.sax.dtos.DonHangDTO;
+import com.sax.utils.CurrencyConvert;
 import lombok.Data;
 
 import javax.swing.*;
@@ -16,11 +17,15 @@ public class DonHangViewObject extends AbstractViewObject {
     private String tongTien;
     private LocalDateTime ngayTao;
     private boolean pttt;
+    private String tienHang;
+    private String chietKhau;
 
     public DonHangViewObject(DonHangDTO donHangDTO) {
         super(donHangDTO.getId(), donHangDTO.getKhach().getTenKhach());
         maNV = donHangDTO.getAccount().getId();
-        tongTien = new DecimalFormat("#,###").format(donHangDTO.getTongTien()).replace(",", ".") + "đ";
+        tongTien = CurrencyConvert.parseString(donHangDTO.getTongTien());
+        tienHang = CurrencyConvert.parseString(donHangDTO.getTienHang());
+        chietKhau = CurrencyConvert.parseString(donHangDTO.getChietKhau());
         ngayTao = donHangDTO.getNgayTao();
         pttt = donHangDTO.getPttt();
     }
@@ -32,6 +37,6 @@ public class DonHangViewObject extends AbstractViewObject {
             if (checkBoxDelete.isSelected()) tempIdSet.add(id);
             else tempIdSet.remove(id);
         });
-        return new Object[]{checkBoxDelete, id, name, maNV, tongTien, pttt ? "Tiền mặt" : "Chuyển khoản", ngayTao};
+        return new Object[]{checkBoxDelete, id, name, maNV, tienHang, chietKhau, tongTien, pttt ? "Tiền mặt" : "Chuyển khoản", ngayTao};
     }
 }

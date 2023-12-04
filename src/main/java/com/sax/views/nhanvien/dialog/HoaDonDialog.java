@@ -1,6 +1,7 @@
 package com.sax.views.nhanvien.dialog;
 
 import com.sax.dtos.DonHangDTO;
+import com.sax.utils.CurrencyConvert;
 import com.sax.utils.ImageUtils;
 import com.sax.views.components.libraries.ButtonToolItem;
 import org.jdesktop.swingx.JXTable;
@@ -16,6 +17,7 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import java.text.DecimalFormat;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class HoaDonDialog extends JDialog {
     private JPanel contentPane;
@@ -23,13 +25,14 @@ public class HoaDonDialog extends JDialog {
     private JLabel lblTenKH;
     private JXTable table;
     private JLabel lblTPT;
-    private JLabel lblTT;
+    private JLabel lblTienHang;
     private JLabel lblMNV;
     private JLabel lblSHD;
     private JPanel sp;
     private JLabel lblNgayTao;
     private JButton btnSubmit;
     private JButton btnClose;
+    private JLabel lblChietKhau;
     private DefaultTableModel tableModel;
     private DecimalFormat decimalFormat;
 
@@ -49,18 +52,23 @@ public class HoaDonDialog extends JDialog {
         tableModel.setDataVector(donHangDTO.getChiTietDonHangs().stream().map(i -> new Object[]{
                 i.getSach().getTenSach(),
                 i.getSoLuong(),
-                decimalFormat.format(i.getGiaBan()).replace(",", ".") + "đ",
-                decimalFormat.format(i.getGiaGiam()).replace(",", ".") + "đ",
-                decimalFormat.format((i.getGiaBan() - i.getGiaGiam()) * i.getSoLuong()).replace(",", ".") + "đ"
+                CurrencyConvert.parseString(i.getGiaBan()),
+                "-" + CurrencyConvert.parseString(i.getGiaGiam()),
+                CurrencyConvert.parseString((i.getGiaBan() - i.getGiaGiam()) * i.getSoLuong())
         }).toArray(Object[][]::new), columnNames);
         table.packAll();
         table.setFocusable(false);
 
         JScrollPane scrollPane = new JScrollPane(table);
         scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
-        lblNgayTao.setText(LocalDateTime.now().toString());
-        lblTT.setText(decimalFormat.format(donHangDTO.getTongTien()).replace(",", ".") + "đ");
-        lblTPT.setText(decimalFormat.format(donHangDTO.getTongTien()).replace(",", ".") + "đ");
+        lblNgayTao.setText("Ngày tạo: "
+                + LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
+                + " - "
+                + LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")));
+        lblTienHang.setText(CurrencyConvert.parseString(donHangDTO.getTienHang()));
+        lblChietKhau.setText("-" + CurrencyConvert.parseString(donHangDTO.getChietKhau()));
+        lblTPT.setText(CurrencyConvert.parseString(donHangDTO.getTongTien()));
+
         sp.add(scrollPane);
 
         setContentPane(contentPane);
