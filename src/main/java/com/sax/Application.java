@@ -50,7 +50,7 @@ public class Application extends JFrame {
                 throw new RuntimeException(e);
             }
         }else {
-            MsgBox.alert(null,"Đã tạo file config.yaml vui lòng sửa file rồi chạy lại chương trình");
+            MsgBox.alert(null,"Đã tạo file config.yaml tại đường đẫn "+Session.isConfigFileCreated()+"vui lòng sửa file rồi chạy lại chương trình");
             System.exit(0);
         }
     }
