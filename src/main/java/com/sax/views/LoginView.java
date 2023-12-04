@@ -53,7 +53,6 @@ public class LoginView extends CurvesPanel {
         btnLogin.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                System.out.println(e.getKeyCode());
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     login();
                 }

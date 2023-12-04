@@ -8,12 +8,12 @@ import com.sax.views.components.table.CustomTableCellRender;
 import com.sax.views.quanly.viewmodel.AbstractViewObject;
 import org.jdesktop.swingx.JXTable;
 import org.springframework.data.domain.Pageable;
+import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.*;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -25,11 +25,10 @@ import java.util.Set;
 import java.util.concurrent.ExecutorService;
 
 public class Session {
-    private static Timer timer;
-    private static  int secondsRemaining ;
-
     public static AccountDTO accountid;
     public static String otp;
+
+    private static final String CONFIG_FILE_PATH = "./config.yaml";
 
     public void logout() {
         accountid = null;
@@ -112,7 +111,7 @@ public class Session {
     public static Map<String, String> getConfig() {
         Map<String, String> data = null;
         try {
-            FileInputStream input = new FileInputStream("./config.yaml");
+            FileInputStream input = new FileInputStream(CONFIG_FILE_PATH);
             Yaml yaml = new Yaml();
             data = yaml.load(input);
 
@@ -121,36 +120,33 @@ public class Session {
         }
         return data;
     }
-
-    private static void startTimer(JButton jButton) {
-        // Disable nút để ngăn chặn việc nhấn liên tục trong thời gian chờ
-        disableSendButton(jButton);
-         secondsRemaining = 60;
-        timer.start();
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (secondsRemaining > 0) {
-                    try {
-                        jButton.setText(String.valueOf(secondsRemaining));
-                        // Đợi 1 giây
-                        Thread.sleep(1000);
-                        secondsRemaining--;
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-                timer.stop();
-                jButton.setText("Gửi otp");
+    public static boolean createDefaultConfigFile() {
+        File configFile = new File(CONFIG_FILE_PATH);
+        if (!configFile.exists()) {
+            try {
+                configFile.createNewFile();
+                writeDefaultConfig();
+                return false;
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        }).start();
+        }
+        return true;
     }
-    private static void enableSendButton(JButton jButton) {
-        jButton.setEnabled(true);
-    }
+    private static void writeDefaultConfig() throws IOException {
+        Map<String, String> defaultConfig = new HashMap<>();
+        defaultConfig.put("server", "your_server");
+        defaultConfig.put("port", "your_port");
+        defaultConfig.put("username", "username");
+        defaultConfig.put("password", "pass");
+        defaultConfig.put("databaseName", "database_name");
 
-    private static void disableSendButton(JButton jButton) {
-        jButton.setEnabled(false);
-    }
+        DumperOptions options = new DumperOptions();
+        options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
 
+        Yaml yaml = new Yaml(options);
+        try (FileWriter writer = new FileWriter(CONFIG_FILE_PATH)) {
+            yaml.dump(defaultConfig, writer);
+        }
+    }
 }

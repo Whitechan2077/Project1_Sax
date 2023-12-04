@@ -43,7 +43,6 @@ public class NhanVienViewObject extends AbstractViewObject {
 
     @Override
     public Object[] toObject(ExecutorService executorService, JTable tbl, Set tempIdSet, List<JCheckBox> setCbk) {
-        System.out.println(hinhAnh);
         setCbk.add(checkBoxDelete);
         checkBoxDelete.addActionListener((e) -> {
             if (checkBoxDelete.isSelected()) tempIdSet.add(id);

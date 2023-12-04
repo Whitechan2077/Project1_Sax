@@ -55,7 +55,7 @@ public class SachDTO extends AbstractDTO {
         this.nxb = nxb;
         this.setDanhMuc = setDanhMuc;
     }
-
+    
     @Override
     public String toString() {
         return id + " - " + tenSach;

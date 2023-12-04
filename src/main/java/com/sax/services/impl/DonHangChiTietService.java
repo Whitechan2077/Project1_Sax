@@ -36,7 +36,7 @@ public class DonHangChiTietService implements IDonHangChiTetService {
         return DTOUtils.getInstance()
                 .converter(repository.findById(id)
                         .orElseThrow(()
-                                -> new NoSuchElementException("Deo tim thay")), ChiTietDonHangDTO.class);
+                                -> new NoSuchElementException("Khong tim thay")), ChiTietDonHangDTO.class);
     }
     @Override
     public ChiTietDonHangDTO insert(ChiTietDonHangDTO e) throws SQLServerException {

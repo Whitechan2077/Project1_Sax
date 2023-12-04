@@ -61,7 +61,6 @@ public class NhanVienDialog extends JDialog {
     public void fillForm() {
         if (id > 0) {
             AccountDTO accountDTO = accountService.getById(id);
-            System.out.println(accountDTO.getAnh());
             txtEmail.setText(accountDTO.getEmail());
             txtName.setText(accountDTO.getTenNhanVien());
             txtSdt.setText(accountDTO.getSdt());
