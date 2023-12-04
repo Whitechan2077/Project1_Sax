@@ -31,7 +31,7 @@ public class UserPopup extends JDialog {
 
     public UserPopup() {
         btnThongTin.addActionListener((e) -> thongTinChiTiet());
-        btnLogout.addActionListener((e) -> dangXuat());
+        btnLogout.addActionListener((e) -> Session.logout());
 
         lblTen.setText(Session.accountid.getTenNhanVien());
         btnClose.addActionListener((e) -> dispose());
@@ -67,17 +67,6 @@ public class UserPopup extends JDialog {
         dialog.setLblTenView(lblTenView);
         dialog.setLocationRelativeTo(Application.app);
         dialog.setVisible(true);
-    }
-
-    private void dangXuat() {
-        dispose();
-        boolean check = MsgBox.confirm(Application.app, "Bạn có thực sự muốn đăng xuất không?");
-        if (check) {
-            Session.accountid = null;
-            Application.app.setContentPane(new LoginView(Application.app));
-            Application.app.pack();
-            Application.app.setLocationRelativeTo(null);
-        }
     }
 
     private void createUIComponents() {

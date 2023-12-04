@@ -31,11 +31,9 @@ public class LoginView extends CurvesPanel {
     private AccountDTO accountDTO;
     private ExecutorService executorService = Executors.newSingleThreadExecutor();
     private IAccountService accountService = ContextUtils.getBean(IAccountService.class);
-    private Application app;
 
-    public LoginView(Application app) {
+    public LoginView() {
         super(0);
-        this.app = app;
 
         KeyAdapter submit = new KeyAdapter() {
             @Override

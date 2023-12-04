@@ -1,7 +1,9 @@
 package com.sax.utils;
 
+import com.sax.Application;
 import com.sax.dtos.AccountDTO;
 import com.sax.services.ICrudServices;
+import com.sax.views.LoginView;
 import com.sax.views.components.table.CustomHeaderTableCellRenderer;
 import com.sax.views.components.table.CustomTableCellEditor;
 import com.sax.views.components.table.CustomTableCellRender;
@@ -28,10 +30,16 @@ public class Session {
     public static AccountDTO accountid;
     public static String otp;
 
-    private static final String CONFIG_FILE_PATH = "./config.yaml";
+    private static final String CONFIG_FILE_PATH = "config.yaml";
 
-    public void logout() {
-        accountid = null;
+    public static void logout() {
+        boolean check = MsgBox.confirm(Application.app, "Bạn có thực sự muốn đăng xuất không?");
+        if (check) {
+            Application.app.setContentPane(new LoginView());
+            Application.app.pack();
+            Application.app.setLocationRelativeTo(null);
+            accountid = null;
+        }
     }
 
     public static boolean isValidEmail(String email) {
@@ -122,6 +130,7 @@ public class Session {
         }
         return data;
     }
+
     public static boolean createDefaultConfigFile() {
         File configFile = new File(CONFIG_FILE_PATH);
         if (!configFile.exists()) {
@@ -135,10 +144,12 @@ public class Session {
         }
         return true;
     }
+
     public static String isConfigFileCreated() {
         File configFile = new File(CONFIG_FILE_PATH);
         return configFile.getAbsolutePath();
     }
+
     private static void writeDefaultConfig() throws IOException {
         Map<String, String> defaultConfig = new HashMap<>();
         defaultConfig.put("server", "your_server");

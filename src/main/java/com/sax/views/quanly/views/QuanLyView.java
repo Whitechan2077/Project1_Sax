@@ -48,7 +48,7 @@ public class QuanLyView extends JPanel {
     private Pageable pageable = PageRequest.of(0, 14);
 
     public QuanLyView() {
-        btnLogout.addActionListener((e) -> dangXuat());
+        btnLogout.addActionListener((e) -> Session.logout());
         initComponent();
         addCustomEventListener();
     }
@@ -150,16 +150,6 @@ public class QuanLyView extends JPanel {
         });
 
         btnLogout.addMouseListener(hover);
-    }
-
-    private void dangXuat() {
-        boolean check = MsgBox.confirm(this, "Bạn có thực sự muốn đăng xuất không?");
-        if (check) {
-            Session.accountid = null;
-            Application.app.setContentPane(new LoginView(Application.app));
-            Application.app.pack();
-            Application.app.setLocationRelativeTo(null);
-        }
     }
 
     private void createUIComponents() {

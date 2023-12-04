@@ -1,5 +1,5 @@
-server: "localhost"
-password: "Hoanglinh@99"
-databaseName: "Sax"
-port: "1434"
-username: "sa"
+server: your_server
+password: pass
+databaseName: database_name
+port: your_port
+username: username
