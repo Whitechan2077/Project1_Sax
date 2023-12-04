@@ -1,11 +1,5 @@
 server: "localhost"
-<<<<<<< HEAD
 password: "Hoanglinh@99"
 databaseName: "Sax"
 port: "1434"
-=======
-password: "06122004"
-databaseName: "sax"
-port: "1433"
->>>>>>> 3b27892d4e0455b75b8c669ab0de5136fa9eb4bf
 username: "sa"

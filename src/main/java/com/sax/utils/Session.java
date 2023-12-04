@@ -117,6 +117,8 @@ public class Session {
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
+            MsgBox.alert(null, "Lỗi đọc file config.yaml");
+            System.exit(0);
         }
         return data;
     }
