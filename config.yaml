@@ -2,4 +2,4 @@ server: "localhost"
 password: "06122004"
 databaseName: "sax"
 port: "1433"
-username: "sa"
+username: sa

@@ -137,7 +137,6 @@ public class Session {
         }
         return true;
     }
-
     private static void writeDefaultConfig() throws IOException {
         Map<String, String> defaultConfig = new HashMap<>();
         defaultConfig.put("server", "your_server");
@@ -154,36 +153,4 @@ public class Session {
             yaml.dump(defaultConfig, writer);
         }
     }
-
-    private static void startTimer(JButton jButton) {
-        // Disable nút để ngăn chặn việc nhấn liên tục trong thời gian chờ
-        disableSendButton(jButton);
-         secondsRemaining = 60;
-        timer.start();
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (secondsRemaining > 0) {
-                    try {
-                        jButton.setText(String.valueOf(secondsRemaining));
-                        // Đợi 1 giây
-                        Thread.sleep(1000);
-                        secondsRemaining--;
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-                timer.stop();
-                jButton.setText("Gửi otp");
-            }
-        }).start();
-    }
-    private static void enableSendButton(JButton jButton) {
-        jButton.setEnabled(true);
-    }
-
-    private static void disableSendButton(JButton jButton) {
-        jButton.setEnabled(false);
-    }
-
 }

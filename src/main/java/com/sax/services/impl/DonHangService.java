@@ -92,7 +92,7 @@ public class DonHangService implements IDonHangService {
             try {
                 donHangChiTietRepository.saveAll(chiTietDonHang);
             }catch (Exception ex){
-                throw new InvalidDataAccessApiUsageException("Vượt quá số lượng trong giỏ");
+                throw new InvalidDataAccessApiUsageException("Vượt quá số lượng hàng còn lại");
             }
         return DTOUtils.getInstance().converter(repository.findById(save.getId()).get(), DonHangDTO.class);
     }
