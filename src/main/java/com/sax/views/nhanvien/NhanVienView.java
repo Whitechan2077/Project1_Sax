@@ -229,6 +229,7 @@ public class NhanVienView extends JPanel {
         UserPopup userPopup = new UserPopup();
         userPopup.setLblTenView(lblNV);
         userPopup.setVisible(true);
+        userPopup.setAvatar(avatar);
         System.out.println(lblNV.getText());
     }
 
