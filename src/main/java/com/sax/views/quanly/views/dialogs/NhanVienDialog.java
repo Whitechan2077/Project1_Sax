@@ -38,6 +38,9 @@ public class NhanVienDialog extends JDialog {
     @Getter
     @Setter
     private JPanel panelRole;
+    @Getter
+    @Setter
+    private JPanel panelTT;
 
     private @Setter JLabel lblTenView;
     private @Setter JPanel avatar;
