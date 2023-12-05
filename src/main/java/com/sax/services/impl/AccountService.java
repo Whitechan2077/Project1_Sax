@@ -4,6 +4,7 @@ import com.microsoft.sqlserver.jdbc.SQLServerException;
 import com.sax.dtos.AccountDTO;
 import com.sax.entities.Account;
 import com.sax.entities.KhachHang;
+import com.sax.entities.Sach;
 import com.sax.repositories.IAccountRepository;
 import com.sax.services.IAccountService;
 import com.sax.utils.DTOUtils;
@@ -69,6 +70,7 @@ public class AccountService implements IAccountService {
     @Override
     public void update(AccountDTO e) throws SQLServerException {
         Account account = repository.findById(e.getId()).orElseThrow();
+        Account check = repository.findByEmail(e.getEmail());
         account.setEmail(e.getEmail());
         account.setTenNhanVien(e.getTenNhanVien());
         account.setSdt(e.getSdt());
@@ -83,7 +85,10 @@ public class AccountService implements IAccountService {
         } catch (IOException ex) {
             e.setAnh("no-image.png");
         }
-        DTOUtils.getInstance().converter(repository.save(account), AccountDTO.class);
+        if (check == null){
+            DTOUtils.getInstance().converter(repository.save(account), AccountDTO.class);
+        }
+        else throw new IllegalStateException("Mail đã tồn tại");
     }
 
     @Override
@@ -94,17 +99,18 @@ public class AccountService implements IAccountService {
     @Override
     public void deleteAll(Set<Integer> ids) throws SQLServerException {
         boolean check = true;
-        StringBuilder name = new StringBuilder("Khách ");
+        StringBuilder name = new StringBuilder("Nhân viên");
         for (Integer x : ids) {
-            Account e = repository.findById(x).orElseThrow();
-            try {
-                repository.deleteById(x);
-            } catch (DataIntegrityViolationException ex) {
-                name.append(" " + e.getTenNhanVien() + ", ");
+            Account e = repository.findRelative(x);
+            if (e == null)repository.deleteById(x);
+            else {
+                e.setTrangThai(false);
+                repository.save(e);
+                name.append(" ").append(e.getTenNhanVien()).append(", ");
                 check = false;
             }
         }
-        if (!check) throw new DataIntegrityViolationException(name + " .Không thể xoá, do nhân viên đã bán hàng!");
+        if (!check) throw new DataIntegrityViolationException(name + " .Không thể xoá, do nhân viên đã bán hàng! Chuyển trạng nghỉ");
     }
 
     @Override

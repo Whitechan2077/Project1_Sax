@@ -7,6 +7,7 @@ import com.sax.dtos.LichSuNhapHangDTO;
 import com.sax.entities.CtkmSach;
 import com.sax.entities.DonHang;
 import com.sax.entities.KhachHang;
+import com.sax.entities.Sach;
 import com.sax.repositories.IDonHangRepository;
 import com.sax.repositories.IKhachHangRepository;
 import com.sax.services.IKhachHangService;
@@ -72,13 +73,12 @@ public class KhachHangService implements IKhachHangService {
     @Override
     public void deleteAll(Set<Integer> ids) throws SQLServerException {
         boolean check = true;
-        StringBuilder name = new StringBuilder("Khách ");
+        StringBuilder name = new StringBuilder("Sách");
         for (Integer x : ids) {
-            KhachHang e = repository.findById(x).orElseThrow();
-            try {
-                repository.deleteById(x);
-            }catch (DataIntegrityViolationException ex){
-                name.append(" " + e.getTenKhach() + ", ");
+            KhachHang e = repository.findRelative(x);
+            if (e == null)repository.deleteById(x);
+            else {
+                name.append(" ").append(e.getTenKhach()).append(", ");
                 check = false;
             }
         }

@@ -15,4 +15,5 @@ public interface ISachService extends ICrudServices<SachDTO,Integer>{
     int  getToTalPageCtkSachInAllAvailablePromote(Pageable pageable);
     SachDTO getByBarCode(String barcode);
     List<SachDTO> getAllSachByKeyWord(String kw);
+    List<SachDTO> getAllAvailableSachByKeyWord(String kw);
 }

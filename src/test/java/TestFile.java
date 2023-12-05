@@ -37,6 +37,6 @@ public class TestFile {
     @Test
     public void s() {
         ISachRepository repository = ContextUtils.getBean(ISachRepository.class);
-        repository.findRelative(1);
+        System.out.println(repository.findRelative(1));
     }
 }
