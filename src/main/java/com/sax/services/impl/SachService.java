@@ -125,6 +125,11 @@ public class SachService implements ISachService {
         return findAllGiaGiam(list);
     }
 
+    @Override
+    public List<SachDTO> getAllAvailableSachByKeyWord(String kw) {
+        return DTOUtils.getInstance().convertToDTOList(repository.findAllAvailableByKeyword(kw),SachDTO.class);
+    }
+
     @Transactional
     @Override
     public SachDTO insert(SachDTO e) throws SQLServerException {
@@ -185,12 +190,11 @@ public class SachService implements ISachService {
     @Override
     public void deleteAll(Set<Integer> ids) throws SQLServerException {
         boolean check = true;
-        StringBuilder name = new StringBuilder("Khách ");
+        StringBuilder name = new StringBuilder("Sách");
         for (Integer x : ids) {
-            Sach e = repository.findById(x).orElseThrow();
-            try {
-                repository.deleteById(x);
-            }catch (DataIntegrityViolationException ex){
+            Sach e = repository.findRelative(x);
+            if (e == null)repository.deleteById(x);
+            else {
                 e.setTrangThai(false);
                 repository.save(e);
                 name.append(" ").append(e.getTenSach()).append(", ");

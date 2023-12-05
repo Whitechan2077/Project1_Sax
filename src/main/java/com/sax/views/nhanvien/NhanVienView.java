@@ -242,9 +242,9 @@ public class NhanVienView extends JPanel {
     public void searchByKeyword() {
         String keyword = timKiem.txtSearch.getText();
         if (!keyword.isEmpty()) {
-            fillSach(sachService.getAllSachByKeyWord(keyword), donItem);
+            fillSach(sachService.getAllAvailableSachByKeyWord(keyword), donItem);
         } else {
-            fillSach(sachService.getAll(), donItem);
+            fillSach(sachService.getAllSachNotInCTKM(), donItem);
         }
     }
 

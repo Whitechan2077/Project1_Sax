@@ -97,7 +97,6 @@ public class NhanVienDialog extends JDialog {
                     parentPane.fillTable(accountService.getPage(pageable).stream().map(NhanVienViewObject::new).collect(Collectors.toList()));
                 dispose();
             } catch (Exception ex) {
-                ex.printStackTrace();
                 MsgBox.alert(this, "Có lỗi! " + ex.getMessage());
             }
         }
