@@ -184,7 +184,6 @@ public class NhanVienView extends JPanel {
                 donHangDTO.setId(donHangService.insert(donHangDTO).getId());
                 new HoaDonDialog(this, donHangDTO, true).setVisible(true);
                 fillSach(sachService.getAllSachInOrNotInCTKM(), donItem);
-                khachHangService.addPoint(donHangDTO);
                 clear();
             }
         } catch (SQLServerException | FileNotFoundException | InvalidDataAccessApiUsageException e) {

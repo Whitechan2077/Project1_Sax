@@ -7,8 +7,10 @@ import com.sax.dtos.LichSuNhapHangDTO;
 import com.sax.entities.*;
 import com.sax.repositories.IDonHangChiTietRepository;
 import com.sax.repositories.IDonHangRepository;
+import com.sax.repositories.IKhachHangRepository;
 import com.sax.repositories.ISachRepository;
 import com.sax.services.IDonHangService;
+import com.sax.services.IKhachHangService;
 import com.sax.utils.DTOUtils;
 import org.hibernate.TransientPropertyValueException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +35,10 @@ public class DonHangService implements IDonHangService {
     private IDonHangChiTietRepository donHangChiTietRepository;
     @Autowired
     private ISachRepository sachRepository;
+    @Autowired
+    private IKhachHangRepository khachHangRepository;
+    @Autowired
+    private IKhachHangService choNayBan;
 
 
     @Override
@@ -91,9 +97,23 @@ public class DonHangService implements IDonHangService {
         }
             try {
                 donHangChiTietRepository.saveAll(chiTietDonHang);
+
             }catch (Exception ex){
                 throw new InvalidDataAccessApiUsageException("Vượt quá số lượng hàng còn lại");
             }
+            KhachHang khach = donHang.getKhachHangByIdKhach();
+        if (donHang.getKhachHangByIdKhach().getDiem()>=0)
+        {
+            int point = (int) (donHang.getChietKhau()/1000);
+            int totalPoint = khach.getDiem() - point;
+            khach.setDiem(totalPoint);
+            khachHangRepository.save(khach);
+        }
+        if (donHang.getTongTien()>=200000){
+            int point = khach.getDiem();
+            khach.setDiem(point+1);
+            khachHangRepository.save(khach);
+        }
         return DTOUtils.getInstance().converter(repository.findById(save.getId()).get(), DonHangDTO.class);
     }
 
