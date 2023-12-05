@@ -68,7 +68,7 @@ public class UserPopup extends JDialog {
         dialog.id = Session.accountid.getId();
         dialog.fillForm();
         dialog.getPanelRole().setVisible(false);
-        dialog.getPanelTT().setVisible(false);
+//        dialog.getPanelTT().setVisible(false);
         dialog.setLblTenView(lblTenView);
         dialog.setLocationRelativeTo(Application.app);
         dialog.setVisible(true);

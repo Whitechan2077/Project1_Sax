@@ -209,7 +209,6 @@ public class NhanVienView extends JPanel {
         long tienPhaiTra = Long.valueOf(lblTPT.getText().substring(0, lblTPT.getText().length() - 1).replace(".", ""));
         boolean pttt = rdoTM.isSelected() ? true : false;
 
-
         List<ChiTietDonHangDTO> chiTietDonHangDTOList = Cart.getCart().stream().map(cm -> {
             long giaGiam = cm.getGiaBan() - cm.getDonGia();
             int soLuong = (int) cm.getSoLuong().getValue();
