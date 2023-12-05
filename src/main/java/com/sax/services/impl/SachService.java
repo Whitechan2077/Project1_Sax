@@ -130,7 +130,6 @@ public class SachService implements ISachService {
         return DTOUtils.getInstance().convertToDTOList(repository.findAllAvailableByKeyword(kw),SachDTO.class);
     }
 
-    @Transactional
     @Override
     public SachDTO insert(SachDTO e) throws SQLServerException {
         SachDTO dto = null;
@@ -192,8 +191,10 @@ public class SachService implements ISachService {
         boolean check = true;
         StringBuilder name = new StringBuilder("Sách");
         for (Integer x : ids) {
-            Sach e = repository.findRelative(x);
-            if (e == null)repository.deleteById(x);
+            Sach e = repository.findRelative(x).orElse(null);
+            if (e == null){
+                repository.deleteById(x);
+            }
             else {
                 e.setTrangThai(false);
                 repository.save(e);

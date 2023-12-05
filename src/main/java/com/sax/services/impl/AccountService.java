@@ -70,8 +70,6 @@ public class AccountService implements IAccountService {
     @Override
     public void update(AccountDTO e) throws SQLServerException {
         Account account = repository.findById(e.getId()).orElseThrow();
-        Account check = repository.findByEmail(e.getEmail());
-        account.setEmail(e.getEmail());
         account.setTenNhanVien(e.getTenNhanVien());
         account.setSdt(e.getSdt());
         account.setGioiTinh(e.isGioiTinh());
@@ -85,10 +83,15 @@ public class AccountService implements IAccountService {
         } catch (IOException ex) {
             e.setAnh("no-image.png");
         }
-        if (check == null){
+        if (e.getEmail().equals(account.getEmail()))
             DTOUtils.getInstance().converter(repository.save(account), AccountDTO.class);
+        else {
+            if (repository.findByEmail(e.getEmail()) != null) throw new RuntimeException("Trùng mail");
+            else {
+                account.setEmail(e.getEmail());
+                DTOUtils.getInstance().converter(repository.save(account), AccountDTO.class);
+            }
         }
-        else throw new IllegalStateException("Mail đã tồn tại");
     }
 
     @Override
