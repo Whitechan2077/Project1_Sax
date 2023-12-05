@@ -43,8 +43,13 @@ public interface ISachRepository extends JpaRepository<Sach, Integer> {
             "where CURRENT_TIMESTAMP > cts.ctkm.ngayKetThuc OR CURRENT_TIMESTAMP < cts.ctkm.ngayBatDau ")
     Page<Sach> findAllCtkmSachNotAllAvailablePromote(Pageable pageable);
     List<Sach> findAllByTrangThai(boolean trangThai);
-    @Query("SELECT s FROM Sach s JOIN s.CtkmSach JOIN s.chiTietDonHangs Join s.lichSuNhapHangList where s.id=:id")
-    Sach findRelative(@Param("id")int id);
+    @Query("SELECT s FROM Sach s " +
+            "LEFT JOIN CtkmSach cs ON cs.idSach = s.id " +
+            "LEFT JOIN LichSuNhapHang lsnh ON lsnh.idSach = s.id " +
+            "LEFT JOIN ChiTietDonHang hdct ON hdct.idSach = s.id " +
+            "WHERE s.id = :id AND (cs.idSach IS NOT NULL OR lsnh.idSach IS NOT NULL OR hdct.idSach IS NOT NULL)")
+
+    Optional<Sach> findRelative(@Param("id")int id);
     @Query("SELECT e FROM Sach e WHERE CAST(e.id AS string) like %:keyword% OR e.tenSach LIKE %:keyword% AND e.trangThai=true")
     List<Sach> findAllAvailableByKeyword(@Param("keyword") String keyword);
 }
