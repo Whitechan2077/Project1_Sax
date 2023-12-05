@@ -191,6 +191,8 @@ public class SachService implements ISachService {
             try {
                 repository.deleteById(x);
             }catch (DataIntegrityViolationException ex){
+                e.setTrangThai(false);
+                repository.save(e);
                 name.append(" ").append(e.getTenSach()).append(", ");
                 check = false;
             }

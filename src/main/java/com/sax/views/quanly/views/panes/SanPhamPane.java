@@ -158,12 +158,12 @@ public class SanPhamPane extends JPanel {
                 try {
                     sachService.deleteAll(tempIdSet);
                     cbkSelectedAll.setSelected(false);
-                    fillTable(sachService.getPage(pageable).stream().map(SachViewObject::new).collect(Collectors.toList()));
-                    fillListPage(pageable.getPageNumber());
-                    loading.dispose();
                 } catch (Exception e) {
                     MsgBox.alert(this, e.getMessage());
                 }
+                fillTable(sachService.getPage(pageable).stream().map(SachViewObject::new).collect(Collectors.toList()));
+                fillListPage(pageable.getPageNumber());
+                loading.dispose();
             }
         } else MsgBox.alert(this, "Vui lòng tick vào ít nhất một sản phẩm!");
     }

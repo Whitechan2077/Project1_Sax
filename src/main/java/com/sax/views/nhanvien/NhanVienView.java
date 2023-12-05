@@ -53,7 +53,7 @@ public class NhanVienView extends JPanel {
     private JXTable cart;
     private JRadioButton rdoTM;
     private JRadioButton rdoNH;
-    private JButton btnSubmit;
+    private JButton btnThanhToan;
     private JButton xButton;
     private JLabel lblTPT;
     private JLabel lblTienHang;
@@ -84,7 +84,7 @@ public class NhanVienView extends JPanel {
         btnBo.addActionListener((e) -> {
             ((CardLayout) tabContent.getLayout()).show(tabContent, "bo");
         });
-        btnSubmit.addActionListener((e) -> save());
+        btnThanhToan.addActionListener((e) -> save());
         xButton.addActionListener((e) -> clear());
         btnDonHang.addActionListener((e) -> openDonHang());
         danhMuc.addMouseListener(new MouseAdapter() {
@@ -273,7 +273,7 @@ public class NhanVienView extends JPanel {
         btnScan = new ButtonToolItem("barcode.svg", "barcode.svg");
         btnDon = new ButtonToolItem("ctkm.svg", "ctkm.svg");
         btnBo = new ButtonToolItem("ctkm-c.svg", "ctkm-c.svg");
-        btnSubmit = new ButtonToolItem("ctkm.svg", "ctkm.svg");
+        btnThanhToan = new ButtonToolItem("ctkm.svg", "ctkm.svg");
         xButton = new ButtonToolItem("x-c.svg", "x-c.svg");
         btnDonHang = new ButtonToolItem("donhang-c.svg", "donhang-c.svg");
         btnTK = new ButtonToolItem("tknv-c.svg", "tknv-c.svg");
