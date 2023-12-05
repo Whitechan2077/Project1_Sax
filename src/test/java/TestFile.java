@@ -1,5 +1,6 @@
 import com.microsoft.sqlserver.jdbc.SQLServerException;
 import com.sax.dtos.AccountDTO;
+import com.sax.repositories.ISachRepository;
 import com.sax.services.IAccountService;
 import com.sax.services.ICtkmSachService;
 import com.sax.services.ICtkmService;
@@ -35,5 +36,7 @@ public class TestFile {
 
     @Test
     public void s() {
+        ISachRepository repository = ContextUtils.getBean(ISachRepository.class);
+        repository.findRelative(1);
     }
 }

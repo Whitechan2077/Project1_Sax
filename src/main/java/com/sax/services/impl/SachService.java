@@ -48,7 +48,7 @@ public class SachService implements ISachService {
 
     @Override
     public List<SachDTO> getAllSachInOrNotInCTKM() {
-        List<Sach> list = repository.findAll();
+        List<Sach> list = repository.findAllByTrangThai(true);
         return findAllGiaGiam(list);
     }
     List<SachDTO> findAllGiaGiam(List<Sach> list){
@@ -191,6 +191,8 @@ public class SachService implements ISachService {
             try {
                 repository.deleteById(x);
             }catch (DataIntegrityViolationException ex){
+                e.setTrangThai(false);
+                repository.save(e);
                 name.append(" ").append(e.getTenSach()).append(", ");
                 check = false;
             }

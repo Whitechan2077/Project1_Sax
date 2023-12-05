@@ -42,4 +42,7 @@ public interface ISachRepository extends JpaRepository<Sach, Integer> {
     @Query("select cts.sach from CtkmSach cts " +
             "where CURRENT_TIMESTAMP > cts.ctkm.ngayKetThuc OR CURRENT_TIMESTAMP < cts.ctkm.ngayBatDau ")
     Page<Sach> findAllCtkmSachNotAllAvailablePromote(Pageable pageable);
+    List<Sach> findAllByTrangThai(boolean trangThai);
+    @Query("SELECT s FROM Sach s JOIN s.CtkmSach JOIN s.chiTietDonHangs where s.id=:id")
+    Sach findRelative(@Param("id")int id);
 }
