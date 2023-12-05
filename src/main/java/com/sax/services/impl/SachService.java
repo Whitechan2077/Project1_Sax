@@ -48,7 +48,7 @@ public class SachService implements ISachService {
 
     @Override
     public List<SachDTO> getAllSachInOrNotInCTKM() {
-        List<Sach> list = repository.findAll();
+        List<Sach> list = repository.findAllByTrangThai(true);
         return findAllGiaGiam(list);
     }
     List<SachDTO> findAllGiaGiam(List<Sach> list){
