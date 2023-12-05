@@ -2,7 +2,6 @@ package com.sax.services.impl;
 
 import com.microsoft.sqlserver.jdbc.SQLServerException;
 import com.sax.dtos.DanhMucDTO;
-import com.sax.dtos.SachDTO;
 import com.sax.entities.DanhMuc;
 import com.sax.repositories.IDanhMucRepository;
 import com.sax.services.IDanhMucService;
@@ -86,8 +85,8 @@ public class DanhMucService implements IDanhMucService {
     }
 
     @Override
-    public int getTotalPage(Pageable page) {
-        return repository.findAll(page).getTotalPages();
+    public int getTotalPage(int amount) {
+        return repository.findAll(Pageable.ofSize(amount)).getTotalPages();
     }
 
     @Override

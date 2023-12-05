@@ -1,9 +1,7 @@
 package com.sax.services.impl;
 
 import com.microsoft.sqlserver.jdbc.SQLServerException;
-import com.sax.dtos.CtkmDTO;
 import com.sax.dtos.DonHangDTO;
-import com.sax.dtos.LichSuNhapHangDTO;
 import com.sax.entities.*;
 import com.sax.repositories.IDonHangChiTietRepository;
 import com.sax.repositories.IDonHangRepository;
@@ -12,11 +10,8 @@ import com.sax.repositories.ISachRepository;
 import com.sax.services.IDonHangService;
 import com.sax.services.IKhachHangService;
 import com.sax.utils.DTOUtils;
-import org.hibernate.TransientPropertyValueException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,7 +20,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Set;
-import java.util.stream.IntStream;
 
 @Service
 public class DonHangService implements IDonHangService {
@@ -134,8 +128,8 @@ public class DonHangService implements IDonHangService {
     }
 
     @Override
-    public int getTotalPage(Pageable page) {
-        return repository.findAll(page).getTotalPages();
+    public int getTotalPage(int amount) {
+        return repository.findAll(Pageable.ofSize(amount)).getTotalPages();
     }
 
     @Override

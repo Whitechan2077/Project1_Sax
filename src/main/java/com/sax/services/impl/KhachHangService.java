@@ -3,23 +3,15 @@ package com.sax.services.impl;
 import com.microsoft.sqlserver.jdbc.SQLServerException;
 import com.sax.dtos.DonHangDTO;
 import com.sax.dtos.KhachHangDTO;
-import com.sax.dtos.LichSuNhapHangDTO;
-import com.sax.entities.CtkmSach;
-import com.sax.entities.DonHang;
 import com.sax.entities.KhachHang;
 import com.sax.repositories.IDonHangRepository;
 import com.sax.repositories.IKhachHangRepository;
 import com.sax.services.IKhachHangService;
 import com.sax.utils.DTOUtils;
-import org.hibernate.engine.jdbc.spi.SqlExceptionHelper;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -72,13 +64,12 @@ public class KhachHangService implements IKhachHangService {
     @Override
     public void deleteAll(Set<Integer> ids) throws SQLServerException {
         boolean check = true;
-        StringBuilder name = new StringBuilder("Khách ");
+        StringBuilder name = new StringBuilder("Sách");
         for (Integer x : ids) {
-            KhachHang e = repository.findById(x).orElseThrow();
-            try {
-                repository.deleteById(x);
-            }catch (DataIntegrityViolationException ex){
-                name.append(" " + e.getTenKhach() + ", ");
+            KhachHang e = repository.findRelative(x);
+            if (e == null)repository.deleteById(x);
+            else {
+                name.append(" ").append(e.getTenKhach()).append(", ");
                 check = false;
             }
         }
@@ -86,8 +77,8 @@ public class KhachHangService implements IKhachHangService {
     }
 
     @Override
-    public int getTotalPage(Pageable page) {
-        return repository.findAll(page).getTotalPages();
+    public int getTotalPage(int amount) {
+        return repository.findAll(Pageable.ofSize(amount)).getTotalPages();
     }
 
     @Override

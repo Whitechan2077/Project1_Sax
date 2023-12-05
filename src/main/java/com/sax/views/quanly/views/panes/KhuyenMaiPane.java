@@ -204,7 +204,7 @@ public class KhuyenMaiPane extends JPanel {
     }
 
     public void fillListPage(int value) {
-        Session.fillListPage(value, listPageModelKM, ctkmSachService, pageableKM, listPageKM);
+        Session.fillListPage(value, listPageModelKM, ctkmSachService, 14, listPageKM);
     }
 
     public void selectPageDisplay() {

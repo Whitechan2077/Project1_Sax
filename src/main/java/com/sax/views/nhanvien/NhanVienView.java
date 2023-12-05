@@ -204,8 +204,8 @@ public class NhanVienView extends JPanel {
     private DonHangDTO readCart() throws SQLServerException {
         KhachHangDTO kh = (KhachHangDTO) cboKH.getSelectedItem();
         AccountDTO nv = Session.accountid;
-        long tienHang = CurrencyConvert.parseLong(lblTienHang.getText());
-        long chietKhau = CurrencyConvert.parseLong(lblChietKhau.getText().replace("-", ""));
+        long tienHang = CurrencyConverter.parseLong(lblTienHang.getText());
+        long chietKhau = CurrencyConverter.parseLong(lblChietKhau.getText().replace("-", ""));
         long tienPhaiTra = Long.valueOf(lblTPT.getText().substring(0, lblTPT.getText().length() - 1).replace(".", ""));
         boolean pttt = rdoTM.isSelected() ? true : false;
 
@@ -241,9 +241,9 @@ public class NhanVienView extends JPanel {
     public void searchByKeyword() {
         String keyword = timKiem.txtSearch.getText();
         if (!keyword.isEmpty()) {
-            fillSach(sachService.getAllSachByKeyWord(keyword), donItem);
+            fillSach(sachService.getAllAvailableSachByKeyWord(keyword), donItem);
         } else {
-            fillSach(sachService.getAll(), donItem);
+            fillSach(sachService.getAllSachNotInCTKM(), donItem);
         }
     }
 

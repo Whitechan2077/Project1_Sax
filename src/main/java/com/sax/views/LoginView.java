@@ -83,8 +83,7 @@ public class LoginView extends CurvesPanel {
             txtUsername.setText(accountDTO1.getUsername());
             txtPass.setText(accountDTO1.getPassword());
             chkRemember.setSelected(true);
-        }
-        catch (IOException e){
+        } catch (IOException e) {
 //            txtUsername.setText("");
 //            txtPass.setText("");
         }
@@ -118,20 +117,17 @@ public class LoginView extends CurvesPanel {
                             : accountService.getByUsername(readForm().getUsername());
                     if (HashUtils.checkPassword(readForm().getPassword(), dto.getPassword())) {
                         Session.accountid = dto;
-                        if (Session.accountid.getTrangThai())
-                        {
+                        if (Session.accountid.getTrangThai()) {
                             Application.app.setContentPane((dto.isVaiTro()) ? new QuanLyView() : new NhanVienView());
                             if (chkRemember.isSelected()) AccountUtils.remember(accountDTO);
                             else AccountUtils.deleteFile();
-                        }
-
-                        else {
+                        } else {
                             loading.dispose();
                             MsgBox.alert(null, "Tài khoản không được phép");
                         }
+                        loading.dispose();
                         Application.app.pack();
                         Application.app.setLocationRelativeTo(null);
-                        loading.dispose();
                     } else {
                         loading.dispose();
                         MsgBox.alert(null, "Sai mật khẩu!");

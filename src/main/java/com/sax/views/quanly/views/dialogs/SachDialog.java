@@ -16,10 +16,20 @@ import com.sax.views.quanly.viewmodel.SachViewObject;
 import com.sax.views.quanly.views.panes.SanPhamPane;
 
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
+import javax.swing.*;
+import javax.swing.text.*;
+import java.awt.*;
+import java.text.*;
 
 import javax.swing.*;
+import javax.swing.text.DefaultFormatterFactory;
+import javax.swing.text.MaskFormatter;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.text.ParseException;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -33,7 +43,7 @@ public class SachDialog extends JDialog {
     private JButton btnSave;
     private JList<DanhMucDTO> danhMuc;
     private JComboBox cboNXB;
-    private JTextField txtGiaBan;
+    private JFormattedTextField txtGiaBan;
     private JTextField txtTen;
     private JPanel panelImage;
     private JButton btnScan;
@@ -51,7 +61,6 @@ public class SachDialog extends JDialog {
     private JRadioButton rdoAn;
     private JRadioButton rdoHienThi;
 
-    public Pageable pageable;
     public JLabel lblTitle;
     public int id;
     public SanPhamPane parentPane;
@@ -69,7 +78,7 @@ public class SachDialog extends JDialog {
         setModal(true);
         pack();
         setLocationRelativeTo(Application.app);
-
+        txtGiaBan.setFormatterFactory(CurrencyConverter.getVnCurrency());
         fillDanhMuc();
     }
 
@@ -105,9 +114,11 @@ public class SachDialog extends JDialog {
                     sachService.update(dto);
                 } else {
                     sachService.insert(dto);
-                    parentPane.fillListPage(pageable.getPageNumber() < 0 ? 0 : pageable.getPageNumber());
+                    parentPane.setPageValue(sachService.getTotalPage(parentPane.getSizeValue()));
+                    parentPane.setPageable(PageRequest.of(parentPane.getPageValue() - 1, parentPane.getSizeValue()));
+                    parentPane.fillListPage();
                 }
-                parentPane.fillTable(sachService.getPage(pageable).stream().map(SachViewObject::new).collect(Collectors.toList()));
+                parentPane.fillTable(sachService.getPage(parentPane.getPageable()).stream().map(SachViewObject::new).collect(Collectors.toList()));
                 dispose();
             } catch (DataIntegrityViolationException ex) {
                 MsgBox.alert(this, "Trùng barcode");
@@ -128,7 +139,7 @@ public class SachDialog extends JDialog {
 
         String giaBan = txtGiaBan.getText().trim();
         try {
-            sachDTO.setGiaBan(Long.parseLong(giaBan));
+            sachDTO.setGiaBan(CurrencyConverter.parseLong(giaBan));
         } catch (NumberFormatException ex) {
             MsgBox.alert(this, "Giá bán phải là số!");
             return null;

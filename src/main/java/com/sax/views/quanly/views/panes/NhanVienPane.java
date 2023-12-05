@@ -178,7 +178,7 @@ public class NhanVienPane extends JPanel {
     }
 
     public void fillListPage(int value) {
-        Session.fillListPage(value, listPageModel, accountService, pageable, listPage);
+        Session.fillListPage(value, listPageModel, accountService, 14, listPage);
     }
 
     public void selectPageDisplay() {

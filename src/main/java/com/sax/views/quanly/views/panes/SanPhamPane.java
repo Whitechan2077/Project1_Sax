@@ -1,7 +1,5 @@
 package com.sax.views.quanly.views.panes;
 
-import com.microsoft.sqlserver.jdbc.SQLServerException;
-import com.sax.dtos.SachDTO;
 import com.sax.services.ISachService;
 import com.sax.services.impl.SachService;
 import com.sax.utils.ContextUtils;
@@ -14,11 +12,10 @@ import com.sax.views.quanly.views.dialogs.NhapHangDialog;
 import com.sax.views.quanly.views.dialogs.SachDialog;
 import com.sax.views.components.libraries.ButtonToolItem;
 import com.sax.views.components.libraries.RoundPanel;
-import com.sax.views.components.table.CustomHeaderTableCellRenderer;
-import com.sax.views.components.table.CustomTableCellEditor;
-import com.sax.views.components.table.CustomTableCellRender;
 import com.sax.views.quanly.viewmodel.AbstractViewObject;
 import com.sax.views.quanly.viewmodel.SachViewObject;
+import lombok.Getter;
+import lombok.Setter;
 import org.jdesktop.swingworker.SwingWorker;
 import org.jdesktop.swingx.JXTable;
 import org.springframework.data.domain.PageRequest;
@@ -27,7 +24,6 @@ import org.springframework.data.domain.Pageable;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
-import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
@@ -63,8 +59,12 @@ public class SanPhamPane extends JPanel {
     private Loading loading = new Loading();
 
     private DefaultListModel listPageModel = new DefaultListModel();
-    private int size = 14;
-    private Pageable pageable = PageRequest.of(0, 14);
+    @Getter @Setter
+    private int sizeValue = 14;
+    @Getter @Setter
+    private int pageValue = 1;
+    @Getter @Setter
+    private Pageable pageable = PageRequest.of(pageValue - 1, sizeValue);
     private Timer timer;
 
     public SanPhamPane() {
@@ -103,7 +103,7 @@ public class SanPhamPane extends JPanel {
 
     public void initComponent() {
         ((DefaultTableModel) table.getModel()).setColumnIdentifiers(new String[]{"", "Mã sách", "Barcode", "Tên sách", "Số lượng", "Giá bán", "Danh mục", "Ngày thêm", "Trạng thái"});
-        new Worker(0).execute();
+        new Worker().execute();
         loading.setVisible(true);
         timer = new Timer(300, e -> {
             searchByKeyword();
@@ -130,7 +130,6 @@ public class SanPhamPane extends JPanel {
         SachDialog sachDialog = new SachDialog();
         sachDialog.parentPane = this;
         sachDialog.lblTitle.setText("Thêm mới sách");
-        sachDialog.pageable = (listPageModel.getSize() > 0) ? PageRequest.of(listPageModel.getSize() - 1, 14) : PageRequest.of(listPageModel.getSize(), 14);
         sachDialog.setVisible(true);
         table.clearSelection();
     }
@@ -141,7 +140,6 @@ public class SanPhamPane extends JPanel {
                 SachDialog sachDialog = new SachDialog();
                 sachDialog.parentPane = this;
                 sachDialog.id = (int) table.getValueAt(table.getSelectedRow(), 1);
-                sachDialog.pageable = pageable;
                 sachDialog.fillForm();
                 loading.dispose();
                 sachDialog.setVisible(true);
@@ -162,7 +160,7 @@ public class SanPhamPane extends JPanel {
                     MsgBox.alert(this, e.getMessage());
                 }
                 fillTable(sachService.getPage(pageable).stream().map(SachViewObject::new).collect(Collectors.toList()));
-                fillListPage(pageable.getPageNumber());
+                fillListPage();
                 loading.dispose();
             }
         } else MsgBox.alert(this, "Vui lòng tick vào ít nhất một sản phẩm!");
@@ -179,23 +177,24 @@ public class SanPhamPane extends JPanel {
         }
     }
 
-    public void fillListPage(int value) {
-        Session.fillListPage(value, listPageModel, sachService, pageable, listPage);
+    public void fillListPage() {
+        Session.fillListPage(pageValue, listPageModel, sachService, sizeValue, listPage);
     }
 
     public void selectPageDisplay() {
         if (listPage.getSelectedValue() instanceof Integer) {
-            int page = Integer.parseInt(listPage.getSelectedValue().toString()) - 1;
-            pageable = PageRequest.of(page, size);
-            new Worker(page).execute();
+            pageValue = Integer.parseInt(listPage.getSelectedValue().toString());
+            pageable = PageRequest.of(pageValue - 1, sizeValue);
+            new Worker().execute();
             loading.setVisible(true);
         }
     }
 
     public void selectSizeDisplay() {
-        size = Integer.parseInt(cboHienThi.getSelectedItem().toString());
-        pageable = PageRequest.of(0, size);
-        new Worker(pageable.getPageNumber()).execute();
+        sizeValue = Integer.parseInt(cboHienThi.getSelectedItem().toString());
+        pageValue = 1;
+        pageable = PageRequest.of(pageValue - 1, sizeValue);
+        new Worker().execute();
         loading.setVisible(true);
     }
 
@@ -213,12 +212,6 @@ public class SanPhamPane extends JPanel {
     }
 
     class Worker extends SwingWorker<List<AbstractViewObject>, Integer> {
-        int page;
-
-        public Worker(int page) {
-            this.page = page;
-        }
-
         @Override
         protected List<AbstractViewObject> doInBackground() {
             return sachService.getPage(pageable).stream().map(SachViewObject::new).collect(Collectors.toList());
@@ -228,7 +221,7 @@ public class SanPhamPane extends JPanel {
         protected void done() {
             try {
                 fillTable(get());
-                fillListPage(page);
+                if (table.getRowCount() > 0) fillListPage();
                 loading.dispose();
             } catch (InterruptedException | ExecutionException e) {
                 throw new RuntimeException(e);

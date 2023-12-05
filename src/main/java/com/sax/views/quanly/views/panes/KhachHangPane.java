@@ -153,7 +153,7 @@ public class KhachHangPane extends JPanel {
     }
 
     public void fillListPage(int value) {
-        Session.fillListPage(value, listPageModel, khachHangService, pageable, listPage);
+        Session.fillListPage(value, listPageModel, khachHangService, 14, listPage);
     }
 
     public void selectPageDisplay() {

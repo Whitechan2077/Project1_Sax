@@ -3,7 +3,6 @@ package com.sax.services.impl;
 import com.microsoft.sqlserver.jdbc.SQLServerException;
 import com.sax.dtos.AccountDTO;
 import com.sax.entities.Account;
-import com.sax.entities.KhachHang;
 import com.sax.repositories.IAccountRepository;
 import com.sax.services.IAccountService;
 import com.sax.utils.DTOUtils;
@@ -19,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Set;
@@ -69,7 +67,6 @@ public class AccountService implements IAccountService {
     @Override
     public void update(AccountDTO e) throws SQLServerException {
         Account account = repository.findById(e.getId()).orElseThrow();
-        account.setEmail(e.getEmail());
         account.setTenNhanVien(e.getTenNhanVien());
         account.setSdt(e.getSdt());
         account.setGioiTinh(e.isGioiTinh());
@@ -83,7 +80,15 @@ public class AccountService implements IAccountService {
         } catch (IOException ex) {
             e.setAnh("no-image.png");
         }
-        DTOUtils.getInstance().converter(repository.save(account), AccountDTO.class);
+        if (e.getEmail().equals(account.getEmail()))
+            DTOUtils.getInstance().converter(repository.save(account), AccountDTO.class);
+        else {
+            if (repository.findByEmail(e.getEmail()) != null) throw new RuntimeException("Trùng mail");
+            else {
+                account.setEmail(e.getEmail());
+                DTOUtils.getInstance().converter(repository.save(account), AccountDTO.class);
+            }
+        }
     }
 
     @Override
@@ -94,22 +99,23 @@ public class AccountService implements IAccountService {
     @Override
     public void deleteAll(Set<Integer> ids) throws SQLServerException {
         boolean check = true;
-        StringBuilder name = new StringBuilder("Khách ");
+        StringBuilder name = new StringBuilder("Nhân viên");
         for (Integer x : ids) {
-            Account e = repository.findById(x).orElseThrow();
-            try {
-                repository.deleteById(x);
-            } catch (DataIntegrityViolationException ex) {
-                name.append(" " + e.getTenNhanVien() + ", ");
+            Account e = repository.findRelative(x);
+            if (e == null)repository.deleteById(x);
+            else {
+                e.setTrangThai(false);
+                repository.save(e);
+                name.append(" ").append(e.getTenNhanVien()).append(", ");
                 check = false;
             }
         }
-        if (!check) throw new DataIntegrityViolationException(name + " .Không thể xoá, do nhân viên đã bán hàng!");
+        if (!check) throw new DataIntegrityViolationException(name + " .Không thể xoá, do nhân viên đã bán hàng! Chuyển trạng nghỉ");
     }
 
     @Override
-    public int getTotalPage(Pageable page) {
-        return repository.findAll(page).getTotalPages();
+    public int getTotalPage(int amount) {
+        return repository.findAll(Pageable.ofSize(amount)).getTotalPages();
     }
 
     @Override
