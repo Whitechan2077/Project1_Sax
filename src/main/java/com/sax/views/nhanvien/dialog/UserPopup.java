@@ -30,7 +30,7 @@ public class UserPopup extends JDialog {
 
     public UserPopup() {
         btnThongTin.addActionListener((e) -> thongTinChiTiet());
-        btnLogout.addActionListener((e) -> Session.logout());
+        btnLogout.addActionListener((e) -> dangXuat());
 
         lblTen.setText(Session.accountid.getTenNhanVien());
         btnClose.addActionListener((e) -> dispose());
@@ -56,6 +56,11 @@ public class UserPopup extends JDialog {
         setLocation(cornerPoint);
     }
 
+    private void dangXuat() {
+        dispose();
+        Session.logout();
+    }
+
     private void thongTinChiTiet() {
         dispose();
         NhanVienDialog dialog = new NhanVienDialog();
@@ -63,6 +68,7 @@ public class UserPopup extends JDialog {
         dialog.id = Session.accountid.getId();
         dialog.fillForm();
         dialog.getPanelRole().setVisible(false);
+        dialog.getPanelTT().setVisible(false);
         dialog.setLblTenView(lblTenView);
         dialog.setLocationRelativeTo(Application.app);
         dialog.setVisible(true);

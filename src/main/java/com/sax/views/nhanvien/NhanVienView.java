@@ -237,7 +237,6 @@ public class NhanVienView extends JPanel {
         userPopup.setLblTenView(lblNV);
         userPopup.setVisible(true);
         userPopup.setAvatar(avatar);
-        System.out.println(lblNV.getText());
     }
 
     public void searchByKeyword() {
