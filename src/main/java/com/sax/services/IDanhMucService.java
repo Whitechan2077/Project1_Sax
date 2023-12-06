@@ -9,4 +9,5 @@ import java.util.Set;
 public interface IDanhMucService extends ICrudServices<DanhMucDTO,Integer>{
     List<DanhMucDTO> getAllDanhMucCha();
 
+    void deleteAllDanhMucSach(Set<Integer> ids);
 }

@@ -1,6 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="RunManager">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="004ba26e-3f70-46e5-88cc-982218357152" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sax/repositories/IDanhMucRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sax/repositories/IDanhMucRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sax/services/IDanhMucService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sax/services/IDanhMucService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sax/services/ISachService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sax/services/ISachService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sax/services/impl/DanhMucService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sax/services/impl/DanhMucService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sax/services/impl/SachService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sax/services/impl/SachService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sax/views/quanly/views/panes/DanhMucPane.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sax/views/quanly/views/panes/DanhMucPane.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/TestFile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/TestFile.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "git-widget-placeholder": "fix__service",
+    "node.js.selected.package.tslint": "(autodetect)"
+  }
+}]]></component>
+  <component name="RunManager" selected="Application.Unnamed">
     <configuration name="Unnamed" type="Application" factoryName="Application" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.sax.Application" />
       <module name="SaX" />
@@ -8,5 +33,39 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="TestFile.danhMuc" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="SaX" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="TestFile" />
+      <option name="METHOD_NAME" value="danhMuc" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TestFile.sach" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="SaX" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="TestFile" />
+      <option name="METHOD_NAME" value="sach" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Application.Unnamed" />
+      <item itemvalue="JUnit.TestFile.danhMuc" />
+      <item itemvalue="JUnit.TestFile.sach" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.TestFile.danhMuc" />
+        <item itemvalue="JUnit.TestFile.sach" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="TaskManager">
+    <servers />
   </component>
 </project>
