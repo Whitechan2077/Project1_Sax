@@ -75,7 +75,7 @@ public class DanhMucPane extends JPanel {
         initComponent();
         btnSave.addActionListener((e) -> save());
         btnDel.addActionListener((e) -> delete());
-        btnClear.addActionListener((e) -> table.clearSelection());
+        btnClear.addActionListener((e) -> boLuaChon());
         table.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -91,10 +91,15 @@ public class DanhMucPane extends JPanel {
         cbkSelectedAll.addActionListener((e) -> Session.chonTatCa(cbkSelectedAll, table, listCbk, tempIdSet));
     }
 
+    private void boLuaChon() {
+        table.clearSelection();
+        fillDanhMucCha(-1);
+    }
+
     public void initComponent() {
         panelTT.putClientProperty(FlatClientProperties.STYLE, "arc:10");
         ((DefaultTableModel) table.getModel()).setColumnIdentifiers(new String[]{"", "Id", "Tên danh mục", "Mô tả", "Tên danh mục cha"});
-        fillDanhMucCha();
+        fillDanhMucCha(-1);
         new Worker(0).execute();
         loading.setVisible(true);
         timer = new Timer(300, e -> {
@@ -107,18 +112,20 @@ public class DanhMucPane extends JPanel {
         Session.fillTable(list, table, cbkSelectedAll, null, tempIdSet, listCbk);
     }
 
-    public void fillDanhMucCha() {
+    public void fillDanhMucCha(int id) {
         cboDanhMucCha.removeAllItems();
         cboDanhMucCha.addItem("-Không có danh mục-");
-        danhMucService.getAll().forEach(i -> cboDanhMucCha.addItem(i));
+        danhMucService.getAll().stream()
+                .filter(i -> i.getId() != id)
+                .forEach(i -> cboDanhMucCha.addItem(i));
     }
 
     public void showItem(int index) {
-
         int id = (int) table.getModel().getValueAt(table.getSelectedRow(), 1);
         DanhMucDTO dm = danhMucService.getById(id);
         txtTen.setText(String.valueOf(dm.getTenDanhMuc()));
         txtMoTa.setText(dm.getGhiChu());
+        fillDanhMucCha(dm.getId());
         cboDanhMucCha.setSelectedItem(dm.getDanhMucCha());
     }
 
@@ -150,7 +157,7 @@ public class DanhMucPane extends JPanel {
                 protected void done() {
                     try {
                         fillTable(get());
-                        fillDanhMucCha();
+                        fillDanhMucCha(-1);
                         loading.dispose();
                     } catch (InterruptedException | ExecutionException e) {
                         throw new RuntimeException(e);
@@ -181,7 +188,7 @@ public class DanhMucPane extends JPanel {
                     protected void done() {
                         try {
                             fillTable(get());
-                            fillDanhMucCha();
+                            fillDanhMucCha(-1);
                             loading.dispose();
                             MsgBox.alert(DanhMucPane.this, "Xoá một danh mục thành công!");
                         } catch (InterruptedException | ExecutionException e) {

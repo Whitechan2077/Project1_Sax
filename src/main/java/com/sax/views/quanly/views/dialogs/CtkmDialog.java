@@ -9,6 +9,7 @@ import com.sax.views.components.libraries.ButtonToolItem;
 import com.sax.views.quanly.viewmodel.CtkmViewObject;
 import com.sax.views.quanly.views.panes.KhuyenMaiPane;
 import org.jdesktop.swingx.JXDatePicker;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import javax.swing.*;
@@ -27,16 +28,15 @@ public class CtkmDialog extends JDialog {
     private JXDatePicker ngayKetThuc;
     private JXDatePicker ngayBatDau;
     private JButton btnSave;
-    private ICtkmService ctkmService = ContextUtils.getBean(CtkmService.class);
-
-    public Pageable pageable;
-    public JLabel lblTitle;
     private JComboBox cboGioBD;
     private JComboBox cboPhutBD;
     private JComboBox cboGioKT;
     private JComboBox cboPhutKT;
     private JRadioButton rdoPhanTram;
     private JRadioButton rdoSoTien;
+    private ICtkmService ctkmService = ContextUtils.getBean(CtkmService.class);
+
+    public JLabel lblTitle;
     public int id;
     public KhuyenMaiPane parentPane;
 
@@ -84,9 +84,12 @@ public class CtkmDialog extends JDialog {
                     ctkmService.update(dto);
                 } else {
                     ctkmService.insert(dto);
-                    parentPane.fillListPage(pageable.getPageNumber());
+                    parentPane.setPageKMValue(ctkmService.getTotalPage(parentPane.getSizeValue()));
+                    parentPane.setPageableKM(PageRequest.of(parentPane.getPageKMValue() - 1, parentPane.getSizeValue()));
+                    parentPane.fillListPage();
                 }
-                parentPane.fillTableKM(ctkmService.getPage(pageable).stream().map(CtkmViewObject::new).collect(Collectors.toList()));
+                parentPane.fillTableKM(ctkmService.getPage(parentPane.getPageableKM()).stream().map(CtkmViewObject::new).collect(Collectors.toList()));
+                parentPane.fillCboCtkm();
                 dispose();
             } catch (Exception ex) {
                 MsgBox.alert(this, "Có lỗi! " + ex.getMessage());
