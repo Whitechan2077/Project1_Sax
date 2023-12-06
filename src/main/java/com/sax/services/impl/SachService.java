@@ -150,19 +150,20 @@ public class SachService implements ISachService {
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }
-        dto = DTOUtils.getInstance().converter(repository.save(sach), SachDTO.class);
+        if (repository.findByBarCode(e.getBarCode()).isEmpty())
+            dto = DTOUtils.getInstance().converter(repository.save(sach), SachDTO.class);
+        else
+            throw new RuntimeException("Trùng barcode");
         return dto;
     }
 
     @Override
     public void update(SachDTO e) throws SQLServerException {
         Sach sach = repository.findById(e.getId()).orElseThrow(() -> new NoSuchElementException("Khong tim thay"));
-        String original = sach.getHinhAnh();
         Set<DanhMuc> danhMucSet = DTOUtils.getInstance().convertToDTOSet(e.getSetDanhMuc(), DanhMuc.class);
         sach.setSetDanhMuc(danhMucSet);
         sach.setTenSach(e.getTenSach());
         sach.setNxb(e.getNxb());
-        sach.setBarCode(e.getBarCode());
         sach.setTrangThai(e.getTrangThai());
         sach.setNgaySua(LocalDateTime.now());
         sach.setSoLuong(e.getSoLuong());
@@ -178,7 +179,16 @@ public class SachService implements ISachService {
         } catch (IOException ex) {
             sach.setHinhAnh(sach.getHinhAnh());
         }
-        repository.save(sach);
+        if (e.getBarCode().equals(repository.findByBarCode(e.getBarCode())))
+            repository.save(sach);
+        else {
+            if (repository.findByBarCode(e.getBarCode()).isPresent())
+                throw  new RuntimeException("Trùng barcode");
+            else {
+            sach.setBarCode(e.getBarCode());
+            repository.save(sach);
+            }
+        }
     }
 
     @Override

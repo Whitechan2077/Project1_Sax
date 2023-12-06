@@ -1,9 +1,11 @@
 import com.microsoft.sqlserver.jdbc.SQLServerException;
 import com.sax.dtos.AccountDTO;
+import com.sax.repositories.IKhachHangRepository;
 import com.sax.repositories.ISachRepository;
 import com.sax.services.IAccountService;
 import com.sax.services.ICtkmSachService;
 import com.sax.services.ICtkmService;
+import com.sax.services.IKhachHangService;
 import com.sax.services.impl.AccountService;
 import com.sax.services.impl.CtkmSachService;
 import com.sax.services.impl.CtkmService;
@@ -36,7 +38,7 @@ public class TestFile {
 
     @Test
     public void s() {
-        ISachRepository repository = ContextUtils.getBean(ISachRepository.class);
-        System.out.println(repository.findRelative(14114).orElse(null).getId());
+        IKhachHangRepository repository = ContextUtils.getBean(IKhachHangRepository.class);
+        System.out.println(repository.findRelative(3018).getId());
     }
 }
