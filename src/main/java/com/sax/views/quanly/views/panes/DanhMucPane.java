@@ -79,7 +79,7 @@ public class DanhMucPane extends JPanel {
         table.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                if (table.getSelectedRow() >= 0) showItem(table.getSelectedRow());
+                if (table.getSelectedRow() >= 0) showItem();
             }
         });
         timKiem.txtSearch.addKeyListener(new KeyAdapter() {
@@ -120,13 +120,17 @@ public class DanhMucPane extends JPanel {
                 .forEach(i -> cboDanhMucCha.addItem(i));
     }
 
-    public void showItem(int index) {
-        int id = (int) table.getModel().getValueAt(table.getSelectedRow(), 1);
-        DanhMucDTO dm = danhMucService.getById(id);
-        txtTen.setText(String.valueOf(dm.getTenDanhMuc()));
-        txtMoTa.setText(dm.getGhiChu());
-        fillDanhMucCha(dm.getId());
-        cboDanhMucCha.setSelectedItem(dm.getDanhMucCha());
+    public void showItem() {
+        executorService.submit(() -> {
+            int id = (int) table.getModel().getValueAt(table.getSelectedRow(), 1);
+            DanhMucDTO dm = danhMucService.getById(id);
+            txtTen.setText(String.valueOf(dm.getTenDanhMuc()));
+            txtMoTa.setText(dm.getGhiChu());
+            fillDanhMucCha(dm.getId());
+            cboDanhMucCha.setSelectedItem(dm.getDanhMucCha());
+            loading.dispose();
+        });
+        loading.setVisible(true);
     }
 
     public DanhMucDTO readForm() {
