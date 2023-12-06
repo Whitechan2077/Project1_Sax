@@ -15,4 +15,6 @@ public interface IDanhMucRepository extends JpaRepository<DanhMuc,Integer> {
 
     @Query("SELECT e FROM DanhMuc e WHERE CAST(e.id AS string) like %:keyword% or e.tenDanhMuc LIKE %:keyword%")
     List<DanhMuc> findAllByKeyword(@Param("keyword") String keyword);
+    @Query("SELECT d FROM DanhMuc d WHERE d.id != :excludedCategoryId AND NOT EXISTS (SELECT 1 FROM DanhMuc dm WHERE dm.id = :excludedCategoryId AND d MEMBER OF dm.danhMucCon)")
+    List<DanhMuc> findAllExceptDescendants(@Param("excludedCategoryId") Integer excludedCategoryId);
 }

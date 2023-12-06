@@ -1,6 +1,7 @@
 import com.microsoft.sqlserver.jdbc.SQLServerException;
 import com.sax.dtos.AccountDTO;
 import com.sax.dtos.DanhMucDTO;
+import com.sax.dtos.LichSuNhapHangDTO;
 import com.sax.dtos.SachDTO;
 import com.sax.entities.DanhMuc;
 import com.sax.entities.Sach;
@@ -8,10 +9,7 @@ import com.sax.repositories.IDanhMucRepository;
 import com.sax.repositories.IKhachHangRepository;
 import com.sax.repositories.ISachRepository;
 import com.sax.services.*;
-import com.sax.services.impl.AccountService;
-import com.sax.services.impl.CtkmSachService;
-import com.sax.services.impl.CtkmService;
-import com.sax.services.impl.SachService;
+import com.sax.services.impl.*;
 import com.sax.utils.AccountUtils;
 import com.sax.utils.ContextUtils;
 import com.sax.utils.ImageUtils;
@@ -71,6 +69,14 @@ public class TestFile {
     @Test
     public void danhMuc() {
         IDanhMucRepository danhMucRepository = ContextUtils.getBean(IDanhMucRepository.class);
-        danhMucRepository.findAll().forEach(System.out::println);
+        danhMucRepository.findAllExceptDescendants(6100).forEach(danhMuc -> System.out.println(danhMuc.getTenDanhMuc()));
+    }
+
+    @Test
+    public void test() throws SQLServerException {
+        ILichSuNhapHangService service =ContextUtils.getBean(LichSuNhapHangService.class);
+        LichSuNhapHangDTO dto = service.getById(1);
+//        dto.setSoLuong(100);
+        service.delete(1);
     }
 }
