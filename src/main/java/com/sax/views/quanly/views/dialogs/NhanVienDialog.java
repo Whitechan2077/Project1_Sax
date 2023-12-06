@@ -1,6 +1,5 @@
 package com.sax.views.quanly.views.dialogs;
 
-import com.sax.Application;
 import com.sax.dtos.AccountDTO;
 import com.sax.services.IAccountService;
 import com.sax.services.impl.AccountService;
@@ -13,9 +12,6 @@ import lombok.Setter;
 import org.springframework.data.domain.Pageable;
 
 import javax.swing.*;
-import java.time.LocalDateTime;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class NhanVienDialog extends JDialog {
@@ -42,13 +38,9 @@ public class NhanVienDialog extends JDialog {
     @Setter
     private JPanel panelTT;
 
-    private @Setter JLabel lblTenView;
-    private @Setter JPanel avatar;
-
     public JLabel lblTitle;
     public int id;
     public NhanVienPane parentPane;
-    public Pageable pageable;
 
     public NhanVienDialog() {
         initComponent();
@@ -88,13 +80,12 @@ public class NhanVienDialog extends JDialog {
                 if (Session.accountid.getId() == id)
                 {
                     AccountDTO ac = accountService.getById(id);
-                    lblTenView.setText(ac.getTenNhanVien());
-                    avatar.removeAll();
-                    avatar.add(ImageUtils.getCircleImage(ac.getAnh(), 30,20,null,0));
-                    avatar.revalidate();
+                    Session.lblName.setText(ac.getTenNhanVien());
+                    Session.avatar.removeAll();
+                    Session.avatar.add(ImageUtils.getCircleImage(ac.getAnh(), 30,20,null,0));
+                    Session.avatar.revalidate();
                 }
-                if (parentPane != null)
-                    parentPane.fillTable(accountService.getPage(pageable).stream().map(NhanVienViewObject::new).collect(Collectors.toList()));
+                parentPane.fillTable(accountService.getPage(parentPane.getPageable()).stream().map(NhanVienViewObject::new).collect(Collectors.toList()));
                 dispose();
             } catch (Exception ex) {
                 MsgBox.alert(this, "Có lỗi! " + ex.getMessage());

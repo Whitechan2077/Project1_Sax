@@ -180,9 +180,9 @@ public class DanhMucPane extends JPanel {
                     @Override
                     protected List<AbstractViewObject> doInBackground() {
                         try {
-                            danhMucService.deleteAll(tempIdSet);
+                            danhMucService.deleteAllDanhMucSach(tempIdSet);
                             tempIdSet.clear();
-                        } catch (SQLServerException | InvalidDataAccessApiUsageException e) {
+                        } catch (RuntimeException e) {
                             MsgBox.alert(DanhMucPane.this, e.getMessage());
                         }
                         return danhMucService.getAll().stream().map(i -> new DanhMucViewObject(i)).collect(Collectors.toList());

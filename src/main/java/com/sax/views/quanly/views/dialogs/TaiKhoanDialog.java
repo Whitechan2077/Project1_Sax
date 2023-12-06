@@ -1,16 +1,14 @@
 package com.sax.views.quanly.views.dialogs;
 
-import com.microsoft.sqlserver.jdbc.SQLServerException;
 import com.sax.dtos.AccountDTO;
 import com.sax.services.IAccountService;
 import com.sax.services.impl.AccountService;
 import com.sax.utils.ContextUtils;
-import com.sax.utils.HashUtils;
 import com.sax.utils.MsgBox;
 import com.sax.views.quanly.viewmodel.NhanVienViewObject;
 import com.sax.views.quanly.views.panes.NhanVienPane;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
 
 import javax.swing.*;
 import java.util.stream.Collectors;
@@ -25,20 +23,19 @@ public class TaiKhoanDialog extends JDialog {
     private IAccountService accountService = ContextUtils.getBean(AccountService.class);
 
     public JLabel lblTitle;
-    public NhanVienPane nhanVienPane;
-    public Pageable pageable;
+    public NhanVienPane parentPane;
     public int id;
 
     public TaiKhoanDialog() {
         initComponent();
-        btnSave.addActionListener((e) -> add());
+        btnSave.addActionListener((e) -> save());
     }
 
     private void initComponent() {
         setContentPane(contentPane);
         setModal(true);
         pack();
-        setLocationRelativeTo(nhanVienPane);
+        setLocationRelativeTo(parentPane);
     }
 
     public void fillForm()
@@ -50,7 +47,7 @@ public class TaiKhoanDialog extends JDialog {
         pack();
     }
 
-    private void add() {
+    private void save() {
         AccountDTO account = readForm();
         if (account != null) {
             try {
@@ -61,12 +58,14 @@ public class TaiKhoanDialog extends JDialog {
                 }
                 else {
                     accountService.createAccount(account);
-                    nhanVienPane.fillListPage(pageable.getPageNumber());
+                    parentPane.setPageValue(accountService.getTotalPage(parentPane.getSizeValue()));
+                    parentPane.setPageable(PageRequest.of(parentPane.getPageValue() - 1, parentPane.getSizeValue()));
+                    parentPane.fillListPage();
                 }
-                nhanVienPane.fillTable(accountService.getPage(pageable).stream().map(NhanVienViewObject::new).collect(Collectors.toList()));
+                parentPane.fillTable(accountService.getPage(parentPane.getPageable()).stream().map(NhanVienViewObject::new).collect(Collectors.toList()));
                 dispose();
             } catch (DataIntegrityViolationException e) {
-                MsgBox.alert(nhanVienPane, "Có lỗi: " + e.getMessage());
+                MsgBox.alert(parentPane, "Có lỗi: " + e.getMessage());
             }
         }
     }
@@ -77,34 +76,34 @@ public class TaiKhoanDialog extends JDialog {
             String taiKhoan = txtTK.getText().trim();
 
             if (taiKhoan.isEmpty()) {
-                JOptionPane.showMessageDialog(nhanVienPane, "Tài khoản không được để trống!");
+                JOptionPane.showMessageDialog(parentPane, "Tài khoản không được để trống!");
                 return null;
             }
             if (taiKhoan.length() < 6) {
-                JOptionPane.showMessageDialog(nhanVienPane, "Tài khoản phải it nhất 6 ký tự!");
+                JOptionPane.showMessageDialog(parentPane, "Tài khoản phải it nhất 6 ký tự!");
                 return null;
             }
             accountDTO.setUsername(taiKhoan);
 
             String mk1 = new String(txtMK1.getText().trim());
             if (mk1.isEmpty()) {
-                JOptionPane.showMessageDialog(nhanVienPane, "Mật khẩu không được để trống!");
+                JOptionPane.showMessageDialog(parentPane, "Mật khẩu không được để trống!");
                 return null;
             }
 
             String mk2 = new String(txtMK2.getText().trim());
             if (mk2.isEmpty()) {
-                JOptionPane.showMessageDialog(nhanVienPane, "Nhập lại mật khẩu không được để trống!");
+                JOptionPane.showMessageDialog(parentPane, "Nhập lại mật khẩu không được để trống!");
                 return null;
             }
             if (!mk1.equals(mk2)) {
-                JOptionPane.showMessageDialog(nhanVienPane, "Nhập lại mật khẩu không khớp với mật khẩu!");
+                JOptionPane.showMessageDialog(parentPane, "Nhập lại mật khẩu không khớp với mật khẩu!");
                 return null;
             }
             accountDTO.setPassword(mk1);
             return accountDTO;
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(nhanVienPane, e.getMessage());
+            JOptionPane.showMessageDialog(parentPane, e.getMessage());
             return null;
         }
     }

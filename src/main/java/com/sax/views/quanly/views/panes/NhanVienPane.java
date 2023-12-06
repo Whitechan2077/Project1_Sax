@@ -1,6 +1,5 @@
 package com.sax.views.quanly.views.panes;
 
-import com.microsoft.sqlserver.jdbc.SQLServerException;
 import com.sax.services.IAccountService;
 import com.sax.services.impl.AccountService;
 import com.sax.utils.ContextUtils;
@@ -11,14 +10,11 @@ import com.sax.views.components.Loading;
 import com.sax.views.components.Search;
 import com.sax.views.components.libraries.ButtonToolItem;
 import com.sax.views.components.libraries.RoundPanel;
-import com.sax.views.components.table.CustomHeaderTableCellRenderer;
-import com.sax.views.components.table.CustomTableCellEditor;
-import com.sax.views.components.table.CustomTableCellRender;
 import com.sax.views.quanly.viewmodel.AbstractViewObject;
 import com.sax.views.quanly.viewmodel.NhanVienViewObject;
-import com.sax.views.quanly.viewmodel.SachViewObject;
 import com.sax.views.quanly.views.dialogs.NhanVienDialog;
 import com.sax.views.quanly.views.dialogs.TaiKhoanDialog;
+import lombok.Getter;
 import lombok.Setter;
 import org.jdesktop.swingworker.SwingWorker;
 import org.jdesktop.swingx.JXTable;
@@ -28,7 +24,6 @@ import org.springframework.data.domain.Pageable;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
-import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
@@ -62,14 +57,16 @@ public class NhanVienPane extends JPanel {
     private Loading loading = new Loading();
 
     private DefaultListModel listPageModel = new DefaultListModel();
-    private int size = 14;
-    private Pageable pageable = PageRequest.of(0, 14);
+    @Getter
+    @Setter
+    private int sizeValue = 14;
+    @Getter
+    @Setter
+    private int pageValue = 1;
+    @Getter
+    @Setter
+    private Pageable pageable = PageRequest.of(pageValue - 1, sizeValue);
     private Timer timer;
-
-    @Setter
-    private JLabel lblTenView;
-    @Setter
-    private JPanel avatar;
 
     public NhanVienPane() {
         initComponent();
@@ -101,7 +98,7 @@ public class NhanVienPane extends JPanel {
 
     public void initComponent() {
         ((DefaultTableModel) table.getModel()).setColumnIdentifiers(new String[]{"", "MNV", "Tên nhân viên", "Username", "Email", "Số điện thoại", "Giới tính", "Vai trò", "Ngày thêm", "Trạng thái"});
-        new Worker(0).execute();
+        new Worker().execute();
         loading.setVisible(true);
         timer = new Timer(300, e -> {
             searchByKeyword();
@@ -115,9 +112,8 @@ public class NhanVienPane extends JPanel {
 
     private void add() {
         TaiKhoanDialog nhanVienDialog = new TaiKhoanDialog();
-        nhanVienDialog.nhanVienPane = this;
+        nhanVienDialog.parentPane = this;
         nhanVienDialog.lblTitle.setText("Thêm mới tài khoản nhân viên");
-        nhanVienDialog.pageable = (listPageModel.getSize() > 0) ? PageRequest.of(listPageModel.getSize() - 1, 14) : PageRequest.of(listPageModel.getSize(), 14);
         nhanVienDialog.setVisible(true);
         table.clearSelection();
     }
@@ -125,10 +121,9 @@ public class NhanVienPane extends JPanel {
     private void openDoiMatKhau() {
         if (table.getSelectedRow() >= 0) {
             TaiKhoanDialog taiKhoanDialog = new TaiKhoanDialog();
-            taiKhoanDialog.nhanVienPane = this;
+            taiKhoanDialog.parentPane = this;
             taiKhoanDialog.id = (int) table.getValueAt(table.getSelectedRow(), 1);
             taiKhoanDialog.lblTitle.setText("Đổi mật khẩu tài khoản nhân viên");
-            taiKhoanDialog.pageable = pageable;
             taiKhoanDialog.fillForm();
             taiKhoanDialog.setVisible(true);
             table.clearSelection();
@@ -137,15 +132,16 @@ public class NhanVienPane extends JPanel {
 
     private void update() {
         if (table.getSelectedRow() >= 0) {
-            NhanVienDialog nhanVienDialog = new NhanVienDialog();
-            nhanVienDialog.parentPane = this;
-            nhanVienDialog.setLblTenView(lblTenView);
-            nhanVienDialog.setAvatar(avatar);
-            nhanVienDialog.id = (int) table.getValueAt(table.getSelectedRow(), 1);
-            nhanVienDialog.pageable = pageable;
-            nhanVienDialog.fillForm();
-            nhanVienDialog.setVisible(true);
-            table.clearSelection();
+            if (table.getSelectedRow() >= 0) {
+                NhanVienDialog nhanVienDialog = new NhanVienDialog();
+                nhanVienDialog.parentPane = this;
+                nhanVienDialog.id = (int) table.getValueAt(table.getSelectedRow(), 1);
+                nhanVienDialog.fillForm();
+                loading.dispose();
+                nhanVienDialog.setVisible(true);
+                table.clearSelection();
+            }
+            loading.setVisible(true);
         } else MsgBox.alert(this, "Vui lòng chọn một tài khoản!");
     }
 
@@ -156,12 +152,14 @@ public class NhanVienPane extends JPanel {
                 try {
                     accountService.deleteAll(tempIdSet);
                     cbkSelectedAll.setSelected(false);
-                    fillTable(accountService.getPage(pageable).stream().map(NhanVienViewObject::new).collect(Collectors.toList()));
-                    fillListPage(pageable.getPageNumber());
-                    loading.dispose();
                 } catch (Exception e) {
                     MsgBox.alert(this, e.getMessage());
                 }
+                pageValue = accountService.getTotalPage(sizeValue) < pageValue ? accountService.getTotalPage(sizeValue) : pageValue;
+                pageable = PageRequest.of(pageValue - 1, sizeValue);
+                fillTable(accountService.getPage(pageable).stream().map(NhanVienViewObject::new).collect(Collectors.toList()));
+                fillListPage();
+                loading.dispose();
             }
         } else MsgBox.alert(this, "Vui lòng tick vào ít nhất một tài khoản!");
     }
@@ -177,23 +175,24 @@ public class NhanVienPane extends JPanel {
         }
     }
 
-    public void fillListPage(int value) {
-        Session.fillListPage(value, listPageModel, accountService, 14, listPage);
+    public void fillListPage() {
+        Session.fillListPage(pageValue, listPageModel, accountService, sizeValue, listPage);
     }
 
     public void selectPageDisplay() {
         if (listPage.getSelectedValue() instanceof Integer) {
-            int page = Integer.parseInt(listPage.getSelectedValue().toString()) - 1;
-            pageable = PageRequest.of(page, size);
-            new Worker(page).execute();
+            pageValue = Integer.parseInt(listPage.getSelectedValue().toString());
+            pageable = PageRequest.of(pageValue - 1, sizeValue);
+            new Worker().execute();
             loading.setVisible(true);
         }
     }
 
     public void selectSizeDisplay() {
-        size = Integer.parseInt(cboHienThi.getSelectedItem().toString());
-        pageable = PageRequest.of(0, size);
-        new Worker(pageable.getPageNumber()).execute();
+        sizeValue = Integer.parseInt(cboHienThi.getSelectedItem().toString());
+        pageValue = 1;
+        pageable = PageRequest.of(pageValue - 1, sizeValue);
+        new Worker().execute();
         loading.setVisible(true);
     }
 
@@ -210,12 +209,6 @@ public class NhanVienPane extends JPanel {
     }
 
     class Worker extends SwingWorker<List<AbstractViewObject>, Integer> {
-        int page;
-
-        public Worker(int page) {
-            this.page = page;
-        }
-
         @Override
         protected List<AbstractViewObject> doInBackground() {
             return accountService.getPage(pageable).stream().map(NhanVienViewObject::new).collect(Collectors.toList());
@@ -225,7 +218,7 @@ public class NhanVienPane extends JPanel {
         protected void done() {
             try {
                 fillTable(get());
-                fillListPage(page);
+                if (table.getRowCount() > 0) fillListPage();
                 loading.dispose();
             } catch (InterruptedException | ExecutionException e) {
                 throw new RuntimeException(e);

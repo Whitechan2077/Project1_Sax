@@ -2,23 +2,28 @@ package com.sax.services.impl;
 
 import com.microsoft.sqlserver.jdbc.SQLServerException;
 import com.sax.dtos.DanhMucDTO;
+import com.sax.dtos.SachDTO;
 import com.sax.entities.DanhMuc;
+import com.sax.entities.Sach;
 import com.sax.repositories.IDanhMucRepository;
+import com.sax.repositories.ISachRepository;
 import com.sax.services.IDanhMucService;
 import com.sax.utils.DTOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class DanhMucService implements IDanhMucService {
     @Autowired
     private IDanhMucRepository repository;
+    @Autowired
+    private ISachRepository sachRepository;
 
     @Override
     public List<DanhMucDTO> getAll() {
@@ -47,7 +52,6 @@ public class DanhMucService implements IDanhMucService {
         });
         return danhMucDTOList;
     }
-
     @Override
     public DanhMucDTO getById(Integer id) {
         return DTOUtils.getInstance()
@@ -81,7 +85,30 @@ public class DanhMucService implements IDanhMucService {
 
     @Override
     public List<DanhMucDTO> getAllDanhMucCha() {
-        return DTOUtils.getInstance().convertToDTOList(repository.findAllByDanhMucCha(null),DanhMucDTO.class);
+        return DTOUtils.getInstance().convertToDTOList(repository.findAllByDanhMucCha(null), DanhMucDTO.class);
+    }
+
+    @Override
+    public void deleteAllDanhMucSach(Set<Integer> ids) {
+            List<Sach> sachList = sachRepository.findAll();
+            Map<Integer, DanhMuc> danhMucMap = new HashMap<>();
+            StringBuilder name = new StringBuilder();
+            sachList.forEach(sach -> sach.getSetDanhMuc()
+                    .forEach(danhMuc -> danhMucMap.put(danhMuc.getId(), danhMuc)));
+            ids.forEach(id -> {
+                DanhMuc danhMuc = repository.findById(id).orElseThrow();
+               if (danhMuc.getDanhMucCon().isEmpty()){
+                   sachList.forEach(sach -> {
+                       sach.getSetDanhMuc().remove(danhMucMap.get(id));
+                       sachRepository.save(sach);
+                   });
+                   repository.deleteById(id);
+               }
+               else {
+                    name.append(", ").append(danhMuc.getTenDanhMuc());
+               }
+            });
+        if (!name.isEmpty()) throw new RuntimeException("Danh mục: "+name+" do là danh mục cha");
     }
 
     @Override
@@ -97,9 +124,9 @@ public class DanhMucService implements IDanhMucService {
     @Override
     public List<DanhMucDTO> searchByKeyword(String keyword) {
         List<DanhMucDTO> danhMucDTOS = new ArrayList<>();
-      repository.findAllByKeyword(keyword).forEach(danhMuc -> {
-            danhMucDTOS.addAll(getChildDanhMucDTO(danhMuc,0));
+        repository.findAllByKeyword(keyword).forEach(danhMuc -> {
+            danhMucDTOS.addAll(getChildDanhMucDTO(danhMuc, 0));
         });
-      return danhMucDTOS;
-}
+        return danhMucDTOS;
+    }
 }

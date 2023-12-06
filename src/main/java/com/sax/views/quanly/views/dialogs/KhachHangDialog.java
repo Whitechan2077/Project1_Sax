@@ -33,7 +33,6 @@ public class KhachHangDialog extends JDialog {
     public JLabel lblTitle;
     public int id;
     public KhachHangPane parentPane;
-    public Pageable pageable;
 
     public KhachHangDialog() {
         initComponent();
@@ -68,10 +67,16 @@ public class KhachHangDialog extends JDialog {
             try {
                 if (id > 0) {
                     dto.setId(id);
-                    dto.setNgayThem( khachHangService.getById(id).getNgayThem());
+                    dto.setNgayThem(khachHangService.getById(id).getNgayThem());
                     khachHangService.update(dto);
-                } else khachHangService.insert(dto);
-                parentPane.fillTable(khachHangService.getPage(pageable).stream().map(KhachHangViewObject::new).collect(Collectors.toList()));
+                } else
+                {
+                    khachHangService.insert(dto);
+                    parentPane.setPageValue(khachHangService.getTotalPage(parentPane.getSizeValue()));
+                    parentPane.setPageable(PageRequest.of(parentPane.getPageValue() - 1, parentPane.getSizeValue()));
+                    parentPane.fillListPage();
+                }
+                parentPane.fillTable(khachHangService.getPage(parentPane.getPageable()).stream().map(KhachHangViewObject::new).collect(Collectors.toList()));
                 dispose();
             } catch (Exception ex) {
                 MsgBox.alert(this, "Có lỗi! " + ex.getMessage());

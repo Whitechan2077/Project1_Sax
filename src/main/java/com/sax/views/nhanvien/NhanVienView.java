@@ -93,7 +93,7 @@ public class NhanVienView extends JPanel {
                 chonDanhMuc();
             }
         });
-        ((JLayeredPane) avatar.getComponent(0)).getComponent(0).addMouseListener(new MouseAdapter() {
+        ((JLayeredPane) Session.avatar.getComponent(0)).getComponent(0).addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 openUserPopup();
@@ -117,8 +117,10 @@ public class NhanVienView extends JPanel {
         fillSach(sachService.getAllSachInOrNotInCTKM(), donItem);
         fillKhachHang(khachHangService.getAll());
         ((CustomCart) cart).initComponent();
+        Session.lblName = lblNV;
+        Session.avatar = avatar;
         lblNV.setText(Session.accountid.getTenNhanVien());
-        avatar.add(ImageUtils.getCircleImage(Session.accountid.getAnh(), 40, 40, null, 0));
+        avatar.add(ImageUtils.getCircleImage(Session.accountid.getAnh(), 30, 30, null, 0));
         lblLogo.setIcon(new ImageIcon(ImageUtils.readImage("logo.png").getScaledInstance(73, 50, Image.SCALE_SMOOTH)));
         ((JLayeredPane) avatar.getComponent(0)).getComponent(0).setCursor(new Cursor(Cursor.HAND_CURSOR));
         danhMuc.setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -233,9 +235,7 @@ public class NhanVienView extends JPanel {
 
     private void openUserPopup() {
         UserPopup userPopup = new UserPopup();
-        userPopup.setLblTenView(lblNV);
         userPopup.setVisible(true);
-        userPopup.setAvatar(avatar);
     }
 
     public void searchByKeyword() {

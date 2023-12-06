@@ -18,6 +18,8 @@ import com.sax.views.components.table.CustomHeaderTableCellRenderer;
 import com.sax.views.components.table.CustomTableCellEditor;
 import com.sax.views.components.table.CustomTableCellRender;
 import com.sax.views.quanly.viewmodel.AbstractViewObject;
+import lombok.Getter;
+import lombok.Setter;
 import org.jdesktop.swingworker.SwingWorker;
 import org.jdesktop.swingx.JXTable;
 import org.springframework.data.domain.PageRequest;
@@ -59,8 +61,15 @@ public class KhachHangPane extends JPanel {
     private Loading loading = new Loading();
 
     private DefaultListModel listPageModel = new DefaultListModel();
-    private int size = 14;
-    private Pageable pageable = PageRequest.of(0, 14);
+    @Getter
+    @Setter
+    private int sizeValue = 14;
+    @Getter
+    @Setter
+    private int pageValue = 1;
+    @Getter
+    @Setter
+    private Pageable pageable = PageRequest.of(pageValue - 1, sizeValue);
     private Timer timer;
 
     public KhachHangPane() {
@@ -92,7 +101,7 @@ public class KhachHangPane extends JPanel {
 
     public void initComponent() {
         ((DefaultTableModel) table.getModel()).setColumnIdentifiers(new String[]{"", "Mã khách hàng", "Họ và tên", "Điểm tích luỹ", "Số điện thoại", "Giới tính", "Ngày thêm"});
-        new Worker(0).execute();
+        new Worker().execute();
         loading.setVisible(true);
         timer = new Timer(300, e -> {
             searchByKeyword();
@@ -108,19 +117,22 @@ public class KhachHangPane extends JPanel {
         KhachHangDialog khachHangDialog = new KhachHangDialog();
         khachHangDialog.parentPane = this;
         khachHangDialog.lblTitle.setText("Thêm mới khách hàng");
-        khachHangDialog.pageable = (listPageModel.getSize() > 0) ? PageRequest.of(listPageModel.getSize() - 1, 14) : PageRequest.of(listPageModel.getSize(), 14);
         khachHangDialog.setVisible(true);
         table.clearSelection();
     }
 
     private void update() {
         if (table.getSelectedRow() >= 0) {
-            KhachHangDialog khachHangDialog = new KhachHangDialog();
-            khachHangDialog.parentPane = this;
-            khachHangDialog.id = (int) table.getValueAt(table.getSelectedRow(), 1);
-            khachHangDialog.pageable = pageable;
-            khachHangDialog.fillForm();
-            khachHangDialog.setVisible(true);
+            executorService.submit(() -> {
+                KhachHangDialog khachHangDialog = new KhachHangDialog();
+                khachHangDialog.parentPane = this;
+                khachHangDialog.id = (int) table.getValueAt(table.getSelectedRow(), 1);
+                khachHangDialog.fillForm();
+                loading.dispose();
+                khachHangDialog.setVisible(true);
+                table.clearSelection();
+            });
+            loading.setVisible(true);
         } else MsgBox.alert(this, "Vui lòng chọn một khách hàng!");
     }
 
@@ -131,12 +143,14 @@ public class KhachHangPane extends JPanel {
                 try {
                     khachHangService.deleteAll(tempIdSet);
                     cbkSelectedAll.setSelected(false);
-                    fillTable(khachHangService.getPage(pageable).stream().map(KhachHangViewObject::new).collect(Collectors.toList()));
-                    fillListPage(pageable.getPageNumber());
-                    loading.dispose();
                 } catch (Exception e) {
                     MsgBox.alert(this, e.getMessage());
                 }
+                pageValue = khachHangService.getTotalPage(sizeValue) < pageValue ? khachHangService.getTotalPage(sizeValue) : pageValue;
+                pageable = PageRequest.of(pageValue - 1, sizeValue);
+                fillTable(khachHangService.getPage(pageable).stream().map(KhachHangViewObject::new).collect(Collectors.toList()));
+                fillListPage();
+                loading.dispose();
             }
         } else MsgBox.alert(this, "Vui lòng tick vào ít nhất một khách hàng!");
     }
@@ -152,23 +166,24 @@ public class KhachHangPane extends JPanel {
         }
     }
 
-    public void fillListPage(int value) {
-        Session.fillListPage(value, listPageModel, khachHangService, 14, listPage);
+    public void fillListPage() {
+        Session.fillListPage(pageValue, listPageModel, khachHangService, sizeValue, listPage);
     }
 
     public void selectPageDisplay() {
         if (listPage.getSelectedValue() instanceof Integer) {
-            int page = Integer.parseInt(listPage.getSelectedValue().toString()) - 1;
-            pageable = PageRequest.of(page, size);
-            new Worker(page).execute();
+            pageValue = Integer.parseInt(listPage.getSelectedValue().toString());
+            pageable = PageRequest.of(pageValue - 1, sizeValue);
+            new Worker().execute();
             loading.setVisible(true);
         }
     }
 
     public void selectSizeDisplay() {
-        size = Integer.parseInt(cboHienThi.getSelectedItem().toString());
-        pageable = PageRequest.of(0, size);
-        new Worker(pageable.getPageNumber()).execute();
+        sizeValue = Integer.parseInt(cboHienThi.getSelectedItem().toString());
+        pageValue = 1;
+        pageable = PageRequest.of(pageValue - 1, sizeValue);
+        new Worker().execute();
         loading.setVisible(true);
     }
 
@@ -183,12 +198,6 @@ public class KhachHangPane extends JPanel {
     }
 
     class Worker extends SwingWorker<List<AbstractViewObject>, Integer> {
-        int page;
-
-        public Worker(int page) {
-            this.page = page;
-        }
-
         @Override
         protected List<AbstractViewObject> doInBackground() {
             return khachHangService.getPage(pageable).stream().map(KhachHangViewObject::new).collect(Collectors.toList());
@@ -198,7 +207,7 @@ public class KhachHangPane extends JPanel {
         protected void done() {
             try {
                 fillTable(get());
-                fillListPage(page);
+                if (table.getRowCount() > 0) fillListPage();
                 loading.dispose();
             } catch (InterruptedException | ExecutionException e) {
                 throw new RuntimeException(e);

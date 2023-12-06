@@ -5,6 +5,7 @@ import com.sax.dtos.SachDTO;
 import com.sax.services.ILichSuNhapHangService;
 import com.sax.services.ISachService;
 import com.sax.utils.ContextUtils;
+import com.sax.utils.CurrencyConverter;
 import com.sax.utils.MsgBox;
 import com.sax.views.components.Search;
 import com.sax.views.components.libraries.ButtonToolItem;
@@ -15,6 +16,8 @@ import com.sax.views.components.table.CustomTableCellEditor;
 import com.sax.views.components.table.CustomTableCellRender;
 import com.sax.views.quanly.viewmodel.SachViewObject;
 import com.sax.views.quanly.views.panes.SanPhamPane;
+import lombok.Getter;
+import lombok.Setter;
 import org.jdesktop.swingx.JXDatePicker;
 import org.jdesktop.swingx.JXTable;
 
@@ -29,23 +32,23 @@ import java.util.stream.Collectors;
 
 public class NhapHangDialog extends JDialog {
     private JPanel contentPane;
-    private JTextField txtGiaNhap;
+    private JFormattedTextField txtGiaNhap;
     private JXDatePicker dateNgayNhap;
     private JTextField txtSL;
     private JButton btnSave;
     private JPanel donHangPanel;
+    private JPanel background;
     private JPanel bg;
     private JXTable tbl;
     private Search timKiem;
     private JCheckBox cbkSelectedAll;
     private JButton btnEdit;
-    private JComboBox comboBox1;
-    private DefaultTableModel tableModel;
-    private ILichSuNhapHangService lichSuNhapHangService;
-    private ISachService sachService;
-
-    public SanPhamPane parentPane;
-    public int id;
+    private ILichSuNhapHangService lichSuNhapHangService = ContextUtils.getBean(ILichSuNhapHangService.class);
+    private ISachService sachService = ContextUtils.getBean(ISachService.class);
+    @Setter
+    private SanPhamPane parentPane;
+    @Setter
+    private int id;
 
     public NhapHangDialog() {
         btnSave.addActionListener(e -> save());
@@ -58,15 +61,12 @@ public class NhapHangDialog extends JDialog {
         pack();
         setLocationRelativeTo(null);
 
-        sachService = ContextUtils.getBean(ISachService.class);
-        lichSuNhapHangService = ContextUtils.getBean(ILichSuNhapHangService.class);
-
-        tableModel = (DefaultTableModel) tbl.getModel();
+        txtGiaNhap.setFormatterFactory(CurrencyConverter.getVnCurrency());
     }
 
     public void fillTable() {
-        tableModel.setDataVector(
-                lichSuNhapHangService.getAllByIdSach(id).stream().map(i -> new Object[]{"", i.getNgayNhap(), i.getSoLuong(), i.getGiaNhap()}).toArray(Object[][]::new),
+        ((DefaultTableModel) tbl.getModel()).setDataVector(
+                lichSuNhapHangService.getAllByIdSach(id).stream().map(i -> new Object[]{"", i.getNgayNhap(), i.getSoLuong(), CurrencyConverter.parseString(i.getGiaNhap())}).toArray(Object[][]::new),
                 new String[]{"STT", "Ngày nhập sách", "Số lượng", "Giá nhập"}
         );
         tbl.setDefaultEditor(Object.class, null);
@@ -81,11 +81,13 @@ public class NhapHangDialog extends JDialog {
                 p.setLayout(new GridLayout());
                 p.setBackground(new Color(0, 0, 0, 0));
                 JLabel l = (value == null) ? new JLabel("") : new JLabel("  " + value + "  ");
+                if (column == 0) {
+                    l = new JLabel(String.valueOf(row + 1));
+                    l.setHorizontalAlignment(SwingConstants.CENTER);
+                }
                 l.setFont(new Font(".SF NS Text", 4, 13));
                 l.setForeground(Color.decode("#727272"));
                 p.add(l);
-                if (column == 0)
-                    l = new JLabel(String.valueOf(row + 1));
                 if (isSelected) {
                     if (column == 0)
                         p.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 0, Color.decode("#EA6C20")));
@@ -99,8 +101,7 @@ public class NhapHangDialog extends JDialog {
         tbl.packAll();
     }
 
-    private void save()
-    {
+    private void save() {
         LichSuNhapHangDTO lichSuNH = readForm();
         if (lichSuNH != null) {
             try {
@@ -127,21 +128,29 @@ public class NhapHangDialog extends JDialog {
             return null;
         }
 
+        String nhaNhap = txtGiaNhap.getText().trim();
         try {
-            int soLuong = Integer.parseInt(txtSL.getText());
-            long giaNhap = Long.parseLong(txtGiaNhap.getText());
-            lichSuNhapHangDTO.setGiaNhap(giaNhap);
-            lichSuNhapHangDTO.setNgayNhap(ngayNhap.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime());
-            lichSuNhapHangDTO.setSoLuong(soLuong);
+            lichSuNhapHangDTO.setGiaNhap(CurrencyConverter.parseLong(nhaNhap));
         } catch (NumberFormatException e) {
-            MsgBox.alert(this, "Nhập số đi");
+            MsgBox.alert(this, "Số lượng phải là số!");
             return null;
         }
+
+        String soLuong = txtSL.getText().trim();
+        try {
+            lichSuNhapHangDTO.setSoLuong(Integer.parseInt(soLuong));
+        } catch (NumberFormatException e) {
+            MsgBox.alert(this, "Số lượng phải là số!");
+            return null;
+        }
+
+        lichSuNhapHangDTO.setNgayNhap(ngayNhap.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime());
         return lichSuNhapHangDTO;
     }
 
     private void createUIComponents() {
         bg = new RoundPanel(10);
+        background = new RoundPanel(10);
         btnEdit = new ButtonToolItem("pencil.png", "pencil.png");
     }
 }

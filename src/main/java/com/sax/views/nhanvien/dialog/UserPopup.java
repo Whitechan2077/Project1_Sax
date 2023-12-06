@@ -21,12 +21,6 @@ public class UserPopup extends JDialog {
     private JLabel lblTen;
     private JPanel contentPane;
     private JButton btnClose;
-    private JButton buttonOK;
-    private JButton buttonCancel;
-
-
-    private @Setter JLabel lblTenView;
-    private @Setter JPanel avatar;
 
     public UserPopup() {
         btnThongTin.addActionListener((e) -> thongTinChiTiet());
@@ -64,12 +58,10 @@ public class UserPopup extends JDialog {
     private void thongTinChiTiet() {
         dispose();
         NhanVienDialog dialog = new NhanVienDialog();
-        dialog.setAvatar(avatar);
         dialog.id = Session.accountid.getId();
         dialog.fillForm();
         dialog.getPanelRole().setVisible(false);
-//        dialog.getPanelTT().setVisible(false);
-        dialog.setLblTenView(lblTenView);
+        dialog.getPanelTT().setVisible(false);
         dialog.setLocationRelativeTo(Application.app);
         dialog.setVisible(true);
     }

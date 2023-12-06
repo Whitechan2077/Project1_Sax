@@ -2,7 +2,9 @@ package com.sax.views.quanly.views.panes;
 
 import com.microsoft.sqlserver.jdbc.SQLServerException;
 import com.sax.dtos.DonHangDTO;
+import com.sax.services.IDonHangChiTetService;
 import com.sax.services.IDonHangService;
+import com.sax.services.impl.DonHangChiTietService;
 import com.sax.services.impl.DonHangService;
 import com.sax.utils.ContextUtils;
 import com.sax.utils.MsgBox;
@@ -56,9 +58,10 @@ public class DonHangPane extends JPanel {
     private JPanel phanTrangPane;
     private JComboBox cboHienThi;
     private JList listPage;
-    private IDonHangService donHangService;
     private DefaultTableModel tableModel;
-    private ExecutorService executorService;
+    private IDonHangService donHangService = ContextUtils.getBean(DonHangService.class);
+    private IDonHangChiTetService donHangChiTetService = ContextUtils.getBean(DonHangChiTietService.class);
+    private ExecutorService executorService = Executors.newSingleThreadExecutor();;
     private Set tempIdSet = new HashSet();
     private List<JCheckBox> listCbk = new ArrayList<>();
     private Loading loading = new Loading();
@@ -96,8 +99,8 @@ public class DonHangPane extends JPanel {
     }
 
     public void initComponent() {
-        donHangService = ContextUtils.getBean(DonHangService.class);
-        executorService = Executors.newSingleThreadExecutor();
+
+
         tableModel = (DefaultTableModel) table.getModel();
         tableModel.setColumnIdentifiers(new String[]{"", "Mã đơn hàng", "Tên khách hàng", "Nhân viên", "Tiền hàng", "Chiết khấu", "Tổng tiền", "Phương thức thanh toán", "Ngày tạo"});
 
@@ -121,6 +124,7 @@ public class DonHangPane extends JPanel {
         if (table.getSelectedRow() >= 0) {
             try {
                 DonHangDTO donHangDTO = donHangService.getById((int) table.getValueAt(table.getSelectedRow(), 1));
+                donHangDTO.setChiTietDonHangs(donHangChiTetService.getAllByDonHang(donHangDTO));
                 HoaDonDialog hoaDonDialog = new HoaDonDialog(this, donHangDTO, false);
                 hoaDonDialog.setVisible(true);
             } catch (FileNotFoundException e) {

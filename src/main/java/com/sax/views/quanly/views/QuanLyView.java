@@ -1,13 +1,10 @@
 package com.sax.views.quanly.views;
 
-import com.sax.Application;
 import com.sax.services.*;
 import com.sax.services.impl.*;
 import com.sax.utils.ContextUtils;
 import com.sax.utils.ImageUtils;
-import com.sax.utils.MsgBox;
 import com.sax.utils.Session;
-import com.sax.views.LoginView;
 import com.sax.views.components.libraries.ButtonToolItem;
 import com.sax.views.components.menu.CustomMenu;
 import com.sax.views.quanly.views.panes.*;
@@ -57,6 +54,8 @@ public class QuanLyView extends JPanel {
         title.setText("Quản lý sản phẩm");
         lblLogo.setIcon(new ImageIcon(ImageUtils.readImage("logo-com.png").getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
         lblQL.setText(Session.accountid.getTenNhanVien());
+        Session.avatar = avatar;
+        Session.lblName = lblQL;
         avatar.add(ImageUtils.getCircleImage(Session.accountid.getAnh(), 30, 20, null, 0));
     }
 
@@ -135,8 +134,6 @@ public class QuanLyView extends JPanel {
                     case 5 -> {
                         title.setText("Quản lý tài khoản nhân viên");
                         taiKhoan = new NhanVienPane();
-                        taiKhoan.setLblTenView(lblQL);
-                        taiKhoan.setAvatar(avatar);
                         content.add(taiKhoan);
                     }
                     case 6 -> {
