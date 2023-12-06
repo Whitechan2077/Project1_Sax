@@ -2,10 +2,8 @@ package com.sax.utils;
 
 import com.jgoodies.common.collect.ArrayListModel;
 import com.sax.views.nhanvien.cart.CartModel;
-import org.hibernate.annotations.Check;
 
 import javax.swing.*;
-import java.text.DecimalFormat;
 import java.util.List;
 
 public class Cart {
@@ -31,16 +29,16 @@ public class Cart {
                 int soLuong = Integer.parseInt(((JSpinner) table.getValueAt(i, 2)).getValue().toString());
                 tienHang += donGia * soLuong;
             }
-            lblTienHang.setText(CurrencyConvert.parseString(tienHang));
+            lblTienHang.setText(CurrencyConverter.parseString(tienHang));
             if (chkDiem.isSelected()) {
-                lblChietKhau.setText("-" + CurrencyConvert.parseString(Integer.valueOf(chkDiem.getText()) * 1000));
+                lblChietKhau.setText("-" + CurrencyConverter.parseString(Integer.valueOf(chkDiem.getText()) * 1000));
             } else {
-                lblChietKhau.setText("-" + CurrencyConvert.parseString(0));
+                lblChietKhau.setText("-" + CurrencyConverter.parseString(0));
             }
-            long km = CurrencyConvert.parseLong(lblChietKhau.getText().replace("-", ""));
-            lblTPT.setText(CurrencyConvert.parseString(tienHang - km));
+            long km = CurrencyConverter.parseLong(lblChietKhau.getText().replace("-", ""));
+            lblTPT.setText(CurrencyConverter.parseString(tienHang - km));
             if (tienHang < km) {
-                lblChietKhau.setText("-" + CurrencyConvert.parseString(tienHang));
+                lblChietKhau.setText("-" + CurrencyConverter.parseString(tienHang));
                 lblTPT.setText("0đ");
 
             }

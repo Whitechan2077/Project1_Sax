@@ -9,14 +9,12 @@ import com.sax.views.components.table.CustomTableCellEditor;
 import com.sax.views.components.table.CustomTableCellRender;
 import com.sax.views.quanly.viewmodel.AbstractViewObject;
 import org.jdesktop.swingx.JXTable;
-import org.springframework.data.domain.Pageable;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.nodes.Tag;
 import org.yaml.snakeyaml.representer.Representer;
 
 import java.io.*;
-import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -31,6 +29,8 @@ import java.util.concurrent.ExecutorService;
 public class Session {
     public static AccountDTO accountid;
     public static String otp;
+    public static JLabel lblTitle;
+    public static JPanel avatar;
 
     private static final String CONFIG_FILE_PATH = "config.yaml";
 
@@ -81,9 +81,9 @@ public class Session {
         table.packAll();
     }
 
-    public static void fillListPage(int value, DefaultListModel listPageModel, ICrudServices services, Pageable pageable, JList listPage) {
+    public static void fillListPage(int value, DefaultListModel listPageModel, ICrudServices services, int amount, JList listPage) {
         listPageModel.clear();
-        int totalPage = services.getTotalPage(pageable);
+        int totalPage = services.getTotalPage(amount);
 
         if (totalPage < 10) {
             for (int i = 1; i <= totalPage; i++) {
@@ -114,7 +114,7 @@ public class Session {
         }
 
         listPage.setModel(listPageModel);
-        listPage.setSelectedValue(value + 1, false);
+        listPage.setSelectedValue(value, false);
         listPage.repaint();
     }
 

@@ -3,8 +3,6 @@ package com.sax.services.impl;
 import com.microsoft.sqlserver.jdbc.SQLServerException;
 import com.sax.dtos.AccountDTO;
 import com.sax.entities.Account;
-import com.sax.entities.KhachHang;
-import com.sax.entities.Sach;
 import com.sax.repositories.IAccountRepository;
 import com.sax.services.IAccountService;
 import com.sax.utils.DTOUtils;
@@ -20,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Set;
@@ -117,8 +114,8 @@ public class AccountService implements IAccountService {
     }
 
     @Override
-    public int getTotalPage(Pageable page) {
-        return repository.findAll(page).getTotalPages();
+    public int getTotalPage(int amount) {
+        return repository.findAll(Pageable.ofSize(amount)).getTotalPages();
     }
 
     @Override

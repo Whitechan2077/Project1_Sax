@@ -1,11 +1,10 @@
 package com.sax.views.quanly.viewmodel;
 
 import com.sax.dtos.DonHangDTO;
-import com.sax.utils.CurrencyConvert;
+import com.sax.utils.CurrencyConverter;
 import lombok.Data;
 
 import javax.swing.*;
-import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
@@ -23,9 +22,9 @@ public class DonHangViewObject extends AbstractViewObject {
     public DonHangViewObject(DonHangDTO donHangDTO) {
         super(donHangDTO.getId(), donHangDTO.getKhach().getTenKhach());
         maNV = donHangDTO.getAccount().getId();
-        tongTien = CurrencyConvert.parseString(donHangDTO.getTongTien());
-        tienHang = CurrencyConvert.parseString(donHangDTO.getTienHang());
-        chietKhau = CurrencyConvert.parseString(donHangDTO.getChietKhau());
+        tongTien = CurrencyConverter.parseString(donHangDTO.getTongTien());
+        tienHang = CurrencyConverter.parseString(donHangDTO.getTienHang());
+        chietKhau = CurrencyConverter.parseString(donHangDTO.getChietKhau());
         ngayTao = donHangDTO.getNgayTao();
         pttt = donHangDTO.getPttt();
     }

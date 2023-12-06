@@ -3,7 +3,6 @@ package com.sax.services.impl;
 import com.microsoft.sqlserver.jdbc.SQLServerException;
 import com.sax.dtos.CtkmDTO;
 import com.sax.dtos.CtkmSachDTO;
-import com.sax.dtos.SachDTO;
 import com.sax.entities.Ctkm;
 import com.sax.entities.CtkmSach;
 import com.sax.repositories.ICtkmSachRepository;
@@ -16,7 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Set;
@@ -82,8 +80,8 @@ public class CtkmSachService implements ICtkmSachService {
     }
 
     @Override
-    public int getTotalPage(Pageable page) {
-        return repository.findAll(page).getTotalPages();
+    public int getTotalPage(int amount) {
+        return repository.findAll(Pageable.ofSize(amount)).getTotalPages();
     }
 
     @Override

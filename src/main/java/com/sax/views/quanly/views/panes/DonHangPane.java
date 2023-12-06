@@ -158,7 +158,7 @@ public class DonHangPane extends JPanel {
     }
 
     public void fillListPage(int value) {
-        Session.fillListPage(value, listPageModel, donHangService, pageable, listPage);
+        Session.fillListPage(value, listPageModel, donHangService, 14, listPage);
     }
 
     public void selectPageDisplay() {

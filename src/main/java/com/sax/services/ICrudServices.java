@@ -15,7 +15,7 @@ public interface ICrudServices<T, K> {
     void update(T e) throws SQLServerException;
     void delete(K id) throws SQLServerException;
     void deleteAll(Set<K> ids) throws SQLServerException;
-    int getTotalPage(Pageable page);
+    int getTotalPage(int amount);
     List<T> getPage(Pageable page);
     List<T> searchByKeyword(String keyword);
 }

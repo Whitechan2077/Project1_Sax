@@ -2,15 +2,10 @@ package com.sax.services.impl;
 
 import com.microsoft.sqlserver.jdbc.SQLServerException;
 import com.sax.dtos.CtkmDTO;
-import com.sax.dtos.DanhMucDTO;
-import com.sax.dtos.SachDTO;
-import com.sax.entities.Ctkm;
 import com.sax.repositories.ICtkmRepository;
 import com.sax.services.ICtkmService;
 import com.sax.utils.DTOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -80,8 +75,8 @@ public class CtkmService implements ICtkmService {
     }
 
     @Override
-    public int getTotalPage(Pageable page) {
-        return repository.findAll(page).getTotalPages();
+    public int getTotalPage(int amount) {
+        return repository.findAll(Pageable.ofSize(amount)).getTotalPages();
     }
 
     @Override

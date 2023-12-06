@@ -3,7 +3,6 @@ package com.sax.services.impl;
 import com.microsoft.sqlserver.jdbc.SQLServerException;
 import com.sax.dtos.ChiTietDonHangDTO;
 import com.sax.dtos.DonHangDTO;
-import com.sax.dtos.LichSuNhapHangDTO;
 import com.sax.entities.DonHang;
 import com.sax.repositories.IDonHangChiTietRepository;
 import com.sax.services.IDonHangChiTetService;
@@ -60,8 +59,8 @@ public class DonHangChiTietService implements IDonHangChiTetService {
     }
 
     @Override
-    public int getTotalPage(Pageable page) {
-        return repository.findAll(page).getTotalPages();
+    public int getTotalPage(int amount) {
+        return repository.findAll(Pageable.ofSize(amount)).getTotalPages();
     }
 
     @Override

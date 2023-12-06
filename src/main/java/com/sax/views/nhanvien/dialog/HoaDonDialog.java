@@ -1,7 +1,7 @@
 package com.sax.views.nhanvien.dialog;
 
 import com.sax.dtos.DonHangDTO;
-import com.sax.utils.CurrencyConvert;
+import com.sax.utils.CurrencyConverter;
 import com.sax.utils.ImageUtils;
 import com.sax.views.components.libraries.ButtonToolItem;
 import org.jdesktop.swingx.JXTable;
@@ -52,9 +52,9 @@ public class HoaDonDialog extends JDialog {
         tableModel.setDataVector(donHangDTO.getChiTietDonHangs().stream().map(i -> new Object[]{
                 i.getSach().getTenSach(),
                 i.getSoLuong(),
-                CurrencyConvert.parseString(i.getGiaBan()),
-                "-" + CurrencyConvert.parseString(i.getGiaGiam()),
-                CurrencyConvert.parseString((i.getGiaBan() - i.getGiaGiam()) * i.getSoLuong())
+                CurrencyConverter.parseString(i.getGiaBan()),
+                "-" + CurrencyConverter.parseString(i.getGiaGiam()),
+                CurrencyConverter.parseString((i.getGiaBan() - i.getGiaGiam()) * i.getSoLuong())
         }).toArray(Object[][]::new), columnNames);
         table.packAll();
         table.setFocusable(false);
@@ -65,9 +65,9 @@ public class HoaDonDialog extends JDialog {
                 + LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
                 + " - "
                 + LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")));
-        lblTienHang.setText(CurrencyConvert.parseString(donHangDTO.getTienHang()));
-        lblChietKhau.setText("-" + CurrencyConvert.parseString(donHangDTO.getChietKhau()));
-        lblTPT.setText(CurrencyConvert.parseString(donHangDTO.getTongTien()));
+        lblTienHang.setText(CurrencyConverter.parseString(donHangDTO.getTienHang()));
+        lblChietKhau.setText("-" + CurrencyConverter.parseString(donHangDTO.getChietKhau()));
+        lblTPT.setText(CurrencyConverter.parseString(donHangDTO.getTongTien()));
 
         sp.add(scrollPane);
 
