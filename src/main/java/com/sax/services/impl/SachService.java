@@ -16,10 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.IntStream;
 
 @Service
@@ -179,7 +176,7 @@ public class SachService implements ISachService {
         } catch (IOException ex) {
             sach.setHinhAnh(sach.getHinhAnh());
         }
-        if (e.getBarCode().equals(repository.findByBarCode(e.getBarCode())))
+        if (e.getBarCode().equals(Objects.requireNonNull(repository.findByBarCode(e.getBarCode()).orElse(null)).getBarCode()))
             repository.save(sach);
         else {
             if (repository.findByBarCode(e.getBarCode()).isPresent())
@@ -195,7 +192,6 @@ public class SachService implements ISachService {
     public void delete(Integer id) throws SQLServerException {
         repository.deleteById(id);
     }
-
     @Override
     public void deleteAll(Set<Integer> ids) throws SQLServerException {
         boolean check = true;

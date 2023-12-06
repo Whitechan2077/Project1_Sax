@@ -136,8 +136,8 @@ public class ImageUtils {
         int channels = frame.channels();
         byte[] sourcePixels = new byte[width * height * channels];
         frame.get(0, 0, sourcePixels);
-
-        BufferedImage bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_3BYTE_BGR);
+        BufferedImage bufferedImage = null;
+        bufferedImage =  width > 0 && height > 0 ? new BufferedImage(width, height, BufferedImage.TYPE_3BYTE_BGR) :  new BufferedImage(1, 1, BufferedImage.TYPE_3BYTE_BGR);
         final byte[] targetPixels = ((DataBufferByte) bufferedImage.getRaster().getDataBuffer()).getData();
         System.arraycopy(sourcePixels, 0, targetPixels, 0, sourcePixels.length);
 

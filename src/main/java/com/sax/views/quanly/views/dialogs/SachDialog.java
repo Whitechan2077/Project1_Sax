@@ -120,10 +120,8 @@ public class SachDialog extends JDialog {
                 }
                 parentPane.fillTable(sachService.getPage(parentPane.getPageable()).stream().map(SachViewObject::new).collect(Collectors.toList()));
                 dispose();
-            } catch (DataIntegrityViolationException ex) {
-                MsgBox.alert(this, "Trùng barcode");
-            } catch (SQLServerException e) {
-                throw new RuntimeException(e);
+            }  catch (Exception e) {
+                MsgBox.alert(this,e.getMessage());
             }
         }
     }

@@ -11,6 +11,7 @@ import com.sax.utils.Cart;
 import com.sax.utils.ContextUtils;
 import com.sax.utils.ImageUtils;
 import com.sax.views.nhanvien.cart.CartModel;
+import lombok.Getter;
 import org.jdesktop.swingx.JXTable;
 import org.opencv.core.Mat;
 import org.opencv.videoio.VideoCapture;
@@ -24,8 +25,11 @@ import java.util.Optional;
 public class CameraDialog extends JDialog {
     private JPanel contentPane;
     private JLabel camera;
+
     private Thread thread;
+    @Getter
     private Mat frame;
+    @Getter
     private VideoCapture videoCapture;
 
     private ISachService sachService = ContextUtils.getBean(SachService.class);

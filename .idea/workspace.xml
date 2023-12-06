@@ -4,19 +4,28 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9aa4ac30-93cb-4f98-8064-a476e29cdbb6" name="Changes" comment="" />
+    <list default="true" id="9aa4ac30-93cb-4f98-8064-a476e29cdbb6" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sax/services/impl/SachService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sax/services/impl/SachService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sax/utils/ImageUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sax/utils/ImageUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sax/views/nhanvien/NhanVienView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sax/views/nhanvien/NhanVienView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sax/views/quanly/views/dialogs/CameraDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sax/views/quanly/views/dialogs/CameraDialog.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sax/views/quanly/views/dialogs/SachDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sax/views/quanly/views/dialogs/SachDialog.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="MavenImportPreferences">
-    <option name="generalSettings">
-      <MavenGeneralSettings>
-        <option name="useMavenConfig" value="true" />
-      </MavenGeneralSettings>
-    </option>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "customColor": "",
+  "associatedIndex": 5
+}]]></component>
   <component name="ProjectId" id="2Z7qzV8WyK9lWeH7fLbAfbwyKsc" />
   <component name="ProjectViewState">
     <option name="autoscrollFromSource" value="true" />
@@ -28,7 +37,19 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "settings.editor.selected.configurable": "com.poratu.idea.plugins.tomcat.setting.TomcatServersConfigurable"
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "fix__service",
+    "ignore.virus.scanning.warn.message": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "settings.editor.selected.configurable": "com.poratu.idea.plugins.tomcat.setting.TomcatServersConfigurable",
+    "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "sqlserver"
+    ]
   }
 }]]></component>
   <component name="RunManager">
@@ -60,7 +81,11 @@
       <option name="presentableId" value="Default" />
       <updated>1701783728907</updated>
       <workItem from="1701783731359" duration="16731000" />
+      <workItem from="1701829047919" duration="1482000" />
     </task>
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
   </component>
 </project>

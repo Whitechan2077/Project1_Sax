@@ -254,7 +254,10 @@ public class NhanVienView extends JPanel {
     }
 
     private void openScan() {
-        new CameraDialog(cart, lblTienHang, lblChietKhau, lblTPT, chkDiem).setVisible(true);
+        CameraDialog dialog = new CameraDialog(cart, lblTienHang, lblChietKhau, lblTPT, chkDiem);
+        dialog.setVisible(true);
+        dialog.getFrame().release();
+        dialog.getVideoCapture().release();
     }
 
     private void createUIComponents() {
