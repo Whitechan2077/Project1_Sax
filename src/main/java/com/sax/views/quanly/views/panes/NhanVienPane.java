@@ -132,7 +132,7 @@ public class NhanVienPane extends JPanel {
 
     private void update() {
         if (table.getSelectedRow() >= 0) {
-            if (table.getSelectedRow() >= 0) {
+            executorService.submit(() -> {
                 NhanVienDialog nhanVienDialog = new NhanVienDialog();
                 nhanVienDialog.parentPane = this;
                 nhanVienDialog.id = (int) table.getValueAt(table.getSelectedRow(), 1);
@@ -140,7 +140,7 @@ public class NhanVienPane extends JPanel {
                 loading.dispose();
                 nhanVienDialog.setVisible(true);
                 table.clearSelection();
-            }
+            });
             loading.setVisible(true);
         } else MsgBox.alert(this, "Vui lòng chọn một tài khoản!");
     }
