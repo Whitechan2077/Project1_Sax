@@ -4,134 +4,46 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b4100053-39b4-448a-96a2-7639210fc483" name="Changes" comment="">
+    <list default="true" id="44defbe5-9225-4a4a-a6da-97d0389ce473" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/images/invoices/17145.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/z4456791801035_097277f80c8d7ecf31ba82ccd77b5723.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/z4464627249814_5f914828ad50f09a64256f2d21c73c64.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/41fbc327-f2c5-4963-8c50-0f19fb887527.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/41fbc327-f2c5-4963-8c50-0f19fb887527.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/41fbc327-f2c5-4963-8c50-0f19fb887527/storage_v2/_src_/database/SaX.qkMBAA/schema/dbo.sYMBAA.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/41fbc327-f2c5-4963-8c50-0f19fb887527/storage_v2/_src_/database/SaX.qkMBAA/schema/dbo.sYMBAA.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/account.dat" beforeDir="false" afterPath="$PROJECT_DIR$/account.dat" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sax/dtos/DonHangDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sax/dtos/DonHangDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/TestFile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/TestFile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sax/utils/Session.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sax/utils/Session.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sax/views/components/table/CustomHeaderTableCellRenderer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sax/views/components/table/CustomHeaderTableCellRenderer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sax/views/nhanvien/NhanVienView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sax/views/nhanvien/NhanVienView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sax/views/nhanvien/dialog/HoaDonDialog.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sax/views/nhanvien/dialog/HoaDonDialog.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sax/views/nhanvien/dialog/HoaDonDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sax/views/nhanvien/dialog/HoaDonDialog.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sax/views/nhanvien/dialog/UserPopup.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sax/views/nhanvien/dialog/UserPopup.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sax/views/quanly/views/QuanLyView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sax/views/quanly/views/QuanLyView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sax/views/quanly/views/dialogs/KhachHangDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sax/views/quanly/views/dialogs/KhachHangDialog.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sax/views/quanly/views/dialogs/NhanVienDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sax/views/quanly/views/dialogs/NhanVienDialog.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sax/views/quanly/views/dialogs/NhapHangDialog.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sax/views/quanly/views/dialogs/NhapHangDialog.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sax/views/quanly/views/dialogs/NhapHangDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sax/views/quanly/views/dialogs/NhapHangDialog.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sax/views/quanly/views/dialogs/SachDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sax/views/quanly/views/dialogs/SachDialog.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sax/views/quanly/views/dialogs/TaiKhoanDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sax/views/quanly/views/dialogs/TaiKhoanDialog.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sax/views/quanly/views/panes/DanhMucPane.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sax/views/quanly/views/panes/DanhMucPane.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sax/views/quanly/views/panes/DonHangPane.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sax/views/quanly/views/panes/DonHangPane.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sax/views/quanly/views/panes/KhachHangPane.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sax/views/quanly/views/panes/KhachHangPane.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sax/views/quanly/views/panes/NhanVienPane.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sax/views/quanly/views/panes/NhanVienPane.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sax/views/quanly/views/panes/SanPhamPane.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sax/views/quanly/views/panes/SanPhamPane.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-  </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 0
-}]]></component>
-  <component name="ProjectId" id="2ZAEFxfV6ft1jbK8IqVtRB2qS2f" />
-  <component name="ProjectViewState">
-    <option name="autoscrollFromSource" value="true" />
-    <option name="autoscrollToSource" value="true" />
-    <option name="hideEmptyMiddlePackages" value="true" />
-    <option name="showLibraryContents" value="true" />
-  </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "fix__service",
-    "ignore.virus.scanning.warn.message": "true",
-    "node.js.detected.package.eslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "vue.rearranger.settings.migration": "true"
+    "git-widget-placeholder": "Merging fix__service",
+    "node.js.selected.package.tslint": "(autodetect)"
   }
 }]]></component>
-  <component name="RunManager" selected="Application.Unnamed">
-    <configuration name="Unnamed" type="Application" factoryName="Application" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.sax.Application" />
-      <module name="SaX" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="TestFile.danhMuc" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="SaX" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="TestFile" />
-      <option name="METHOD_NAME" value="danhMuc" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="TestFile.des" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="SaX" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="TestFile" />
-      <option name="METHOD_NAME" value="des" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="TestFile.test" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="SaX" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="TestFile" />
-      <option name="METHOD_NAME" value="test" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <list>
-      <item itemvalue="Application.Unnamed" />
-      <item itemvalue="JUnit.TestFile.danhMuc" />
-      <item itemvalue="JUnit.TestFile.des" />
-      <item itemvalue="JUnit.TestFile.test" />
-    </list>
-    <recent_temporary>
-      <list>
-        <item itemvalue="JUnit.TestFile.des" />
-        <item itemvalue="JUnit.TestFile.test" />
-        <item itemvalue="JUnit.TestFile.danhMuc" />
-      </list>
-    </recent_temporary>
-  </component>
-  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
-    <task active="true" id="Default" summary="Default task">
-      <changelist id="b4100053-39b4-448a-96a2-7639210fc483" name="Changes" comment="" />
-      <created>1701856386502</created>
-      <option name="number" value="Default" />
-      <option name="presentableId" value="Default" />
-      <updated>1701856386502</updated>
-      <workItem from="1701856391111" duration="1980000" />
-    </task>
     <servers />
-  </component>
-  <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="3" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/sax/entities/Account.java</url>
-          <line>18</line>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/src/test/java/TestFile.java</url>
-          <line>83</line>
-          <properties class="TestFile" method="des">
-            <option name="EMULATED" value="true" />
-            <option name="WATCH_EXIT" value="false" />
-          </properties>
-          <option name="timeStamp" value="4" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>

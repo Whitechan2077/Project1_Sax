@@ -59,11 +59,14 @@ public class SanPhamPane extends JPanel {
     private Loading loading = new Loading();
 
     private DefaultListModel listPageModel = new DefaultListModel();
-    @Getter @Setter
+    @Getter
+    @Setter
     private int sizeValue = 14;
-    @Getter @Setter
+    @Getter
+    @Setter
     private int pageValue = 1;
-    @Getter @Setter
+    @Getter
+    @Setter
     private Pageable pageable = PageRequest.of(pageValue - 1, sizeValue);
     private Timer timer;
 
@@ -118,8 +121,9 @@ public class SanPhamPane extends JPanel {
     private void nhapHang() {
         if (table.getSelectedRow() >= 0) {
             NhapHangDialog nhapHangDialog = new NhapHangDialog();
-            nhapHangDialog.parentPane = this;
-            nhapHangDialog.id = (int) table.getValueAt(table.getSelectedRow(), 1);
+            nhapHangDialog.setParentPane(this);
+            nhapHangDialog.setId((int) table.getValueAt(table.getSelectedRow(), 1));
+            nhapHangDialog.setTitle(sachService.getById((int) table.getValueAt(table.getSelectedRow(), 1)).getTenSach());
             nhapHangDialog.fillTable();
             nhapHangDialog.setVisible(true);
             table.clearSelection();

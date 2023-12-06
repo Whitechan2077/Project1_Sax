@@ -1,6 +1,5 @@
 package com.sax.views.quanly.views.dialogs;
 
-import com.microsoft.sqlserver.jdbc.SQLServerException;
 import com.sax.Application;
 import com.sax.dtos.DanhMucDTO;
 import com.sax.dtos.SachDTO;
@@ -8,28 +7,19 @@ import com.sax.services.IDanhMucService;
 import com.sax.services.ISachService;
 import com.sax.services.impl.DanhMucService;
 import com.sax.services.impl.SachService;
-import com.sax.utils.*;
+import com.sax.utils.ContextUtils;
+import com.sax.utils.CurrencyConverter;
+import com.sax.utils.ImageUtils;
+import com.sax.utils.MsgBox;
 import com.sax.views.components.Loading;
 import com.sax.views.components.libraries.ButtonToolItem;
 import com.sax.views.components.libraries.RoundPanel;
 import com.sax.views.quanly.viewmodel.SachViewObject;
 import com.sax.views.quanly.views.panes.SanPhamPane;
-
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.PageRequest;
-import javax.swing.*;
-import javax.swing.text.*;
-import java.awt.*;
-import java.text.*;
 
 import javax.swing.*;
-import javax.swing.text.DefaultFormatterFactory;
-import javax.swing.text.MaskFormatter;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-import java.text.ParseException;
 import java.util.HashSet;
-import java.util.Locale;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -37,8 +27,6 @@ import java.util.stream.Collectors;
 
 public class SachDialog extends JDialog {
     private JPanel contentPane;
-    private JButton buttonOK;
-    private JButton buttonCancel;
     private JTextField txtBarcode;
     private JButton btnSave;
     private JList<DanhMucDTO> danhMuc;

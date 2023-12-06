@@ -29,7 +29,7 @@ import java.util.concurrent.ExecutorService;
 public class Session {
     public static AccountDTO accountid;
     public static String otp;
-    public static JLabel lblTitle;
+    public static JLabel lblName;
     public static JPanel avatar;
 
     private static final String CONFIG_FILE_PATH = "config.yaml";

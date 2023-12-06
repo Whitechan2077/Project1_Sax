@@ -33,6 +33,7 @@ public class HoaDonDialog extends JDialog {
     private JButton btnSubmit;
     private JButton btnClose;
     private JLabel lblChietKhau;
+    private JLabel lblLogo;
     private DefaultTableModel tableModel;
     private DecimalFormat decimalFormat;
 
@@ -68,6 +69,7 @@ public class HoaDonDialog extends JDialog {
         lblTienHang.setText(CurrencyConverter.parseString(donHangDTO.getTienHang()));
         lblChietKhau.setText("-" + CurrencyConverter.parseString(donHangDTO.getChietKhau()));
         lblTPT.setText(CurrencyConverter.parseString(donHangDTO.getTongTien()));
+        lblLogo.setIcon(new ImageIcon(ImageUtils.readImage("logo-com.png").getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
 
         sp.add(scrollPane);
 
