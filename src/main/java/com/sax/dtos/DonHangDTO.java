@@ -24,5 +24,4 @@ public class DonHangDTO extends AbstractDTO {
     private long chietKhau;
     private long tienHang;
     private List<ChiTietDonHangDTO> chiTietDonHangs;
-
 }

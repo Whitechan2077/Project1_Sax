@@ -79,4 +79,11 @@ public class TestFile {
 //        dto.setSoLuong(100);
         service.delete(1);
     }
+
+    @Test
+    public void des() {
+        IDonHangService service = ContextUtils.getBean(IDonHangService.class);
+        IDonHangChiTetService iDonHangChiTetService = ContextUtils.getBean(IDonHangChiTetService.class);
+        iDonHangChiTetService.getAllByDonHang(service.getById(17145)).forEach(System.out::println);
+    }
 }
