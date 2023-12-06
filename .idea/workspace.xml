@@ -28,7 +28,8 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "settings.editor.selected.configurable": "com.poratu.idea.plugins.tomcat.setting.TomcatServersConfigurable"
+    "settings.editor.selected.configurable": "com.poratu.idea.plugins.tomcat.setting.TomcatServersConfigurable",
+    "spring.configuration.checksum": "77c70b646374c700c5ebbfc677618f24"
   }
 }]]></component>
   <component name="RunManager">
@@ -59,7 +60,8 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1701783728907</updated>
-      <workItem from="1701783731359" duration="16731000" />
+      <workItem from="1701783731359" duration="17047000" />
+      <workItem from="1701828832639" duration="1375000" />
     </task>
     <servers />
   </component>
