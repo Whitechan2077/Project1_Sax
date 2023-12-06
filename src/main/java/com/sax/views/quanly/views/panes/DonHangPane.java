@@ -52,7 +52,6 @@ public class DonHangPane extends JPanel {
     private JButton btnDel;
     private JButton btnEdit;
     private JCheckBox cbkSelectedAll;
-    private JComboBox comboBox1;
     private Search timKiem;
     private JPanel phanTrangPane;
     private JComboBox cboHienThi;
@@ -158,7 +157,7 @@ public class DonHangPane extends JPanel {
     }
 
     public void fillListPage(int value) {
-        Session.fillListPage(value, listPageModel, donHangService, 14, listPage);
+        Session.fillListPage(value, listPageModel, donHangService, size, listPage);
     }
 
     public void selectPageDisplay() {

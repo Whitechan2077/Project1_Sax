@@ -16,8 +16,11 @@ import com.sax.views.components.libraries.RoundPanel;
 import com.sax.views.quanly.viewmodel.AbstractViewObject;
 import com.sax.views.quanly.viewmodel.CtkmSachViewObject;
 import com.sax.views.quanly.viewmodel.CtkmViewObject;
+import com.sax.views.quanly.viewmodel.SachViewObject;
 import com.sax.views.quanly.views.dialogs.CtkmDialog;
 import com.sax.views.quanly.views.dialogs.CtkmSachDialog;
+import lombok.Getter;
+import lombok.Setter;
 import org.jdesktop.swingworker.SwingWorker;
 import org.jdesktop.swingx.JXTable;
 import org.springframework.data.domain.PageRequest;
@@ -70,9 +73,18 @@ public class KhuyenMaiPane extends JPanel {
     private Loading loading = new Loading();
 
     private DefaultListModel listPageModelKM = new DefaultListModel();
-    private int size = 14;
-    private Pageable pageableKM = PageRequest.of(0, 14);
+    @Getter
+    @Setter
+    private int pageKMValue = 1;
+    @Getter
+    @Setter
+    private int sizeValue = 14;
+    @Getter
+    @Setter
+    private Pageable pageableKM = PageRequest.of(pageKMValue - 1, sizeValue);
     private Timer timerKM;
+
+
     private Timer timerSP;
 
     public KhuyenMaiPane() {
@@ -90,7 +102,7 @@ public class KhuyenMaiPane extends JPanel {
         listPageKM.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                timerKM.restart();
+                selectPageDisplay();
             }
         });
         cboHienThi.addActionListener((e) -> selectSizeDisplay());
@@ -124,10 +136,10 @@ public class KhuyenMaiPane extends JPanel {
         kmScroll.getVerticalScrollBar().putClientProperty(FlatClientProperties.STYLE, "track:#F2F2F2");
         ((DefaultTableModel) tableCTKM.getModel()).setColumnIdentifiers(new String[]{"", "Mã sự kiện", "Tên sự kiện", "Ngày bắt đầu", "Ngày kết thúc", "Giảm theo", "Trạng thái"});
         ((DefaultTableModel) tableSP.getModel()).setColumnIdentifiers(new String[]{"", "Id", "Tên sách", "Tên sự kiện", "Ngày bắt đầu", "Ngày kết thúc", "Giá trị giảm", "Trạng thái"});
-        new WorkerKM(0).execute();
-        new WorkerSP(0).execute();
+        new WorkerKM().execute();
+        new WorkerSP().execute();
         loading.setVisible(true);
-        fillListPage(0);
+        fillListPage();
         timerKM = new Timer(300, e -> {
             searchByKeywordKM();
             timerKM.stop();
@@ -147,7 +159,6 @@ public class KhuyenMaiPane extends JPanel {
         CtkmDialog ctkmDialog = new CtkmDialog();
         ctkmDialog.parentPane = this;
         ctkmDialog.lblTitle.setText("Thêm mới chương trình khuyến mại");
-        ctkmDialog.pageable = PageRequest.of(listPageModelKM.getSize() - 1, 14);
         ctkmDialog.setVisible(true);
         tableCTKM.clearSelection();
     }
@@ -166,11 +177,12 @@ public class KhuyenMaiPane extends JPanel {
                 CtkmDialog ctkmDialog = new CtkmDialog();
                 ctkmDialog.parentPane = this;
                 ctkmDialog.id = (int) tableCTKM.getValueAt(tableCTKM.getSelectedRow(), 1);
-                ctkmDialog.pageable = pageableKM;
                 ctkmDialog.fillForm();
+                loading.dispose();
                 ctkmDialog.setVisible(true);
                 tableCTKM.clearSelection();
             });
+            loading.setVisible(true);
         } else MsgBox.alert(this, "Vui lòng chọn một chương trình khuyến mại!");
     }
 
@@ -178,16 +190,17 @@ public class KhuyenMaiPane extends JPanel {
         if (!tempIdSetCTKM.isEmpty()) {
             boolean check = MsgBox.confirm(this, "Bạn có muốn xoá " + tempIdSetCTKM.size() + " chương trình khuyến mại này không?");
             if (check) {
-                executorService.submit(() -> {
-                    try {
-                        ctkmService.deleteAll(tempIdSetCTKM);
-                        tableCTKM.clearSelection();
-                        tempIdSetCTKM.clear();
-                        fillTableKM(ctkmService.getAll().stream().map(CtkmViewObject::new).collect(Collectors.toList()));
-                    } catch (Exception e) {
-                        MsgBox.alert(this, "Có sản phẩm trong chương trình khuyến mại!, bạn không thể xoá!");
-                    }
-                });
+                try {
+                    ctkmService.deleteAll(tempIdSetCTKM);
+                    cbkSelectedAllCTKM.setSelected(false);
+                } catch (Exception e) {
+                    MsgBox.alert(this, e.getMessage());
+                }
+                pageKMValue = ctkmService.getTotalPage(sizeValue) < pageKMValue ? ctkmService.getTotalPage(sizeValue) : pageKMValue;
+                pageableKM = PageRequest.of(pageKMValue - 1, sizeValue);
+                fillTableKM(ctkmService.getPage(pageableKM).stream().map(CtkmViewObject::new).collect(Collectors.toList()));
+                fillListPage();
+                loading.dispose();
             }
         } else MsgBox.alert(this, "Vui lòng tick vào ít nhất một chương trình khuyến mại!");
     }
@@ -203,30 +216,33 @@ public class KhuyenMaiPane extends JPanel {
         }
     }
 
-    public void fillListPage(int value) {
-        Session.fillListPage(value, listPageModelKM, ctkmSachService, 14, listPageKM);
+    public void fillListPage() {
+        Session.fillListPage(pageKMValue, listPageModelKM, ctkmService, sizeValue, listPageKM);
     }
 
     public void selectPageDisplay() {
         if (listPageKM.getSelectedValue() instanceof Integer) {
-            int page = Integer.parseInt(listPageKM.getSelectedValue().toString()) - 1;
-            pageableKM = PageRequest.of(page, size);
-            new WorkerKM(page).execute();
+            pageKMValue = Integer.parseInt(listPageKM.getSelectedValue().toString());
+            pageableKM = PageRequest.of(pageKMValue - 1, sizeValue);
+            new WorkerKM().execute();
             loading.setVisible(true);
         }
     }
 
     public void selectSizeDisplay() {
-        size = Integer.parseInt(cboHienThi.getSelectedItem().toString());
-        pageableKM = PageRequest.of(0, size);
-        new WorkerKM(pageableKM.getPageNumber()).execute();
+        sizeValue = Integer.parseInt(cboHienThi.getSelectedItem().toString());
+        pageKMValue = 1;
+        pageableKM = PageRequest.of(pageKMValue - 1, sizeValue);
+        new WorkerKM().execute();
         loading.setVisible(true);
     }
 
     //Table CTKM_Sach
     public void fillCboCtkm() {
         cboCTKM.addItem("-Tất cả-");
-        ctkmService.getAll().forEach(i -> cboCTKM.addItem(i));
+        ctkmService.getAll().stream()
+                .filter(i -> ctkmSachService.getAllSachInCtkm(i).size() > 0)
+                .forEach(i -> cboCTKM.addItem(i));
     }
 
     public void fillTableSP(List<AbstractViewObject> list) {
@@ -285,7 +301,7 @@ public class KhuyenMaiPane extends JPanel {
 
     public void locSPCtkm() {
         if (cboCTKM.getSelectedItem() instanceof String)
-            fillTableSP(ctkmSachService.getPage(pageableKM).stream().map(CtkmSachViewObject::new).collect(Collectors.toList()));
+            fillTableSP(ctkmSachService.getAll().stream().map(CtkmSachViewObject::new).collect(Collectors.toList()));
         else {
             CtkmDTO ctkmDTO = (CtkmDTO) cboCTKM.getSelectedItem();
             fillTableSP(ctkmSachService.getAllSachInCtkm(ctkmDTO).stream().map(CtkmSachViewObject::new).collect(Collectors.toList()));
@@ -304,6 +320,8 @@ public class KhuyenMaiPane extends JPanel {
         }
     }
 
+    //ListPageSp
+    //...
 
     private void createUIComponents() {
         khuyenMaiPane = this;
@@ -320,12 +338,6 @@ public class KhuyenMaiPane extends JPanel {
     }
 
     class WorkerKM extends SwingWorker<List<AbstractViewObject>, Integer> {
-        int page;
-
-        public WorkerKM(int page) {
-            this.page = page;
-        }
-
         @Override
         protected List<AbstractViewObject> doInBackground() {
             return ctkmService.getPage(pageableKM).stream().map(CtkmViewObject::new).collect(Collectors.toList());
@@ -335,7 +347,7 @@ public class KhuyenMaiPane extends JPanel {
         protected void done() {
             try {
                 fillTableKM(get());
-                fillListPage(page);
+                if (tableCTKM.getRowCount() > 0) fillListPage();
                 loading.dispose();
             } catch (InterruptedException | ExecutionException e) {
                 throw new RuntimeException(e);
@@ -344,13 +356,6 @@ public class KhuyenMaiPane extends JPanel {
     }
 
     class WorkerSP extends SwingWorker<List<AbstractViewObject>, Integer> {
-
-        int page;
-
-        public WorkerSP(int page) {
-            this.page = page;
-        }
-
         @Override
         protected List<AbstractViewObject> doInBackground() {
             return ctkmSachService.getAll().stream().map(CtkmSachViewObject::new).collect(Collectors.toList());
@@ -360,7 +365,6 @@ public class KhuyenMaiPane extends JPanel {
         protected void done() {
             try {
                 fillTableSP(get());
-                fillListPage(page);
                 loading.dispose();
             } catch (InterruptedException | ExecutionException e) {
                 throw new RuntimeException(e);

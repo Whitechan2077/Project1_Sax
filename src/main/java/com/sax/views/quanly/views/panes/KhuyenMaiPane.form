@@ -368,7 +368,9 @@
                             <preferred-size width="-1" height="30"/>
                           </grid>
                         </constraints>
-                        <properties/>
+                        <properties>
+                          <model/>
+                        </properties>
                       </component>
                       <hspacer id="c48d2">
                         <constraints>

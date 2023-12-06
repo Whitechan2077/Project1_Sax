@@ -166,6 +166,7 @@
                       <autoCreateRowSorter value="false"/>
                       <opaque value="false"/>
                       <rowHeight value="40"/>
+                      <selectionMode value="0"/>
                       <showHorizontalLines value="true"/>
                       <showVerticalLines value="false"/>
                       <visibleRowCount value="15"/>
