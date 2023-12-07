@@ -115,9 +115,10 @@ public class DanhMucPane extends JPanel {
     public void fillDanhMucCha(int id) {
         cboDanhMucCha.removeAllItems();
         cboDanhMucCha.addItem("-Không có danh mục-");
-        danhMucService.getAll().stream()
-                .filter(i -> i.getId() != id)
-                .forEach(i -> cboDanhMucCha.addItem(i));
+        if (id == -1)
+            danhMucService.getAll().forEach(i -> cboDanhMucCha.addItem(i));
+        else
+            danhMucService.getAllDanhMucForUpdate(id).forEach(i -> cboDanhMucCha.addItem(i));
     }
 
     public void showItem() {
@@ -174,7 +175,7 @@ public class DanhMucPane extends JPanel {
 
     public void delete() {
         if (!tempIdSet.isEmpty()) {
-            boolean check = MsgBox.confirm(null, "Bạn có muốn xoá " + tempIdSet.size() + " danh mục này không?");
+            boolean check = MsgBox.confirm(this, "Bạn có muốn xoá " + tempIdSet.size() + " danh mục này không?");
             if (check) {
                 new javax.swing.SwingWorker<List<AbstractViewObject>, Integer>() {
                     @Override

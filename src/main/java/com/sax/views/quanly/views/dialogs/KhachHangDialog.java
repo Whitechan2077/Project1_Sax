@@ -70,15 +70,15 @@ public class KhachHangDialog extends JDialog {
                     dto.setId(id);
                     dto.setNgayThem(khachHangService.getById(id).getNgayThem());
                     khachHangService.update(dto);
-                } else
-                {
+                } else {
                     khachHangService.insert(dto);
                     parentPane.setPageValue(khachHangService.getTotalPage(parentPane.getSizeValue()));
                     parentPane.setPageable(PageRequest.of(parentPane.getPageValue() - 1, parentPane.getSizeValue()));
                     parentPane.fillListPage();
                 }
-                if (parentPane != null)parentPane.fillTable(khachHangService.getPage(parentPane.getPageable()).stream().map(KhachHangViewObject::new).collect(Collectors.toList()));
-                NhanVienView.nvv.fillKhachHang(khachHangService.getAll());
+                if (parentPane != null)
+                    parentPane.fillTable(khachHangService.getPage(parentPane.getPageable()).stream().map(KhachHangViewObject::new).collect(Collectors.toList()));
+                if (NhanVienView.nvv != null) NhanVienView.nvv.fillKhachHang(khachHangService.getAll());
                 dispose();
             } catch (Exception ex) {
                 MsgBox.alert(this, "Có lỗi! " + ex.getMessage());
@@ -95,9 +95,7 @@ public class KhachHangDialog extends JDialog {
         String sdt = txtSdt.getText().trim();
         try {
             Integer.parseInt(sdt);
-        }
-        catch (NumberFormatException ex)
-        {
+        } catch (NumberFormatException ex) {
             MsgBox.alert(this, "Số điện thoại phải là số");
             return null;
         }
