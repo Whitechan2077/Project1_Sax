@@ -17,7 +17,7 @@ public class CustomCart extends JXTable {
     public CustomCart(List<CartModel> list) {
         this.list = list;
         putClientProperty("TableHeader.separatorColor", "#000000");
-        setModel(new DisplayCartTableAdapter(list, new String[]{"Tên sản phẩm                         ", "Đơn giá", "SL", " "}));
+        setModel(new DisplayCartTableAdapter(list, new String[]{"Tên sản phẩm", "Đơn giá", "SL", " "}));
     }
 
     public void initComponent() {
