@@ -21,15 +21,13 @@ import com.sax.views.nhanvien.dialog.KhachHangNVDialog;
 import com.sax.views.nhanvien.dialog.UserPopup;
 import com.sax.views.nhanvien.product.ProductItem;
 import com.sax.views.quanly.views.dialogs.CameraDialog;
+import lombok.Getter;
 import org.jdesktop.swingx.JXTable;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.io.FileNotFoundException;
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -39,6 +37,7 @@ import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
 public class NhanVienView extends JPanel {
+    public static NhanVienView nvv;
     private JPanel contentPane;
     private JPanel categoryPane;
     private JPanel cartPane;
@@ -114,6 +113,7 @@ public class NhanVienView extends JPanel {
     }
 
     private void intiComponent() {
+        nvv = this;
         donItem.setLayout(new WrapLayout(WrapLayout.LEFT, 10, 10));
         fillDanhMuc();
         danhMuc.setSelectedIndex(0);
@@ -256,9 +256,11 @@ public class NhanVienView extends JPanel {
     }
 
     private void fillDiem() {
-        int diem = ((KhachHangDTO) cboKH.getSelectedItem()).getDiem();
-        chkDiem.setText(String.valueOf(diem));
-        Cart.tinhTien(cart, lblTienHang, lblChietKhau, lblTPT, chkDiem);
+        if (cboKH.getSelectedItem() != null) {
+            int diem = ((KhachHangDTO) cboKH.getSelectedItem()).getDiem();
+            chkDiem.setText(String.valueOf(diem));
+            Cart.tinhTien(cart, lblTienHang, lblChietKhau, lblTPT, chkDiem);
+        }
     }
 
     private void openScan() {
