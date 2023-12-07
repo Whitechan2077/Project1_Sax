@@ -24,8 +24,6 @@ public class LoginView extends CurvesPanel {
     private JPasswordField txtPass;
     private JCheckBox chkRemember;
     private JLabel lblForgot;
-    private JLabel lblUser;
-    private JLabel lblPass;
     private JButton btnLogin;
     private JTextField txtUsername;
     private AccountDTO accountDTO;
@@ -105,7 +103,7 @@ public class LoginView extends CurvesPanel {
     }
 
     private void login() {
-        Loading loading = new Loading();
+        Loading loading = new Loading(this);
         executorService.submit(() -> {
             try {
                 String pass = new String(txtPass.getPassword());
@@ -118,30 +116,30 @@ public class LoginView extends CurvesPanel {
                     if (HashUtils.checkPassword(readForm().getPassword(), dto.getPassword())) {
                         Session.accountid = dto;
                         if (Session.accountid.getTrangThai()) {
+                            loading.dispose();
                             Application.app.setContentPane((dto.isVaiTro()) ? new QuanLyView() : new NhanVienView());
                             if (chkRemember.isSelected()) AccountUtils.remember(accountDTO);
                             else AccountUtils.deleteFile();
                         } else {
                             loading.dispose();
-                            MsgBox.alert(null, "Tài khoản không được phép");
+                            MsgBox.alert(this, "Tài khoản không được phép");
                         }
-                        loading.dispose();
                         Application.app.pack();
                         Application.app.setLocationRelativeTo(null);
                     } else {
                         loading.dispose();
-                        MsgBox.alert(null, "Sai mật khẩu!");
+                        MsgBox.alert(this, "Sai mật khẩu!");
                     }
                 } else {
                     loading.dispose();
-                    MsgBox.alert(null, "Vui lòng nhập đủ username password");
+                    MsgBox.alert(this, "Vui lòng nhập đủ username password");
                 }
             } catch (InvalidDataAccessResourceUsageException e) {
                 loading.dispose();
-                MsgBox.alert(null, "Server không khả dụng");
+                MsgBox.alert(this, "Server không khả dụng");
             } catch (IllegalArgumentException ex) {
                 loading.dispose();
-                MsgBox.alert(null, "Tài khoản không tồn tại");
+                MsgBox.alert(this, "Tài khoản không tồn tại");
             }
             loading.dispose();
         });

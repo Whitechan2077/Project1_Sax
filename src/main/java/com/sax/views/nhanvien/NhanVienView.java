@@ -17,6 +17,7 @@ import com.sax.views.components.libraries.WrapLayout;
 import com.sax.views.nhanvien.cart.CustomCart;
 import com.sax.views.nhanvien.dialog.DonHangDialog;
 import com.sax.views.nhanvien.dialog.HoaDonDialog;
+import com.sax.views.nhanvien.dialog.KhachHangNVDialog;
 import com.sax.views.nhanvien.dialog.UserPopup;
 import com.sax.views.nhanvien.product.ProductItem;
 import com.sax.views.quanly.views.dialogs.CameraDialog;
@@ -66,6 +67,7 @@ public class NhanVienView extends JPanel {
     private JLabel lblNV;
     private Search timKiem;
     private JCheckBox chkDiem;
+    private JButton btnKhachHang;
     private ExecutorService executorService = Executors.newSingleThreadExecutor();
     private ISachService sachService = ContextUtils.getBean(ISachService.class);
     private IDonHangService donHangService = ContextUtils.getBean(DonHangService.class);
@@ -86,6 +88,7 @@ public class NhanVienView extends JPanel {
         });
         btnThanhToan.addActionListener((e) -> save());
         xButton.addActionListener((e) -> clear());
+        btnKhachHang.addActionListener((e) -> openKhachHang());
         btnDonHang.addActionListener((e) -> openDonHang());
         danhMuc.addMouseListener(new MouseAdapter() {
             @Override
@@ -189,7 +192,7 @@ public class NhanVienView extends JPanel {
                 clear();
             }
         } catch (SQLServerException | FileNotFoundException | InvalidDataAccessApiUsageException e) {
-            MsgBox.alert(null, e.getMessage());
+            MsgBox.alert(this, e.getMessage());
         }
     }
 
@@ -219,12 +222,17 @@ public class NhanVienView extends JPanel {
         return new DonHangDTO(kh, nv, tienPhaiTra, LocalDateTime.now(), pttt, chietKhau, tienHang, chiTietDonHangDTOList);
     }
 
+    private void openKhachHang() {
+        new KhachHangNVDialog().setVisible(true);
+    }
+
     private void openDonHang() {
-        new DonHangDialog(this).setVisible(true);
+        new DonHangDialog().setVisible(true);
     }
 
     private void chonDanhMuc() {
         if (danhMuc.getSelectedIndex() >= 0) {
+            timKiem.txtSearch.setText("");
             if (danhMuc.getSelectedValue() instanceof String) fillSach(sachService.getAllSachInOrNotInCTKM(), donItem);
             else {
                 DanhMucDTO danhMucDTO = (DanhMucDTO) danhMuc.getSelectedValue();
@@ -277,6 +285,7 @@ public class NhanVienView extends JPanel {
         btnBo = new ButtonToolItem("ctkm-c.svg", "ctkm-c.svg");
         btnThanhToan = new ButtonToolItem("ctkm.svg", "ctkm.svg");
         xButton = new ButtonToolItem("x-c.svg", "x-c.svg");
+        btnKhachHang = new ButtonToolItem("khachhang-c.svg", "khachhang-c.svg");
         btnDonHang = new ButtonToolItem("donhang-c.svg", "donhang-c.svg");
         btnTK = new ButtonToolItem("tknv-c.svg", "tknv-c.svg");
 

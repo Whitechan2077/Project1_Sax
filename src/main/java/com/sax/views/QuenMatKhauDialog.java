@@ -115,16 +115,16 @@ public class QuenMatKhauDialog extends JDialog {
                     if (otp.equals(Session.otp)) {
                         accountDTO.setPassword(rePass);
                         accountService.updateUsernamePassword(accountDTO);
-                        MsgBox.alert(null, "Đổi mật khẩu thành công");
+                        MsgBox.alert(this, "Đổi mật khẩu thành công");
                         this.dispose();
-                    } else MsgBox.alert(null, "Sai otp");
-                } else MsgBox.alert(null, "Không trùng mật khẩu");
-            } else MsgBox.alert(null, "Vui lòng gửi otp");
-        } else MsgBox.alert(null, "Vui lòng nhập đủ thông tin");
+                    } else MsgBox.alert(this, "Sai otp");
+                } else MsgBox.alert(this, "Không trùng mật khẩu");
+            } else MsgBox.alert(this, "Vui lòng gửi otp");
+        } else MsgBox.alert(this, "Vui lòng nhập đủ thông tin");
     }
 
     private AccountDTO sendOtp() {
-        Loading loading = new Loading();
+        Loading loading = new Loading(this);
         executorService.submit(() -> {
             try {
                 if (!txtEmail.getText().trim().isEmpty()) {
@@ -135,21 +135,21 @@ public class QuenMatKhauDialog extends JDialog {
                     }
                     MailService.sendEmail(accountDTO.getEmail());
                     loading.dispose();
-                    MsgBox.alert(null, "Mail đã được gửi tới email :" + accountDTO.getEmail());
+                    MsgBox.alert(this, "Mail đã được gửi tới email :" + accountDTO.getEmail());
                 }
                 else{
                     loading.dispose();
-                    MsgBox.alert(null, "Vui lòng nhập email");
+                    MsgBox.alert(this, "Vui lòng nhập email");
                 }
             }
             catch (IllegalArgumentException e) {
                 loading.dispose();
                 accountDTO = null;
-                MsgBox.alert(null, "Không tồn tài khoản");
+                MsgBox.alert(this, "Không tồn tài khoản");
             }
             catch (MessagingException e) {
                 loading.dispose();
-                MsgBox.alert(null, "Mail ko hợp lệ");
+                MsgBox.alert(this, "Mail ko hợp lệ");
             }
         });
         loading.setVisible(true);

@@ -1,5 +1,5 @@
-server: '172.16.44.184'
-password: 'Hoanglinh@99'
+server: 'localhost'
+password: '06122004'
 databaseName: 'sax'
-port: '1434'
+port: '1433'
 username: 'sa'

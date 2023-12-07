@@ -42,8 +42,6 @@ public class TaiKhoanDialog extends JDialog {
     {
         AccountDTO accountDTO = accountService.getById(id);
         txtTK.setText(accountDTO.getUsername());
-        txtMK1.setText(accountDTO.getPassword());
-        txtMK2.setText(accountDTO.getPassword());
         pack();
     }
 
@@ -76,34 +74,34 @@ public class TaiKhoanDialog extends JDialog {
             String taiKhoan = txtTK.getText().trim();
 
             if (taiKhoan.isEmpty()) {
-                JOptionPane.showMessageDialog(parentPane, "Tài khoản không được để trống!");
+                JOptionPane.showMessageDialog(this, "Tài khoản không được để trống!");
                 return null;
             }
             if (taiKhoan.length() < 6) {
-                JOptionPane.showMessageDialog(parentPane, "Tài khoản phải it nhất 6 ký tự!");
+                JOptionPane.showMessageDialog(this, "Tài khoản phải it nhất 6 ký tự!");
                 return null;
             }
             accountDTO.setUsername(taiKhoan);
 
             String mk1 = new String(txtMK1.getText().trim());
             if (mk1.isEmpty()) {
-                JOptionPane.showMessageDialog(parentPane, "Mật khẩu không được để trống!");
+                JOptionPane.showMessageDialog(this, "Mật khẩu không được để trống!");
                 return null;
             }
 
             String mk2 = new String(txtMK2.getText().trim());
             if (mk2.isEmpty()) {
-                JOptionPane.showMessageDialog(parentPane, "Nhập lại mật khẩu không được để trống!");
+                JOptionPane.showMessageDialog(this, "Nhập lại mật khẩu không được để trống!");
                 return null;
             }
             if (!mk1.equals(mk2)) {
-                JOptionPane.showMessageDialog(parentPane, "Nhập lại mật khẩu không khớp với mật khẩu!");
+                JOptionPane.showMessageDialog(this, "Nhập lại mật khẩu không khớp với mật khẩu!");
                 return null;
             }
             accountDTO.setPassword(mk1);
             return accountDTO;
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(parentPane, e.getMessage());
+            JOptionPane.showMessageDialog(this, e.getMessage());
             return null;
         }
     }

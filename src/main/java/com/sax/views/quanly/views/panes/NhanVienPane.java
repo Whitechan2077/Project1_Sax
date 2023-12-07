@@ -54,7 +54,7 @@ public class NhanVienPane extends JPanel {
     private ExecutorService executorService = Executors.newSingleThreadExecutor();
     private List<JCheckBox> listCbk = new ArrayList<>();
     private Set tempIdSet = new HashSet();
-    private Loading loading = new Loading();
+    private Loading loading = new Loading(this);
 
     private DefaultListModel listPageModel = new DefaultListModel();
     @Getter

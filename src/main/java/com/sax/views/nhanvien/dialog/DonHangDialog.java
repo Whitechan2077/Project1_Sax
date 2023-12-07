@@ -15,9 +15,8 @@ import java.util.stream.Collectors;
 
 public class DonHangDialog extends JDialog {
     private JPanel contentPane;
-    private DonHangPane donHang;
 
-    public DonHangDialog(Component parent) {
+    public DonHangDialog() {
         setContentPane(contentPane);
         setModal(true);
         pack();

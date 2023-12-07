@@ -29,7 +29,7 @@ public class DanhMuc {
     private String ghiChu;
     @Basic
     @Column(name = "id_loai_cha",insertable = false,updatable = false)
-    private int idDanhMucCha;
+    private Integer idDanhMucCha;
 
     @ManyToOne
     @JoinColumn(name = "id_loai_cha", referencedColumnName = "id")

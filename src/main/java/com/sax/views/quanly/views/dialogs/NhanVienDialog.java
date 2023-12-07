@@ -59,6 +59,7 @@ public class NhanVienDialog extends JDialog {
     public void fillForm() {
         if (id > 0) {
             AccountDTO accountDTO = accountService.getById(id);
+            lblTitle.setText("Thông tin nhân viên " + accountDTO.getTenNhanVien());
             txtEmail.setText(accountDTO.getEmail());
             txtName.setText(accountDTO.getTenNhanVien());
             txtSdt.setText(accountDTO.getSdt());
@@ -77,12 +78,11 @@ public class NhanVienDialog extends JDialog {
             try {
                 dto.setId(id);
                 accountService.update(dto);
-                if (Session.accountid.getId() == id)
-                {
+                if (Session.accountid.getId() == id) {
                     AccountDTO ac = accountService.getById(id);
                     Session.lblName.setText(ac.getTenNhanVien());
                     Session.avatar.removeAll();
-                    Session.avatar.add(ImageUtils.getCircleImage(ac.getAnh(), 30,20,null,0));
+                    Session.avatar.add(ImageUtils.getCircleImage(ac.getAnh(), 30, 20, null, 0));
                     Session.avatar.revalidate();
                 }
                 parentPane.fillTable(accountService.getPage(parentPane.getPageable()).stream().map(NhanVienViewObject::new).collect(Collectors.toList()));

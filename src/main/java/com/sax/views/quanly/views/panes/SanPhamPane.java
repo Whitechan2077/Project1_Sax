@@ -56,7 +56,7 @@ public class SanPhamPane extends JPanel {
     private ExecutorService executorService = Executors.newSingleThreadExecutor();
     private Set tempIdSet = new HashSet();
     private List<JCheckBox> listCbk = new ArrayList<>();
-    private Loading loading = new Loading();
+    private Loading loading = new Loading(this);
 
     private DefaultListModel listPageModel = new DefaultListModel();
     @Getter
@@ -135,7 +135,6 @@ public class SanPhamPane extends JPanel {
         sachDialog.parentPane = this;
         sachDialog.lblTitle.setText("Thêm mới sách");
         sachDialog.setVisible(true);
-        table.clearSelection();
     }
 
     private void update() {
@@ -147,7 +146,6 @@ public class SanPhamPane extends JPanel {
                 sachDialog.fillForm();
                 loading.dispose();
                 sachDialog.setVisible(true);
-                table.clearSelection();
             });
             loading.setVisible(true);
         } else MsgBox.alert(this, "Vui lòng chọn một sản phẩm!");
@@ -155,7 +153,7 @@ public class SanPhamPane extends JPanel {
 
     private void delete() {
         if (!tempIdSet.isEmpty()) {
-            boolean check = MsgBox.confirm(null, "Bạn có muốn xoá " + tempIdSet.size() + " sản phẩm này không?");
+            boolean check = MsgBox.confirm(this, "Bạn có muốn xoá " + tempIdSet.size() + " sản phẩm này không?");
             if (check) {
                 try {
                     sachService.deleteAll(tempIdSet);

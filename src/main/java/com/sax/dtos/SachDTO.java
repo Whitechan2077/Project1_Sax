@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.Set;
+
 @EqualsAndHashCode(callSuper = true)
 @Data
 @NoArgsConstructor
@@ -23,6 +24,7 @@ public class SachDTO extends AbstractDTO {
     private String nxb;
     private Set<DanhMucDTO> setDanhMuc;
     private long giaGiam;
+
     public SachDTO(int id, String tenSach, Long giaBan, Integer soLuong, String hinhAnh) {
         super(id);
         this.tenSach = tenSach;
@@ -55,9 +57,10 @@ public class SachDTO extends AbstractDTO {
         this.nxb = nxb;
         this.setDanhMuc = setDanhMuc;
     }
-    
+
     @Override
     public String toString() {
+        if (id == 0) return "-Nhấn vào để chọn sách-";
         return id + " - " + tenSach;
     }
 }

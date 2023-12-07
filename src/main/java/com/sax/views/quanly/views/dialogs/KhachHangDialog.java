@@ -42,9 +42,10 @@ public class KhachHangDialog extends JDialog {
 
     private void initComponent() {
         setContentPane(contentPanel);
-        setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+        setModal(true);
         pack();
-        setLocationRelativeTo(null);
+//        setFocusableWindowState(true);
+        setAlwaysOnTop(true);
 
         khachHangService = ContextUtils.getBean(KhachHangService.class);
     }
@@ -106,6 +107,7 @@ public class KhachHangDialog extends JDialog {
             khachHangDTO.setDiem(Integer.parseInt(diem));
         } catch (NumberFormatException ex) {
             MsgBox.alert(this, "Điểm bán phải là số!");
+            return null;
         }
         boolean gt = (rdoNam.isSelected()) ? true : false;
         khachHangDTO.setGioiTinh(gt);

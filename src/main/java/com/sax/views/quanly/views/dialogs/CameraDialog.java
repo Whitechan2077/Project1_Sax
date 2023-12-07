@@ -69,7 +69,6 @@ public class CameraDialog extends JDialog {
         });
         thread.start();
         dispose();
-
     }
 
     public CameraDialog(JXTable table, JLabel lblTienHang, JLabel lblTrietKhau, JLabel lblTPT, JCheckBox chkDiem) {
@@ -124,7 +123,7 @@ public class CameraDialog extends JDialog {
         setLocationRelativeTo(Application.app);
 
         nu.pattern.OpenCV.loadLocally();
-        videoCapture = new VideoCapture(0);
+        videoCapture = new VideoCapture(1);
         frame = new Mat();
     }
 }
