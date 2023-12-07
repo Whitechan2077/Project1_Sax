@@ -27,6 +27,9 @@ public class DanhMuc {
     @Basic
     @Column(name = "ghi_chu", nullable = true, columnDefinition = "nvarchar(255)")
     private String ghiChu;
+    @Basic
+    @Column(name = "id_loai_cha",insertable = false,updatable = false)
+    private Integer idDanhMucCha;
 
     @ManyToOne
     @JoinColumn(name = "id_loai_cha", referencedColumnName = "id")

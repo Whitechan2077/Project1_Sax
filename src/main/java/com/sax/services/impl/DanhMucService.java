@@ -96,19 +96,13 @@ public class DanhMucService implements IDanhMucService {
             sachList.forEach(sach -> sach.getSetDanhMuc()
                     .forEach(danhMuc -> danhMucMap.put(danhMuc.getId(), danhMuc)));
             ids.forEach(id -> {
-                DanhMuc danhMuc = repository.findById(id).orElseThrow();
-               if (danhMuc.getDanhMucCon().isEmpty()){
                    sachList.forEach(sach -> {
                        sach.getSetDanhMuc().remove(danhMucMap.get(id));
                        sachRepository.save(sach);
                    });
+                   repository.updateAllByDanhMucCha(id);
                    repository.deleteById(id);
-               }
-               else {
-                    name.append(", ").append(danhMuc.getTenDanhMuc());
-               }
             });
-        if (!name.isEmpty()) throw new RuntimeException("Danh mục: "+name+" do là danh mục cha");
     }
 
     @Override

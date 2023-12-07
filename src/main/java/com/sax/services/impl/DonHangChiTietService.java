@@ -3,8 +3,12 @@ package com.sax.services.impl;
 import com.microsoft.sqlserver.jdbc.SQLServerException;
 import com.sax.dtos.ChiTietDonHangDTO;
 import com.sax.dtos.DonHangDTO;
+import com.sax.entities.ChiTietDonHang;
 import com.sax.entities.DonHang;
+import com.sax.entities.Sach;
 import com.sax.repositories.IDonHangChiTietRepository;
+import com.sax.repositories.IDonHangRepository;
+import com.sax.repositories.ISachRepository;
 import com.sax.services.IDonHangChiTetService;
 import com.sax.utils.DTOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +23,10 @@ import java.util.Set;
 public class DonHangChiTietService implements IDonHangChiTetService {
     @Autowired
     private IDonHangChiTietRepository repository;
+    @Autowired
+    private ISachRepository sachRepository;
+    @Autowired
+    IDonHangRepository donHangRepository;
 
     @Override
     public List<ChiTietDonHangDTO> getAll() {
@@ -37,6 +45,7 @@ public class DonHangChiTietService implements IDonHangChiTetService {
                         .orElseThrow(()
                                 -> new NoSuchElementException("Khong tim thay")), ChiTietDonHangDTO.class);
     }
+
     @Override
     public ChiTietDonHangDTO insert(ChiTietDonHangDTO e) throws SQLServerException {
         return null;
@@ -45,11 +54,20 @@ public class DonHangChiTietService implements IDonHangChiTetService {
 
     @Override
     public void update(ChiTietDonHangDTO e) throws SQLServerException {
-
+        ChiTietDonHang chiTietDonHang = DTOUtils.getInstance().converter(e, ChiTietDonHang.class);
+        repository.save(chiTietDonHang);
     }
 
     @Override
     public void delete(Integer id) throws SQLServerException {
+        ChiTietDonHang chiTietDonHang = repository.findById(id).orElseThrow();
+        Sach sach = chiTietDonHang.getSach();
+        sach.setSoLuong(sach.getSoLuong() - chiTietDonHang.getSoLuong());
+        DonHang donHang = chiTietDonHang.getDonHang();
+        donHang.setTongTien(donHang.getTongTien() - chiTietDonHang.getSoLuong() *
+                (chiTietDonHang.getGiaBan() - chiTietDonHang.getGiaGiam()));
+        sachRepository.save(sach);
+        donHangRepository.save(donHang);
         repository.deleteById(id);
     }
 
@@ -78,6 +96,6 @@ public class DonHangChiTietService implements IDonHangChiTetService {
     public List<ChiTietDonHangDTO> getAllByDonHang(DonHangDTO donHangDTO) {
         return DTOUtils.getInstance()
                 .convertToDTOList(repository.findAllByDonHang(DTOUtils.getInstance().
-                        converter(donHangDTO, DonHang.class)),ChiTietDonHangDTO.class);
+                        converter(donHangDTO, DonHang.class)), ChiTietDonHangDTO.class);
     }
 }
