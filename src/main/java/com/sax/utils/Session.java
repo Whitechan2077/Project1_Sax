@@ -79,6 +79,8 @@ public class Session {
         table.getColumnModel().getColumn(0).setCellEditor(new CustomTableCellEditor(list));
         table.setDefaultRenderer(Object.class, new CustomTableCellRender(list, cbkSelectedAll));
         table.packAll();
+        table.getColumns().forEach(i -> i.sizeWidthToFit());
+        table.setCursor(new Cursor(Cursor.HAND_CURSOR));
     }
 
     public static void fillListPage(int value, DefaultListModel listPageModel, ICrudServices services, int amount, JList listPage) {

@@ -40,7 +40,7 @@ public class SachDialog extends JDialog {
     private JPanel nhapTTPanel;
     private JPanel danhMucPanel;
     private JPanel thumbPanel;
-    private Loading loading = new Loading();
+    private Loading loading = new Loading(this);
     private ExecutorService executorService = Executors.newSingleThreadExecutor();
     private ISachService sachService = ContextUtils.getBean(SachService.class);
     private IDanhMucService danhMucService = ContextUtils.getBean(DanhMucService.class);

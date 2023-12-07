@@ -124,7 +124,7 @@ public class QuenMatKhauDialog extends JDialog {
     }
 
     private AccountDTO sendOtp() {
-        Loading loading = new Loading();
+        Loading loading = new Loading(this);
         executorService.submit(() -> {
             try {
                 if (!txtEmail.getText().trim().isEmpty()) {

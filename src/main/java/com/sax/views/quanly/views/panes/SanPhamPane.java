@@ -56,7 +56,7 @@ public class SanPhamPane extends JPanel {
     private ExecutorService executorService = Executors.newSingleThreadExecutor();
     private Set tempIdSet = new HashSet();
     private List<JCheckBox> listCbk = new ArrayList<>();
-    private Loading loading = new Loading();
+    private Loading loading = new Loading(this);
 
     private DefaultListModel listPageModel = new DefaultListModel();
     @Getter

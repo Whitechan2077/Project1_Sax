@@ -4,7 +4,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import java.awt.*;
 
-public class CustomHeaderTableCellRenderer<T> extends DefaultTableCellRenderer {
+public class CustomHeaderTableCellRenderer extends DefaultTableCellRenderer {
     private JLabel l;
 
     public CustomHeaderTableCellRenderer() {

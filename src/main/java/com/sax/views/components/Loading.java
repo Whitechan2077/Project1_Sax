@@ -16,7 +16,7 @@ public class Loading extends JDialog {
     private JPanel okee;
     private JPanel contentPane;
 
-    public Loading() {
+    public Loading(Component parent) {
         okee.setBorder(new FlatLineBorder(new Insets(0, 0, 0, 0), Color.decode("#a7a7a7"), 1, 10));
         setUndecorated(true);
         getRootPane().setBackground(new Color(0, 0, 0, 0));
@@ -27,7 +27,8 @@ public class Loading extends JDialog {
         setContentPane(contentPane);
         setModal(true);
         pack();
-        setLocationRelativeTo(Application.app);
+        setLocationRelativeTo(parent);
+        setAlwaysOnTop(true);
     }
 
     private void createUIComponents() {

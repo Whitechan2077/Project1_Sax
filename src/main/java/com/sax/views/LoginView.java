@@ -103,7 +103,7 @@ public class LoginView extends CurvesPanel {
     }
 
     private void login() {
-        Loading loading = new Loading();
+        Loading loading = new Loading(this);
         executorService.submit(() -> {
             try {
                 String pass = new String(txtPass.getPassword());
@@ -116,6 +116,7 @@ public class LoginView extends CurvesPanel {
                     if (HashUtils.checkPassword(readForm().getPassword(), dto.getPassword())) {
                         Session.accountid = dto;
                         if (Session.accountid.getTrangThai()) {
+                            loading.dispose();
                             Application.app.setContentPane((dto.isVaiTro()) ? new QuanLyView() : new NhanVienView());
                             if (chkRemember.isSelected()) AccountUtils.remember(accountDTO);
                             else AccountUtils.deleteFile();
@@ -123,7 +124,6 @@ public class LoginView extends CurvesPanel {
                             loading.dispose();
                             MsgBox.alert(this, "Tài khoản không được phép");
                         }
-                        loading.dispose();
                         Application.app.pack();
                         Application.app.setLocationRelativeTo(null);
                     } else {

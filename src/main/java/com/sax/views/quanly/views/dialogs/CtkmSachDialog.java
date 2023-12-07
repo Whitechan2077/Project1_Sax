@@ -12,6 +12,7 @@ import com.sax.services.impl.SachService;
 import com.sax.utils.ContextUtils;
 import com.sax.utils.MsgBox;
 import com.sax.views.components.ListPageNumber;
+import com.sax.views.components.Loading;
 import com.sax.views.components.libraries.ButtonToolItem;
 import com.sax.views.components.libraries.RoundPanel;
 import com.sax.views.components.table.CustomHeaderTableCellRenderer;
@@ -24,11 +25,14 @@ import org.jdesktop.swingx.JXTable;
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
 public class CtkmSachDialog extends JDialog {
@@ -40,11 +44,13 @@ public class CtkmSachDialog extends JDialog {
     private JButton btnDel;
     private JButton btnSave;
     private JList listPage;
+    private ExecutorService executorService = Executors.newSingleThreadExecutor();
     private List<CtkmSachDTO> listCtkmSach = new ArrayList<>();
     private ICtkmService ctkmService = ContextUtils.getBean(CtkmService.class);
     private ICtkmSachService ctkmSachService = ContextUtils.getBean(CtkmSachService.class);
     private ISachService sachService = ContextUtils.getBean(SachService.class);
     private Set tempIdSet = new HashSet();
+    private Loading loading = new Loading(this);
 
     public CtkmDTO ctkmDTO;
     public KhuyenMaiPane khuyenMaiPane;
@@ -64,36 +70,32 @@ public class CtkmSachDialog extends JDialog {
         setModal(true);
         pack();
         setLocationRelativeTo(khuyenMaiPane);
-
         table.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        ((DefaultTableModel) table.getModel()).setColumnIdentifiers(new String[]{"", "STT", "Sản phẩm", "Giá trị giảm"});
-        fillTable(listCtkmSach.stream().map(CtkmSachViewObject::new).collect(Collectors.toList()));
     }
 
     public void fillForm() {
         lblTitle.setText("Áp dụng sách cho sự kiện " + ctkmDTO.getTenSuKien());
+        ((DefaultTableModel) table.getModel()).setColumnIdentifiers(new String[]{"", "STT", "Sản phẩm", "Giá trị giảm " + (ctkmDTO.isKieuGiamGia() ? "(%)" : "(vnd)")});
+        fillTable(listCtkmSach.stream().map(CtkmSachViewObject::new).collect(Collectors.toList()));
     }
 
     private void addToTable() {
         tempIdSet.clear();
         CtkmSachDTO ctkmSachDTO = new CtkmSachDTO();
         SachDTO sachDTO = new SachDTO();
-        sachDTO.setTenSach("--Chọn--");
+        sachDTO.setTenSach("");
         ctkmSachDTO.setCtkm(ctkmDTO);
         ctkmSachDTO.setSach(sachDTO);
         ctkmSachDTO.setGiaTriGiam(1L);
         listCtkmSach.add(ctkmSachDTO);
         fillTable(listCtkmSach.stream().map(CtkmSachViewObject::new).collect(Collectors.toList()));
+        table.getColumns().forEach(TableColumn::sizeWidthToFit);
     }
 
     private void fillTable(List<AbstractViewObject> list) {
         ((DefaultTableModel) table.getModel()).setRowCount(0);
         for (int i = 0; i < list.size(); i++) {
             CtkmSachViewObject obj = (CtkmSachViewObject) list.get(i);
-//            obj.getCheckBoxDelete().addActionListener((e) -> {
-//                if (obj.getCheckBoxDelete().isSelected()) tempIdSet.add(obj.getSach().getId());
-//                else tempIdSet.remove(obj.getSach().getId());
-//            });
             ((DefaultTableModel) table.getModel()).addRow(new Object[]{list.get(i).getCheckBoxDelete(), i + 1, obj.getSach(), obj.getGiaTriGiam()});
         }
         table.setDefaultEditor(Object.class, null);
@@ -111,16 +113,18 @@ public class CtkmSachDialog extends JDialog {
                     cbd.setHorizontalAlignment(SwingConstants.CENTER);
                     p.add(cbd);
                 } else if (column == 2) {
-                    JLabel cbd = new JLabel(listCtkmSach.get(row).getSach().toString());
-                    cbd.setHorizontalAlignment(SwingConstants.LEFT);
-                    p.add(cbd);
+                    JLabel l = new JLabel(listCtkmSach.get(row).getSach().toString());
+                    l.setFont(new Font(".SF NS Text", 4, 13));
+                    l.setHorizontalAlignment(SwingConstants.LEFT);
+                    p.add(l);
                 } else if (column == 3) {
-                    JLabel cbd = new JLabel(listCtkmSach.get(row).getGiaTriGiam().toString());
-                    cbd.setHorizontalAlignment(SwingConstants.LEFT);
-                    p.add(cbd);
+                    JLabel l = new JLabel(listCtkmSach.get(row).getGiaTriGiam().toString());
+                    l.setFont(new Font(".SF NS Text", 4, 13));
+                    p.add(l);
                 } else {
                     JLabel l = (value == null) ? new JLabel("") : new JLabel("  " + value + "  ");
                     l.setFont(new Font(".SF NS Text", 4, 13));
+                    l.setHorizontalAlignment(SwingConstants.CENTER);
                     l.setForeground(Color.decode("#727272"));
                     p.add(l);
                 }
@@ -147,19 +151,25 @@ public class CtkmSachDialog extends JDialog {
                 return p;
             }
         });
-        table.getColumnModel().getColumn(2).setCellEditor(new DefaultCellEditor(new JTextField()) {
+        table.getColumnModel().getColumn(2).setCellEditor(new DefaultCellEditor(new JCheckBox()) {
             @Override
             public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
                 JComboBox jComboBox = new JComboBox();
-                sachService.getAllSachNotInCTKM().stream().filter(i -> {
-                    for (CtkmSachDTO s : listCtkmSach)
-                        if (s.getSach() != null && s.getSach().getId() == i.getId()) return false;
-                    return true;
-                }).forEach(i -> jComboBox.addItem(i));
-
+                executorService.submit(() -> {
+                    sachService.getAllSachNotInCTKM().stream().filter(i -> {
+                        for (CtkmSachDTO s : listCtkmSach)
+                            if (s.getSach() != null && s.getSach().getId() == i.getId()) return false;
+                        return true;
+                    }).forEach(i -> {
+                        jComboBox.addItem(i);
+                    });
+                    loading.dispose();
+                });
+                loading.setVisible(true);
                 jComboBox.addActionListener((e) -> {
                     listCtkmSach.get(row).setSach((SachDTO) jComboBox.getSelectedItem());
                     table.revalidate();
+                    ((JXTable) table).packAll();
                 });
                 return jComboBox;
             }
@@ -190,6 +200,11 @@ public class CtkmSachDialog extends JDialog {
 
         if (ctkmDTO.isKieuGiamGia()) {
             for (CtkmSachDTO ctkmSachDTO : listCtkmSach) {
+                if (table.getRowCount() == 0) {
+                    MsgBox.alert(this, "Vui lòng thêm sách!");
+                    check = false;
+                    break;
+                }
                 if (ctkmSachDTO.getSach().getId() == 0) {
                     MsgBox.alert(this, "Vui lòng chọn sách!");
                     check = false;

@@ -66,7 +66,7 @@ public class DanhMucPane extends JPanel {
 
     private Set<Integer> tempIdSet = new HashSet<>();
     private List<JCheckBox> listCbk = new ArrayList<>();
-    private Loading loading = new Loading();
+    private Loading loading = new Loading(this);
 
     private DefaultListModel listPageModel = new DefaultListModel();
     private Timer timer;

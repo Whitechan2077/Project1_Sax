@@ -71,7 +71,7 @@ public class KhuyenMaiPane extends JPanel {
     private Set tempIdSetSP = new HashSet();
     private List<JCheckBox> listCbkCTKM = new ArrayList<>();
     private List<JCheckBox> listCbkSP = new ArrayList<>();
-    private Loading loading = new Loading();
+    private Loading loading = new Loading(this);
 
     private DefaultListModel listPageModelKM = new DefaultListModel();
     @Getter
