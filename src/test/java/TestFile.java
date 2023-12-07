@@ -88,10 +88,9 @@ public class TestFile {
     }
 
     @Test
-    public void test1() throws SQLServerException {
-        ISachService service = ContextUtils.getBean(SachService.class);
-        SachDTO dto = service.getById(1);
-        dto.setBarCode("978020137961");
-        service.update(dto);
+    public void test1() {
+        IDanhMucService service = ContextUtils.getBean(DanhMucService.class);
+        service.getAllDanhMucForUpdate(6141).forEach(System.out::println);
     }
+
 }

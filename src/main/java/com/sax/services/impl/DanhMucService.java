@@ -89,24 +89,30 @@ public class DanhMucService implements IDanhMucService {
     }
 
     @Override
+    @Transactional
     public void deleteAllDanhMucSach(Set<Integer> ids) {
-            List<Sach> sachList = sachRepository.findAll();
-            Map<Integer, DanhMuc> danhMucMap = new HashMap<>();
-            sachList.forEach(sach -> sach.getSetDanhMuc()
-                    .forEach(danhMuc -> danhMucMap.put(danhMuc.getId(), danhMuc)));
-            ids.forEach(id -> {
-                   sachList.forEach(sach -> {
-                       sach.getSetDanhMuc().remove(danhMucMap.get(id));
-                       sachRepository.save(sach);
-                   });
-                   repository.updateAllByDanhMucCha(id);
-                   repository.deleteById(id);
-            });
+            try{
+                List<Sach> sachList = sachRepository.findAll();
+                Map<Integer, DanhMuc> danhMucMap = new HashMap<>();
+                sachList.forEach(sach -> sach.getSetDanhMuc()
+                        .forEach(danhMuc -> danhMucMap.put(danhMuc.getId(), danhMuc)));
+                ids.forEach(id -> {
+                    repository.updateAllByDanhMucCha(id);
+                    sachList.forEach(sach -> {
+                        sach.getSetDanhMuc().remove(danhMucMap.get(id));
+                    });
+                });
+                sachRepository.saveAll(sachList);
+                repository.deleteAllById(ids);
+            }
+            catch (Exception e){
+                e.printStackTrace();
+            }
     }
 
     @Override
     public List<DanhMucDTO> getAllDanhMucForUpdate(int id) {
-        DanhMuc danhMuc = repository.findById(id).orElseThrow();
+        DanhMuc danhMuc = repository.findById(id).orElseThrow(() -> new NoSuchElementException("sai id ko tim thay"));
         List<DanhMucDTO> listAll =this.getAll();
         listAll.removeAll( getChildDanhMucDTO(danhMuc,0));
         return listAll;

@@ -5,9 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ae584a0d-648e-4dda-ac4f-787f156a798a" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sax/services/IDanhMucService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sax/services/IDanhMucService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sax/repositories/IDanhMucRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sax/repositories/IDanhMucRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/sax/services/impl/DanhMucService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sax/services/impl/DanhMucService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sax/services/impl/SachService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sax/services/impl/SachService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/TestFile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/TestFile.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -63,6 +63,11 @@
             <option name="WATCH_EXIT" value="false" />
           </properties>
           <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/sax/services/impl/DanhMucService.java</url>
+          <line>110</line>
+          <option name="timeStamp" value="2" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
