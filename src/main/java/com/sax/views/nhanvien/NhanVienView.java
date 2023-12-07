@@ -67,6 +67,7 @@ public class NhanVienView extends JPanel {
     private Search timKiem;
     private JCheckBox chkDiem;
     private JButton btnKhachHang;
+    private JPanel useDiem;
     private ExecutorService executorService = Executors.newSingleThreadExecutor();
     private ISachService sachService = ContextUtils.getBean(ISachService.class);
     private IDonHangService donHangService = ContextUtils.getBean(DonHangService.class);
@@ -258,8 +259,15 @@ public class NhanVienView extends JPanel {
     private void fillDiem() {
         if (cboKH.getSelectedItem() != null) {
             int diem = ((KhachHangDTO) cboKH.getSelectedItem()).getDiem();
-            chkDiem.setText(String.valueOf(diem));
-            Cart.tinhTien(cart, lblTienHang, lblChietKhau, lblTPT, chkDiem);
+            if (diem >= 0) {
+                useDiem.setVisible(true);
+                chkDiem.setText(String.valueOf(diem));
+                Cart.tinhTien(cart, lblTienHang, lblChietKhau, lblTPT, chkDiem);
+            } else
+            {
+                useDiem.setVisible(false);
+                chkDiem.setSelected(false);
+            }
         }
     }
 
