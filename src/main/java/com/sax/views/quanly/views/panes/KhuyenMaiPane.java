@@ -139,7 +139,6 @@ public class KhuyenMaiPane extends JPanel {
         loading.setVisible(true);
         new WorkerSP().execute();
         loading.setVisible(true);
-        fillListPage();
         timerKM = new Timer(300, e -> {
             searchByKeywordKM();
             timerKM.stop();
@@ -239,10 +238,12 @@ public class KhuyenMaiPane extends JPanel {
 
     //Table CTKM_Sach
     public void fillCboCtkm() {
-        cboCTKM.addItem("-Tất cả-");
-        ctkmService.getAll().stream()
-                .filter(i -> ctkmSachService.getAllSachInCtkm(i).size() > 0)
-                .forEach(i -> cboCTKM.addItem(i));
+        executorService.submit(() -> {
+            cboCTKM.addItem("-Tất cả-");
+            ctkmService.getAll().stream()
+                    .filter(i -> ctkmSachService.getAllSachInCtkm(i).size() > 0)
+                    .forEach(i -> cboCTKM.addItem(i));
+        });
     }
 
     public void fillTableSP(List<AbstractViewObject> list) {

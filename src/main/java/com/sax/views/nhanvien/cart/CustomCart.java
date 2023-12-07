@@ -21,6 +21,7 @@ public class CustomCart extends JXTable {
     }
 
     public void initComponent() {
+        setCursor(new Cursor(Cursor.HAND_CURSOR));
         getTableHeader().setEnabled(false);
         getTableHeader().setDefaultRenderer(new CustomHeaderTableCellRenderer());
         setDefaultRenderer(Object.class, new TableCellRenderer() {

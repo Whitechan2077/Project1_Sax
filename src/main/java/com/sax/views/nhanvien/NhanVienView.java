@@ -9,6 +9,7 @@ import com.sax.services.impl.DonHangService;
 import com.sax.services.impl.KhachHangService;
 import com.sax.utils.*;
 import com.sax.views.components.ComboBoxSearch;
+import com.sax.views.components.Loading;
 import com.sax.views.components.Search;
 import com.sax.views.components.libraries.ButtonToolItem;
 import com.sax.views.components.libraries.CustomScrollPane;
@@ -20,8 +21,11 @@ import com.sax.views.nhanvien.dialog.HoaDonDialog;
 import com.sax.views.nhanvien.dialog.KhachHangNVDialog;
 import com.sax.views.nhanvien.dialog.UserPopup;
 import com.sax.views.nhanvien.product.ProductItem;
+import com.sax.views.quanly.viewmodel.AbstractViewObject;
+import com.sax.views.quanly.viewmodel.SachViewObject;
 import com.sax.views.quanly.views.dialogs.CameraDialog;
 import lombok.Getter;
+import org.jdesktop.swingworker.SwingWorker;
 import org.jdesktop.swingx.JXTable;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 
@@ -32,6 +36,7 @@ import java.io.FileNotFoundException;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
@@ -75,13 +80,14 @@ public class NhanVienView extends JPanel {
     private IAccountService accountService = ContextUtils.getBean(AccountService.class);
     private IDanhMucService danhMucService = ContextUtils.getBean(DanhMucService.class);
     private DefaultListModel danhMucLM = new DefaultListModel();
+    private Loading loading = new Loading(this);
     private Timer timer;
 
     public NhanVienView() {
         intiComponent();
         btnDon.addActionListener((e) -> {
             ((CardLayout) tabContent.getLayout()).show(tabContent, "don");
-            fillSach(sachService.getAllSachInOrNotInCTKM(), donItem);
+            fillSach(sachService.getAllSachInOrNotInCTKM());
         });
         btnBo.addActionListener((e) -> {
             ((CardLayout) tabContent.getLayout()).show(tabContent, "bo");
@@ -116,9 +122,11 @@ public class NhanVienView extends JPanel {
     private void intiComponent() {
         nvv = this;
         donItem.setLayout(new WrapLayout(WrapLayout.LEFT, 10, 10));
+        new Worker(0).execute();
+        loading.setVisible(true);
         fillDanhMuc();
+        danhMuc.setCursor(new Cursor(Cursor.HAND_CURSOR));
         danhMuc.setSelectedIndex(0);
-        fillSach(sachService.getAllSachInOrNotInCTKM(), donItem);
         fillKhachHang(khachHangService.getAll());
         ((CustomCart) cart).initComponent();
         Session.lblName = lblNV;
@@ -127,7 +135,7 @@ public class NhanVienView extends JPanel {
         avatar.add(ImageUtils.getCircleImage(Session.accountid.getAnh(), 30, 30, null, 0));
         lblLogo.setIcon(new ImageIcon(ImageUtils.readImage("logo.png").getScaledInstance(73, 50, Image.SCALE_SMOOTH)));
         ((JLayeredPane) avatar.getComponent(0)).getComponent(0).setCursor(new Cursor(Cursor.HAND_CURSOR));
-        danhMuc.setCursor(new Cursor(Cursor.HAND_CURSOR));
+
         timer = new Timer(300, e -> {
             searchByKeyword();
             timer.stop();
@@ -164,14 +172,14 @@ public class NhanVienView extends JPanel {
         });
     }
 
-    private void fillSach(List<SachDTO> list, JPanel content) {
-        content.removeAll();
+    private void fillSach(List<SachDTO> list) {
+        donItem.removeAll();
         list.forEach(i -> {
             ProductItem pdi = new ProductItem(cart, lblTienHang, lblChietKhau, lblTPT, chkDiem);
             pdi.setData(i);
-            content.add(pdi);
+            donItem.add(pdi);
             pdi.revalidate();
-            content.revalidate();
+            donItem.revalidate();
             pdi.getBtnAddToCart().addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
@@ -179,8 +187,8 @@ public class NhanVienView extends JPanel {
                 }
             });
         });
-        content.revalidate();
-        content.repaint();
+        donItem.revalidate();
+        donItem.repaint();
     }
 
     private void save() {
@@ -189,7 +197,8 @@ public class NhanVienView extends JPanel {
             if (donHangDTO.getChiTietDonHangs().size() > 0) {
                 donHangDTO.setId(donHangService.insert(donHangDTO).getId());
                 new HoaDonDialog(this, donHangDTO, true).setVisible(true);
-                fillSach(sachService.getAllSachInOrNotInCTKM(), donItem);
+                new Worker(0).execute();
+                loading.setVisible(true);
                 clear();
             }
         } catch (SQLServerException | FileNotFoundException | InvalidDataAccessApiUsageException e) {
@@ -234,10 +243,12 @@ public class NhanVienView extends JPanel {
     private void chonDanhMuc() {
         if (danhMuc.getSelectedIndex() >= 0) {
             timKiem.txtSearch.setText("");
-            if (danhMuc.getSelectedValue() instanceof String) fillSach(sachService.getAllSachInOrNotInCTKM(), donItem);
-            else {
-                DanhMucDTO danhMucDTO = (DanhMucDTO) danhMuc.getSelectedValue();
-                fillSach(sachService.getAllSachByIdDanhMuc(danhMucDTO.getId()), donItem);
+            if (danhMuc.getSelectedValue() instanceof String) {
+                new Worker(0).execute();
+                loading.setVisible(true);
+            } else {
+                new Worker(1).execute();
+                loading.setVisible(true);
             }
         }
     }
@@ -250,24 +261,26 @@ public class NhanVienView extends JPanel {
     public void searchByKeyword() {
         String keyword = timKiem.txtSearch.getText();
         if (!keyword.isEmpty()) {
-            fillSach(sachService.getAllAvailableSachByKeyWord(keyword), donItem);
+            fillSach(sachService.getAllAvailableSachByKeyWord(keyword));
         } else {
-            fillSach(sachService.getAllSachNotInCTKM(), donItem);
+            new Worker(0).execute();
+            loading.setVisible(true);
         }
     }
 
     private void fillDiem() {
         if (cboKH.getSelectedItem() != null) {
             int diem = ((KhachHangDTO) cboKH.getSelectedItem()).getDiem();
+            System.out.println(diem);
             if (diem >= 0) {
                 useDiem.setVisible(true);
                 chkDiem.setText(String.valueOf(diem));
-                Cart.tinhTien(cart, lblTienHang, lblChietKhau, lblTPT, chkDiem);
-            } else
-            {
+            } else {
+                chkDiem.setText("0");
                 useDiem.setVisible(false);
                 chkDiem.setSelected(false);
             }
+            Cart.tinhTien(cart, lblTienHang, lblChietKhau, lblTPT, chkDiem);
         }
     }
 
@@ -302,5 +315,38 @@ public class NhanVienView extends JPanel {
         cboKH = new ComboBoxSearch();
 
         cart = new CustomCart(Cart.getCart());
+    }
+
+    class Worker extends SwingWorker<List<SachDTO>, Integer> {
+        int type;
+
+        public Worker(int type) {
+            this.type = type;
+        }
+
+        @Override
+        protected List<SachDTO> doInBackground() {
+            switch (type) {
+                case 0 -> {
+                    return sachService.getAllSachInOrNotInCTKM();
+                }
+
+                default -> {
+                    DanhMucDTO danhMucDTO = (DanhMucDTO) danhMuc.getSelectedValue();
+                    return sachService.getAllSachByIdDanhMuc(danhMucDTO.getId());
+                }
+            }
+
+        }
+
+        @Override
+        protected void done() {
+            try {
+                fillSach(get());
+                loading.dispose();
+            } catch (InterruptedException | ExecutionException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 }

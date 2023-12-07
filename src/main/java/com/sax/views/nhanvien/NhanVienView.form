@@ -22,7 +22,7 @@
         </properties>
         <border type="none"/>
         <children>
-          <grid id="83d65" layout-manager="BorderLayout" hgap="10" vgap="10">
+          <grid id="c5783" layout-manager="BorderLayout" hgap="10" vgap="10">
             <constraints>
               <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
             </constraints>
@@ -31,135 +31,126 @@
             </properties>
             <border type="none"/>
             <children>
-              <grid id="c5783" layout-manager="BorderLayout" hgap="10" vgap="10">
+              <scrollpane id="e3390" binding="scrollDon" custom-create="true">
                 <constraints border-constraint="Center"/>
                 <properties>
+                  <horizontalScrollBarPolicy value="31"/>
                   <opaque value="false"/>
                 </properties>
-                <border type="none"/>
+                <border type="empty"/>
                 <children>
-                  <scrollpane id="e3390" binding="scrollDon" custom-create="true">
-                    <constraints border-constraint="Center"/>
+                  <grid id="9ba0d" binding="donItem" custom-create="true" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="0" left="0" bottom="0" right="0"/>
+                    <constraints/>
                     <properties>
-                      <horizontalScrollBarPolicy value="31"/>
                       <opaque value="false"/>
                     </properties>
-                    <border type="empty"/>
+                    <border type="none"/>
+                    <children/>
+                  </grid>
+                </children>
+              </scrollpane>
+              <grid id="4b76" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                <margin top="0" left="0" bottom="0" right="0"/>
+                <constraints border-constraint="West"/>
+                <properties/>
+                <border type="none"/>
+                <children>
+                  <grid id="65161" binding="categoryPane" custom-create="true" layout-manager="GridLayoutManager" row-count="3" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="20" left="10" bottom="20" right="10"/>
+                    <constraints>
+                      <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <background color="-1"/>
+                      <minimumSize width="350" height="89"/>
+                      <preferredSize width="290" height="89"/>
+                    </properties>
+                    <border type="none"/>
                     <children>
-                      <grid id="9ba0d" binding="donItem" custom-create="true" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                      <component id="19d91" class="javax.swing.JLabel">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties>
+                          <font size="20" style="1"/>
+                          <text value="Danh mục"/>
+                        </properties>
+                      </component>
+                      <hspacer id="79fda">
+                        <constraints>
+                          <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                      </hspacer>
+                      <scrollpane id="8a10d">
+                        <constraints>
+                          <grid row="1" column="0" row-span="1" col-span="2" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties/>
+                        <border type="empty"/>
+                        <children>
+                          <component id="491a8" class="javax.swing.JList" binding="danhMuc">
+                            <constraints/>
+                            <properties>
+                              <fixedCellHeight value="30"/>
+                              <selectedIndex value="-1"/>
+                              <selectionMode value="0"/>
+                              <visibleRowCount value="20"/>
+                            </properties>
+                          </component>
+                        </children>
+                      </scrollpane>
+                      <grid id="4add7" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="true" same-size-vertically="false" hgap="-1" vgap="-1">
                         <margin top="0" left="0" bottom="0" right="0"/>
-                        <constraints/>
+                        <constraints>
+                          <grid row="2" column="0" row-span="1" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                        </constraints>
                         <properties>
                           <opaque value="false"/>
                         </properties>
                         <border type="none"/>
-                        <children/>
-                      </grid>
-                    </children>
-                  </scrollpane>
-                  <grid id="4b76" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                    <margin top="0" left="0" bottom="0" right="0"/>
-                    <constraints border-constraint="West"/>
-                    <properties/>
-                    <border type="none"/>
-                    <children>
-                      <grid id="65161" binding="categoryPane" custom-create="true" layout-manager="GridLayoutManager" row-count="3" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                        <margin top="20" left="10" bottom="20" right="10"/>
-                        <constraints>
-                          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
-                        </constraints>
-                        <properties>
-                          <background color="-1"/>
-                          <minimumSize width="350" height="89"/>
-                          <preferredSize width="290" height="89"/>
-                        </properties>
-                        <border type="none"/>
                         <children>
-                          <component id="19d91" class="javax.swing.JLabel">
+                          <component id="c5d8f" class="javax.swing.JButton" binding="btnDonHang" custom-create="true">
                             <constraints>
-                              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                                <preferred-size width="-1" height="30"/>
+                              </grid>
                             </constraints>
                             <properties>
-                              <font size="20" style="1"/>
-                              <text value="Danh mục"/>
+                              <text value="Đơn hàng"/>
                             </properties>
                           </component>
-                          <hspacer id="79fda">
+                          <component id="4fb19" class="javax.swing.JButton" binding="btnKhachHang" custom-create="true">
                             <constraints>
-                              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                            </constraints>
-                          </hspacer>
-                          <scrollpane id="8a10d">
-                            <constraints>
-                              <grid row="1" column="0" row-span="1" col-span="2" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-                            </constraints>
-                            <properties/>
-                            <border type="empty"/>
-                            <children>
-                              <component id="491a8" class="javax.swing.JList" binding="danhMuc">
-                                <constraints/>
-                                <properties>
-                                  <fixedCellHeight value="30"/>
-                                  <selectedIndex value="-1"/>
-                                  <selectionMode value="0"/>
-                                  <visibleRowCount value="20"/>
-                                </properties>
-                              </component>
-                            </children>
-                          </scrollpane>
-                          <grid id="4add7" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="true" same-size-vertically="false" hgap="-1" vgap="-1">
-                            <margin top="0" left="0" bottom="0" right="0"/>
-                            <constraints>
-                              <grid row="2" column="0" row-span="1" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                                <preferred-size width="-1" height="30"/>
+                              </grid>
                             </constraints>
                             <properties>
-                              <opaque value="false"/>
+                              <text value="Khách hàng"/>
                             </properties>
-                            <border type="none"/>
-                            <children>
-                              <component id="c5d8f" class="javax.swing.JButton" binding="btnDonHang" custom-create="true">
-                                <constraints>
-                                  <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
-                                    <preferred-size width="-1" height="30"/>
-                                  </grid>
-                                </constraints>
-                                <properties>
-                                  <text value="Đơn hàng"/>
-                                </properties>
-                              </component>
-                              <component id="4fb19" class="javax.swing.JButton" binding="btnKhachHang" custom-create="true">
-                                <constraints>
-                                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
-                                    <preferred-size width="-1" height="30"/>
-                                  </grid>
-                                </constraints>
-                                <properties>
-                                  <text value="Khách hàng"/>
-                                </properties>
-                              </component>
-                            </children>
-                          </grid>
+                          </component>
                         </children>
                       </grid>
-                      <component id="5cf19" class="javax.swing.JButton" binding="btnScan" custom-create="true">
-                        <constraints>
-                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
-                            <preferred-size width="-1" height="30"/>
-                          </grid>
-                        </constraints>
-                        <properties>
-                          <background color="-1414112"/>
-                          <borderPainted value="false"/>
-                          <font style="0"/>
-                          <foreground color="-1"/>
-                          <horizontalAlignment value="0"/>
-                          <horizontalTextPosition value="11"/>
-                          <margin top="10" left="30" bottom="10" right="30"/>
-                          <text value="Quét barcode"/>
-                        </properties>
-                      </component>
                     </children>
                   </grid>
+                  <component id="5cf19" class="javax.swing.JButton" binding="btnScan" custom-create="true">
+                    <constraints>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                        <preferred-size width="-1" height="30"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <background color="-1414112"/>
+                      <borderPainted value="false"/>
+                      <font style="0"/>
+                      <foreground color="-1"/>
+                      <horizontalAlignment value="0"/>
+                      <horizontalTextPosition value="11"/>
+                      <margin top="10" left="30" bottom="10" right="30"/>
+                      <text value="Quét barcode"/>
+                    </properties>
+                  </component>
                 </children>
               </grid>
             </children>
@@ -398,6 +389,7 @@
                 </constraints>
                 <properties>
                   <opaque value="false"/>
+                  <visible value="false"/>
                 </properties>
                 <border type="none"/>
                 <children>

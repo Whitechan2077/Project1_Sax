@@ -18,7 +18,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class ProductItem extends JPanel {
-    private JXLabel lbItemName;
+    private JTextArea lbItemName;
     private JLabel lbPrice;
     private JPanel p;
     @Getter
@@ -71,7 +71,7 @@ public class ProductItem extends JPanel {
     public void setData(SachDTO data) {
         this.data = data;
         String text = data.getTenSach();
-        if (data.getTenSach().length() > 43) text = text.substring(0, 43) + "...";
+        if (data.getTenSach().length() > 47) text = text.substring(0, 47) + "...";
         lbItemName.setText(text);
         lblSoLuong.setText("Số lượng: " + data.getSoLuong() + " cuốn");
         DecimalFormat df = new DecimalFormat("#,###đ");
