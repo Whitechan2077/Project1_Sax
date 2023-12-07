@@ -23,6 +23,8 @@ import com.sax.views.quanly.viewmodel.AbstractViewObject;
 import com.sax.views.quanly.viewmodel.CtkmViewObject;
 import com.sax.views.quanly.viewmodel.DonHangViewObject;
 import com.sax.views.quanly.viewmodel.SachViewObject;
+import lombok.Getter;
+import lombok.Setter;
 import org.jdesktop.swingworker.SwingWorker;
 import org.jdesktop.swingx.JXTable;
 import org.springframework.data.domain.PageRequest;
@@ -58,22 +60,28 @@ public class DonHangPane extends JPanel {
     private JPanel phanTrangPane;
     private JComboBox cboHienThi;
     private JList listPage;
-    private DefaultTableModel tableModel;
     private IDonHangService donHangService = ContextUtils.getBean(DonHangService.class);
     private IDonHangChiTetService donHangChiTetService = ContextUtils.getBean(DonHangChiTietService.class);
-    private ExecutorService executorService = Executors.newSingleThreadExecutor();;
+    private ExecutorService executorService = Executors.newSingleThreadExecutor();
+    ;
     private Set tempIdSet = new HashSet();
     private List<JCheckBox> listCbk = new ArrayList<>();
     private Loading loading = new Loading(this);
 
     private DefaultListModel listPageModel = new DefaultListModel();
-    private int size = 14;
-    private Pageable pageable = PageRequest.of(0, 14);
+    @Getter
+    @Setter
+    private int sizeValue = 14;
+    @Getter
+    @Setter
+    private int pageValue = 1;
+    @Getter
+    @Setter
+    private Pageable pageable = PageRequest.of(pageValue - 1, sizeValue);
     private Timer timer;
 
     public DonHangPane() {
         initComponent();
-        btnAdd.addActionListener((e) -> add());
         btnEdit.addActionListener((e) -> update());
         btnDel.addActionListener((e) -> delete());
         table.addMouseListener(new MouseAdapter() {
@@ -99,12 +107,9 @@ public class DonHangPane extends JPanel {
     }
 
     public void initComponent() {
+        ((DefaultTableModel) table.getModel()).setColumnIdentifiers(new String[]{"", "Mã đơn hàng", "Tên khách hàng", "Nhân viên", "Tiền hàng", "Chiết khấu", "Tổng tiền", "Phương thức thanh toán", "Ngày tạo"});
 
-
-        tableModel = (DefaultTableModel) table.getModel();
-        tableModel.setColumnIdentifiers(new String[]{"", "Mã đơn hàng", "Tên khách hàng", "Nhân viên", "Tiền hàng", "Chiết khấu", "Tổng tiền", "Phương thức thanh toán", "Ngày tạo"});
-
-        new Worker(0).execute();
+        new Worker().execute();
         loading.setVisible(true);
         timer = new Timer(300, e -> {
             searchByKeyword();
@@ -116,20 +121,20 @@ public class DonHangPane extends JPanel {
         Session.fillTable(list, table, cbkSelectedAll, executorService, tempIdSet, listCbk);
     }
 
-    private void add() {
-
-    }
-
     private void update() {
         if (table.getSelectedRow() >= 0) {
-            try {
-                DonHangDTO donHangDTO = donHangService.getById((int) table.getValueAt(table.getSelectedRow(), 1));
-                donHangDTO.setChiTietDonHangs(donHangChiTetService.getAllByDonHang(donHangDTO));
-                HoaDonDialog hoaDonDialog = new HoaDonDialog(this, donHangDTO, false);
-                hoaDonDialog.setVisible(true);
-            } catch (FileNotFoundException e) {
-                throw new RuntimeException(e);
-            }
+            executorService.submit(() -> {
+                try {
+                    DonHangDTO donHangDTO = donHangService.getById((int) table.getValueAt(table.getSelectedRow(), 1));
+                    donHangDTO.setChiTietDonHangs(donHangChiTetService.getAllByDonHang(donHangDTO));
+                    HoaDonDialog hoaDonDialog = new HoaDonDialog(this, donHangDTO, false);
+                    loading.dispose();
+                    hoaDonDialog.setVisible(true);
+                } catch (FileNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+            });
+            loading.setVisible(true);
         } else MsgBox.alert(this, "Vui lòng chọn một đơn hàng!");
     }
 
@@ -160,23 +165,24 @@ public class DonHangPane extends JPanel {
         }
     }
 
-    public void fillListPage(int value) {
-        Session.fillListPage(value, listPageModel, donHangService, size, listPage);
+    public void fillListPage() {
+        Session.fillListPage(pageValue, listPageModel, donHangService, sizeValue, listPage);
     }
 
     public void selectPageDisplay() {
         if (listPage.getSelectedValue() instanceof Integer) {
-            int page = Integer.parseInt(listPage.getSelectedValue().toString()) - 1;
-            pageable = PageRequest.of(page, size);
-            new Worker(page).execute();
+            pageValue = Integer.parseInt(listPage.getSelectedValue().toString());
+            pageable = PageRequest.of(pageValue - 1, sizeValue);
+            new Worker().execute();
             loading.setVisible(true);
         }
     }
 
     public void selectSizeDisplay() {
-        size = Integer.parseInt(cboHienThi.getSelectedItem().toString());
-        pageable = PageRequest.of(0, size);
-        new Worker(pageable.getPageNumber()).execute();
+        sizeValue = Integer.parseInt(cboHienThi.getSelectedItem().toString());
+        pageValue = 1;
+        pageable = PageRequest.of(pageValue - 1, sizeValue);
+        new Worker().execute();
         loading.setVisible(true);
     }
 
@@ -191,11 +197,6 @@ public class DonHangPane extends JPanel {
     }
 
     class Worker extends SwingWorker<List<AbstractViewObject>, Integer> {
-        int page;
-
-        public Worker(int page) {
-            this.page = page;
-        }
 
         @Override
         protected List<AbstractViewObject> doInBackground() {
@@ -206,7 +207,7 @@ public class DonHangPane extends JPanel {
         protected void done() {
             try {
                 fillTable(get());
-                fillListPage(page);
+                if (table.getRowCount() > 0) fillListPage();
                 loading.dispose();
             } catch (InterruptedException | ExecutionException e) {
                 throw new RuntimeException(e);

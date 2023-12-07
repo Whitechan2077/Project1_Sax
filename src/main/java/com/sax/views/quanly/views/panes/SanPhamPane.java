@@ -135,7 +135,6 @@ public class SanPhamPane extends JPanel {
         sachDialog.parentPane = this;
         sachDialog.lblTitle.setText("Thêm mới sách");
         sachDialog.setVisible(true);
-        table.clearSelection();
     }
 
     private void update() {
@@ -147,7 +146,6 @@ public class SanPhamPane extends JPanel {
                 sachDialog.fillForm();
                 loading.dispose();
                 sachDialog.setVisible(true);
-                table.clearSelection();
             });
             loading.setVisible(true);
         } else MsgBox.alert(this, "Vui lòng chọn một sản phẩm!");

@@ -160,9 +160,7 @@ public class CtkmSachDialog extends JDialog {
                         for (CtkmSachDTO s : listCtkmSach)
                             if (s.getSach() != null && s.getSach().getId() == i.getId()) return false;
                         return true;
-                    }).forEach(i -> {
-                        jComboBox.addItem(i);
-                    });
+                    }).forEach(i -> jComboBox.addItem(i));
                     loading.dispose();
                 });
                 loading.setVisible(true);
