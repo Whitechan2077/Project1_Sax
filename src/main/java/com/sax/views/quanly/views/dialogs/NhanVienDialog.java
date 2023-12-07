@@ -85,7 +85,8 @@ public class NhanVienDialog extends JDialog {
                     Session.avatar.add(ImageUtils.getCircleImage(ac.getAnh(), 30, 20, null, 0));
                     Session.avatar.revalidate();
                 }
-                parentPane.fillTable(accountService.getPage(parentPane.getPageable()).stream().map(NhanVienViewObject::new).collect(Collectors.toList()));
+                if (parentPane != null)
+                    parentPane.fillTable(accountService.getPage(parentPane.getPageable()).stream().map(NhanVienViewObject::new).collect(Collectors.toList()));
                 dispose();
             } catch (Exception ex) {
                 MsgBox.alert(this, "Có lỗi! " + ex.getMessage());
@@ -98,7 +99,12 @@ public class NhanVienDialog extends JDialog {
         String ten = txtName.getText().trim();
         accountDTO.setTenNhanVien(ten);
         String sdt = txtSdt.getText().trim();
-        accountDTO.setSdt(sdt);
+        try {
+            accountDTO.setSdt(Integer.parseInt(sdt) + "");
+        } catch (NumberFormatException e) {
+            MsgBox.alert(this, "Số điện thoại phải là số!");
+            return null;
+        }
         String email = txtEmail.getText().trim();
         accountDTO.setEmail(email);
         boolean gioiTinh = rdoNam.isSelected() ? true : false;

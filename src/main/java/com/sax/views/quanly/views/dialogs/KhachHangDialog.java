@@ -8,6 +8,7 @@ import com.sax.services.impl.KhachHangService;
 import com.sax.utils.ContextUtils;
 import com.sax.utils.ImageUtils;
 import com.sax.utils.MsgBox;
+import com.sax.views.nhanvien.NhanVienView;
 import com.sax.views.quanly.viewmodel.KhachHangViewObject;
 import com.sax.views.quanly.viewmodel.SachViewObject;
 import com.sax.views.quanly.views.panes.KhachHangPane;
@@ -44,7 +45,6 @@ public class KhachHangDialog extends JDialog {
         setContentPane(contentPanel);
         setModal(true);
         pack();
-//        setFocusableWindowState(true);
         setAlwaysOnTop(true);
 
         khachHangService = ContextUtils.getBean(KhachHangService.class);
@@ -77,7 +77,8 @@ public class KhachHangDialog extends JDialog {
                     parentPane.setPageable(PageRequest.of(parentPane.getPageValue() - 1, parentPane.getSizeValue()));
                     parentPane.fillListPage();
                 }
-                parentPane.fillTable(khachHangService.getPage(parentPane.getPageable()).stream().map(KhachHangViewObject::new).collect(Collectors.toList()));
+                if (parentPane != null)parentPane.fillTable(khachHangService.getPage(parentPane.getPageable()).stream().map(KhachHangViewObject::new).collect(Collectors.toList()));
+                NhanVienView.nvv.fillKhachHang(khachHangService.getAll());
                 dispose();
             } catch (Exception ex) {
                 MsgBox.alert(this, "Có lỗi! " + ex.getMessage());
