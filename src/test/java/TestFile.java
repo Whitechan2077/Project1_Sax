@@ -89,8 +89,8 @@ public class TestFile {
 
     @Test
     public void test1() {
-        IDanhMucService service = ContextUtils.getBean(DanhMucService.class);
-        service.getAllDanhMucForUpdate(6141).forEach(System.out::println);
+        IThongKeService service = ContextUtils.getBean(ThongKeService.class);
+        service.getAllTongTienTheoThang(12,2023).forEach(System.out::println);
     }
 
 }
