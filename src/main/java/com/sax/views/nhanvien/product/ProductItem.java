@@ -25,21 +25,22 @@ public class ProductItem extends JPanel {
     private JButton btnAddToCart;
     private JLabel discount;
     private JPanel image;
+    private JLabel lblSoLuong;
     private boolean selected = false;
     private SachDTO data;
 
     public ProductItem(JXTable table, JLabel lblTienHang, JLabel lblTrietKhau, JLabel lblTPT, JCheckBox chkDiem) {
         btnAddToCart.addActionListener((e) -> {
-                Optional<CartModel> cartModel = Cart.getCart().stream().filter(i -> i.getId() == data.getId()).findFirst();
-                if (cartModel.isEmpty())
-                    Cart.getCart().add(new CartModel(data, table, lblTienHang, lblTrietKhau, lblTPT, chkDiem));
-                else {
-                    JSpinner s = cartModel.get().getSoLuong();
-                    s.setValue(s.getNextValue());
-                    table.repaint();
-                }
-                Cart.tinhTien(table, lblTienHang, lblTrietKhau, lblTPT, chkDiem);
-                table.packAll();
+            Optional<CartModel> cartModel = Cart.getCart().stream().filter(i -> i.getId() == data.getId()).findFirst();
+            if (cartModel.isEmpty())
+                Cart.getCart().add(new CartModel(data, table, lblTienHang, lblTrietKhau, lblTPT, chkDiem));
+            else {
+                JSpinner s = cartModel.get().getSoLuong();
+                s.setValue(s.getNextValue());
+                table.repaint();
+            }
+            Cart.tinhTien(table, lblTienHang, lblTrietKhau, lblTPT, chkDiem);
+            table.packAll();
         });
         setCursor(new Cursor(Cursor.HAND_CURSOR));
     }
@@ -72,6 +73,7 @@ public class ProductItem extends JPanel {
         String text = data.getTenSach();
         if (data.getTenSach().length() > 43) text = text.substring(0, 43) + "...";
         lbItemName.setText(text);
+        lblSoLuong.setText("Số lượng: " + data.getSoLuong() + " cuốn");
         DecimalFormat df = new DecimalFormat("#,###đ");
         lbPrice.setText(df.format(data.getGiaBan() - data.getGiaGiam()).replace(",", "."));
         double per = (double) data.getGiaGiam() / (double) data.getGiaBan() * 100;
