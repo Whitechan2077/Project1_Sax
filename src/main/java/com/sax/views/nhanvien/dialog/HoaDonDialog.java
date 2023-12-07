@@ -54,7 +54,7 @@ public class HoaDonDialog extends JDialog {
                 i.getSach().getTenSach(),
                 i.getSoLuong(),
                 CurrencyConverter.parseString(i.getGiaBan()),
-                "-" + CurrencyConverter.parseString(i.getGiaGiam()),
+                i.getGiaGiam() > 0 ? "-" + CurrencyConverter.parseString(i.getGiaGiam()) : CurrencyConverter.parseString(i.getGiaGiam()),
                 CurrencyConverter.parseString((i.getGiaBan() - i.getGiaGiam()) * i.getSoLuong())
         }).toArray(Object[][]::new), columnNames);
         table.packAll();
@@ -67,7 +67,7 @@ public class HoaDonDialog extends JDialog {
                 + " - "
                 + LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")));
         lblTienHang.setText(CurrencyConverter.parseString(donHangDTO.getTienHang()));
-        lblChietKhau.setText("-" + CurrencyConverter.parseString(donHangDTO.getChietKhau()));
+        lblChietKhau.setText(donHangDTO.getChietKhau() > 0 ? "-" + CurrencyConverter.parseString(donHangDTO.getChietKhau()) : CurrencyConverter.parseString(donHangDTO.getChietKhau()));
         lblTPT.setText(CurrencyConverter.parseString(donHangDTO.getTongTien()));
         lblLogo.setIcon(new ImageIcon(ImageUtils.readImage("logo-com.png").getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
 
