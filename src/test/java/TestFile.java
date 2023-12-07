@@ -86,4 +86,12 @@ public class TestFile {
         IDonHangChiTetService iDonHangChiTetService = ContextUtils.getBean(IDonHangChiTetService.class);
         iDonHangChiTetService.getAllByDonHang(service.getById(17145)).forEach(System.out::println);
     }
+
+    @Test
+    public void test1() throws SQLServerException {
+        ISachService service = ContextUtils.getBean(SachService.class);
+        SachDTO dto = service.getById(1);
+        dto.setBarCode("978020137961");
+        service.update(dto);
+    }
 }

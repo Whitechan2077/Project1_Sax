@@ -92,7 +92,6 @@ public class DanhMucService implements IDanhMucService {
     public void deleteAllDanhMucSach(Set<Integer> ids) {
             List<Sach> sachList = sachRepository.findAll();
             Map<Integer, DanhMuc> danhMucMap = new HashMap<>();
-            StringBuilder name = new StringBuilder();
             sachList.forEach(sach -> sach.getSetDanhMuc()
                     .forEach(danhMuc -> danhMucMap.put(danhMuc.getId(), danhMuc)));
             ids.forEach(id -> {
@@ -103,6 +102,14 @@ public class DanhMucService implements IDanhMucService {
                    repository.updateAllByDanhMucCha(id);
                    repository.deleteById(id);
             });
+    }
+
+    @Override
+    public List<DanhMucDTO> getAllDanhMucForUpdate(int id) {
+        DanhMuc danhMuc = repository.findById(id).orElseThrow();
+        List<DanhMucDTO> listAll =this.getAll();
+        listAll.removeAll( getChildDanhMucDTO(danhMuc,0));
+        return listAll;
     }
 
     @Override

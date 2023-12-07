@@ -178,7 +178,8 @@ public class SachService implements ISachService {
         } catch (IOException ex) {
             sach.setHinhAnh(sach.getHinhAnh());
         }
-        if (e.getBarCode().equals(Objects.requireNonNull(repository.findByBarCode(e.getBarCode()).orElse(null)).getBarCode()))
+
+        if (e.getBarCode().equals(repository.findById(e.getId()).get().getBarCode()))
             repository.save(sach);
         else {
             if (repository.findByBarCode(e.getBarCode()).isPresent())
