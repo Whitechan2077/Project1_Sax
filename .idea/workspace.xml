@@ -5,45 +5,67 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="44defbe5-9225-4a4a-a6da-97d0389ce473" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/images/invoices/17145.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/z4456791801035_097277f80c8d7ecf31ba82ccd77b5723.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/z4464627249814_5f914828ad50f09a64256f2d21c73c64.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/41fbc327-f2c5-4963-8c50-0f19fb887527.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/41fbc327-f2c5-4963-8c50-0f19fb887527.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/41fbc327-f2c5-4963-8c50-0f19fb887527/storage_v2/_src_/database/SaX.qkMBAA/schema/INFORMATION_SCHEMA.NBgcMw.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/41fbc327-f2c5-4963-8c50-0f19fb887527/storage_v2/_src_/database/SaX.qkMBAA/schema/dbo.sYMBAA.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/41fbc327-f2c5-4963-8c50-0f19fb887527/storage_v2/_src_/database/SaX.qkMBAA/schema/dbo.sYMBAA.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/41fbc327-f2c5-4963-8c50-0f19fb887527/storage_v2/_src_/database/SaX.qkMBAA/schema/sys.zb4BAA.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/account.dat" beforeDir="false" afterPath="$PROJECT_DIR$/account.dat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sax/utils/Session.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sax/utils/Session.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sax/views/components/table/CustomHeaderTableCellRenderer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sax/views/components/table/CustomHeaderTableCellRenderer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sax/views/nhanvien/NhanVienView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sax/views/nhanvien/NhanVienView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sax/views/nhanvien/dialog/HoaDonDialog.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sax/views/nhanvien/dialog/HoaDonDialog.form" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sax/views/nhanvien/dialog/HoaDonDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sax/views/nhanvien/dialog/HoaDonDialog.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sax/views/nhanvien/dialog/UserPopup.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sax/views/nhanvien/dialog/UserPopup.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sax/views/quanly/views/QuanLyView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sax/views/quanly/views/QuanLyView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sax/views/quanly/views/dialogs/KhachHangDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sax/views/quanly/views/dialogs/KhachHangDialog.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sax/views/quanly/views/dialogs/NhanVienDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sax/views/quanly/views/dialogs/NhanVienDialog.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sax/views/quanly/views/dialogs/NhapHangDialog.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sax/views/quanly/views/dialogs/NhapHangDialog.form" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sax/views/quanly/views/dialogs/NhapHangDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sax/views/quanly/views/dialogs/NhapHangDialog.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sax/views/quanly/views/dialogs/SachDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sax/views/quanly/views/dialogs/SachDialog.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sax/views/quanly/views/dialogs/TaiKhoanDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sax/views/quanly/views/dialogs/TaiKhoanDialog.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sax/views/quanly/views/panes/DanhMucPane.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sax/views/quanly/views/panes/DanhMucPane.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sax/views/quanly/views/panes/DonHangPane.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sax/views/quanly/views/panes/DonHangPane.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sax/views/quanly/views/panes/KhachHangPane.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sax/views/quanly/views/panes/KhachHangPane.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sax/views/quanly/views/panes/NhanVienPane.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sax/views/quanly/views/panes/NhanVienPane.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sax/views/quanly/views/panes/SanPhamPane.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sax/views/quanly/views/panes/SanPhamPane.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sax/entities/DanhMuc.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sax/entities/DanhMuc.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sax/repositories/IDanhMucRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sax/repositories/IDanhMucRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sax/repositories/ISachRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sax/repositories/ISachRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sax/services/impl/DanhMucService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sax/services/impl/DanhMucService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sax/services/impl/DonHangChiTietService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sax/services/impl/DonHangChiTietService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 0
+}</component>
+  <component name="ProjectId" id="2ZAXkV3SHuou2FyoABvPgJGIpM5" />
+  <component name="ProjectViewState">
+    <option name="autoscrollFromSource" value="true" />
+    <option name="autoscrollToSource" value="true" />
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "git-widget-placeholder": "Merging fix__service",
-    "node.js.selected.package.tslint": "(autodetect)"
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "fix__service",
+    "ignore.virus.scanning.warn.message": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="44defbe5-9225-4a4a-a6da-97d0389ce473" name="Changes" comment="" />
+      <created>1701866001643</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1701866001643</updated>
+      <workItem from="1701866003847" duration="8000" />
+      <workItem from="1701866357418" duration="706000" />
+      <workItem from="1701867302049" duration="536000" />
+      <workItem from="1701926091113" duration="1695000" />
+    </task>
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
   </component>
 </project>

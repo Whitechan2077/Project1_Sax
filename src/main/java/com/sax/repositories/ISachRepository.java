@@ -18,7 +18,7 @@ public interface ISachRepository extends JpaRepository<Sach, Integer> {
             "CtkmSach ct " +
             "JOIN Ctkm ctkm on ct.idKM = ctkm.id " +
             "WHERE CURRENT_TIMESTAMP " +
-            "< ctkm.ngayKetThuc)")
+            "< ctkm.ngayKetThuc) AND s.trangThai=true")
     List<Sach> findAllSachNotInCTKM();
 
     @Query("SELECT s FROM Sach s " +
