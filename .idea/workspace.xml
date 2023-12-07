@@ -4,45 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="aa542d6b-0d4b-4db9-842e-6fac1fd757ab" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/sax/views/nhanvien/dialog/KhachHangNVDialog.form" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/sax/views/nhanvien/dialog/KhachHangNVDialog.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sax/dtos/SachDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sax/dtos/SachDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sax/entities/DanhMuc.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sax/entities/DanhMuc.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sax/repositories/IDanhMucRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sax/repositories/IDanhMucRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sax/utils/Session.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sax/utils/Session.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sax/views/LoginView.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sax/views/LoginView.form" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sax/views/LoginView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sax/views/LoginView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sax/views/QuenMatKhauDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sax/views/QuenMatKhauDialog.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sax/views/components/Loading.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sax/views/components/Loading.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sax/views/components/table/CustomHeaderTableCellRenderer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sax/views/components/table/CustomHeaderTableCellRenderer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sax/views/nhanvien/NhanVienView.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sax/views/nhanvien/NhanVienView.form" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sax/views/nhanvien/NhanVienView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sax/views/nhanvien/NhanVienView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sax/views/nhanvien/dialog/DonHangDialog.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sax/views/nhanvien/dialog/DonHangDialog.form" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sax/views/nhanvien/dialog/DonHangDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sax/views/nhanvien/dialog/DonHangDialog.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sax/views/quanly/viewmodel/ModelData.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sax/views/quanly/views/dialogs/CameraDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sax/views/quanly/views/dialogs/CameraDialog.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sax/views/quanly/views/dialogs/CtkmDialog.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sax/views/quanly/views/dialogs/CtkmDialog.form" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sax/views/quanly/views/dialogs/CtkmSachDialog.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sax/views/quanly/views/dialogs/CtkmSachDialog.form" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sax/views/quanly/views/dialogs/CtkmSachDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sax/views/quanly/views/dialogs/CtkmSachDialog.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sax/views/quanly/views/dialogs/KhachHangDialog.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sax/views/quanly/views/dialogs/KhachHangDialog.form" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sax/views/quanly/views/dialogs/KhachHangDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sax/views/quanly/views/dialogs/KhachHangDialog.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sax/views/quanly/views/dialogs/NhanVienDialog.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sax/views/quanly/views/dialogs/NhanVienDialog.form" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sax/views/quanly/views/dialogs/NhanVienDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sax/views/quanly/views/dialogs/NhanVienDialog.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sax/views/quanly/views/dialogs/NhapHangDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sax/views/quanly/views/dialogs/NhapHangDialog.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sax/views/quanly/views/dialogs/SachDialog.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sax/views/quanly/views/dialogs/SachDialog.form" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sax/views/quanly/views/dialogs/SachDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sax/views/quanly/views/dialogs/SachDialog.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sax/views/quanly/views/dialogs/TaiKhoanDialog.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sax/views/quanly/views/dialogs/TaiKhoanDialog.form" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sax/views/quanly/views/dialogs/TaiKhoanDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sax/views/quanly/views/dialogs/TaiKhoanDialog.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sax/views/quanly/views/panes/DanhMucPane.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sax/views/quanly/views/panes/DanhMucPane.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sax/views/quanly/views/panes/DonHangPane.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sax/views/quanly/views/panes/DonHangPane.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sax/views/quanly/views/panes/KhachHangPane.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sax/views/quanly/views/panes/KhachHangPane.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sax/views/quanly/views/panes/KhuyenMaiPane.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sax/views/quanly/views/panes/KhuyenMaiPane.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sax/views/quanly/views/panes/NhanVienPane.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sax/views/quanly/views/panes/NhanVienPane.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sax/views/quanly/views/panes/SanPhamPane.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sax/views/quanly/views/panes/SanPhamPane.java" afterDir="false" />
-    </list>
+    <list default="true" id="aa542d6b-0d4b-4db9-842e-6fac1fd757ab" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -50,7 +12,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "git-widget-placeholder": "Merging fix__service",
+    "git-widget-placeholder": "fix__service",
     "node.js.selected.package.tslint": "(autodetect)"
   }
 }]]></component>
