@@ -24,8 +24,6 @@ public class LoginView extends CurvesPanel {
     private JPasswordField txtPass;
     private JCheckBox chkRemember;
     private JLabel lblForgot;
-    private JLabel lblUser;
-    private JLabel lblPass;
     private JButton btnLogin;
     private JTextField txtUsername;
     private AccountDTO accountDTO;
@@ -123,25 +121,25 @@ public class LoginView extends CurvesPanel {
                             else AccountUtils.deleteFile();
                         } else {
                             loading.dispose();
-                            MsgBox.alert(null, "Tài khoản không được phép");
+                            MsgBox.alert(this, "Tài khoản không được phép");
                         }
                         loading.dispose();
                         Application.app.pack();
                         Application.app.setLocationRelativeTo(null);
                     } else {
                         loading.dispose();
-                        MsgBox.alert(null, "Sai mật khẩu!");
+                        MsgBox.alert(this, "Sai mật khẩu!");
                     }
                 } else {
                     loading.dispose();
-                    MsgBox.alert(null, "Vui lòng nhập đủ username password");
+                    MsgBox.alert(this, "Vui lòng nhập đủ username password");
                 }
             } catch (InvalidDataAccessResourceUsageException e) {
                 loading.dispose();
-                MsgBox.alert(null, "Server không khả dụng");
+                MsgBox.alert(this, "Server không khả dụng");
             } catch (IllegalArgumentException ex) {
                 loading.dispose();
-                MsgBox.alert(null, "Tài khoản không tồn tại");
+                MsgBox.alert(this, "Tài khoản không tồn tại");
             }
             loading.dispose();
         });

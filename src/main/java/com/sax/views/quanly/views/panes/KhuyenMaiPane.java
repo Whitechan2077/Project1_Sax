@@ -28,6 +28,8 @@ import org.springframework.data.domain.Pageable;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellEditor;
+import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
@@ -62,7 +64,6 @@ public class KhuyenMaiPane extends JPanel {
     private JCheckBox cbkSelectedAllSP;
     private JButton btnXoaSP;
     private JButton btnSuaSP;
-    private JButton addCtkmSach;
     private ICtkmSachService ctkmSachService = ContextUtils.getBean(ICtkmSachService.class);
     private ICtkmService ctkmService = ContextUtils.getBean(CtkmService.class);
     private ExecutorService executorService = Executors.newSingleThreadExecutor();
@@ -83,8 +84,6 @@ public class KhuyenMaiPane extends JPanel {
     @Setter
     private Pageable pageableKM = PageRequest.of(pageKMValue - 1, sizeValue);
     private Timer timerKM;
-
-
     private Timer timerSP;
 
     public KhuyenMaiPane() {
@@ -137,6 +136,7 @@ public class KhuyenMaiPane extends JPanel {
         ((DefaultTableModel) tableCTKM.getModel()).setColumnIdentifiers(new String[]{"", "Mã sự kiện", "Tên sự kiện", "Ngày bắt đầu", "Ngày kết thúc", "Giảm theo", "Trạng thái"});
         ((DefaultTableModel) tableSP.getModel()).setColumnIdentifiers(new String[]{"", "Id", "Tên sách", "Tên sự kiện", "Ngày bắt đầu", "Ngày kết thúc", "Giá trị giảm", "Trạng thái"});
         new WorkerKM().execute();
+        loading.setVisible(true);
         new WorkerSP().execute();
         loading.setVisible(true);
         fillListPage();
@@ -266,18 +266,33 @@ public class KhuyenMaiPane extends JPanel {
     }
 
     private void updateSP() {
-        if (tableCTKM.getSelectedRow() >= 0) {
-            if (tableCTKM.getValueAt(tableCTKM.getSelectedRow(), 6).toString().equals("Đang diễn ra")) {
+        if (tableSP.getSelectedRow() >= 0) {
+            if (tableSP.getValueAt(tableSP.getSelectedRow(), 7).toString().equals("Đang diễn ra")) {
                 MsgBox.alert(this, "Sự kiện đang diễn ra, bạn không thể chỉnh sửa!");
                 return;
             }
-            if (tableCTKM.getValueAt(tableCTKM.getSelectedRow(), 6).toString().equals("Đã kết thúc")) {
+            if (tableSP.getValueAt(tableSP.getSelectedRow(), 7).toString().equals("Đã kết thúc")) {
                 MsgBox.alert(this, "Sự kiện đã kết thúc, bạn không thể chỉnh sửa!");
                 return;
             }
-            executorService.submit(() -> {
+            TableCellEditor editor = new DefaultCellEditor(new JCheckBox()) {
+                private JTextField textField = new JTextField();
 
-            });
+
+                @Override
+                public Object getCellEditorValue() {
+                    return textField.getText();
+                }
+
+                @Override
+                public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
+                    textField.setText(value.toString());
+                    return textField;
+                }
+            };
+            tableSP.getColumnModel().getColumn(6).setCellEditor(editor);
+
+            tableSP.editCellAt(tableSP.getSelectedRow(), 6);
         } else MsgBox.alert(this, "Vui lòng chọn một sản phẩm trong chương trình khuyến mại!");
     }
 

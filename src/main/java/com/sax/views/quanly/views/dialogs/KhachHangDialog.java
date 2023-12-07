@@ -42,9 +42,10 @@ public class KhachHangDialog extends JDialog {
 
     private void initComponent() {
         setContentPane(contentPanel);
-        setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+        setModal(true);
         pack();
-        setLocationRelativeTo(null);
+//        setFocusableWindowState(true);
+        setAlwaysOnTop(true);
 
         khachHangService = ContextUtils.getBean(KhachHangService.class);
     }

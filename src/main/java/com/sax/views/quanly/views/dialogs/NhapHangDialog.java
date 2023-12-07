@@ -114,7 +114,7 @@ public class NhapHangDialog extends JDialog {
                 parentPane.fillTable(sachService.getAll().stream().map(SachViewObject::new).collect(Collectors.toList()));
                 dispose();
             } catch (Exception ex) {
-                MsgBox.alert(null, ex.getMessage());
+                MsgBox.alert(this, ex.getMessage());
             }
         }
     }
@@ -124,7 +124,7 @@ public class NhapHangDialog extends JDialog {
 
         Date ngayNhap = dateNgayNhap.getDate();
         if (ngayNhap == null) {
-            MsgBox.alert(null, "Vui lòng chọn ngày nhập hàng");
+            MsgBox.alert(this, "Vui lòng chọn ngày nhập hàng");
             return null;
         }
 

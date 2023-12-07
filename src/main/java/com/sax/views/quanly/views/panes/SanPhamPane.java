@@ -155,7 +155,7 @@ public class SanPhamPane extends JPanel {
 
     private void delete() {
         if (!tempIdSet.isEmpty()) {
-            boolean check = MsgBox.confirm(null, "Bạn có muốn xoá " + tempIdSet.size() + " sản phẩm này không?");
+            boolean check = MsgBox.confirm(this, "Bạn có muốn xoá " + tempIdSet.size() + " sản phẩm này không?");
             if (check) {
                 try {
                     sachService.deleteAll(tempIdSet);

@@ -117,6 +117,7 @@ public class KhachHangPane extends JPanel {
         KhachHangDialog khachHangDialog = new KhachHangDialog();
         khachHangDialog.parentPane = this;
         khachHangDialog.lblTitle.setText("Thêm mới khách hàng");
+        khachHangDialog.setLocationRelativeTo(this);
         khachHangDialog.setVisible(true);
         table.clearSelection();
     }
@@ -129,6 +130,7 @@ public class KhachHangPane extends JPanel {
                 khachHangDialog.id = (int) table.getValueAt(table.getSelectedRow(), 1);
                 khachHangDialog.fillForm();
                 loading.dispose();
+                khachHangDialog.setLocationRelativeTo(this);
                 khachHangDialog.setVisible(true);
                 table.clearSelection();
             });
@@ -138,7 +140,7 @@ public class KhachHangPane extends JPanel {
 
     private void delete() {
         if (!tempIdSet.isEmpty()) {
-            boolean check = MsgBox.confirm(null, "Bạn có muốn xoá " + tempIdSet.size() + " khách hàng này không?");
+            boolean check = MsgBox.confirm(this, "Bạn có muốn xoá " + tempIdSet.size() + " khách hàng này không?");
             if (check) {
                 try {
                     khachHangService.deleteAll(tempIdSet);

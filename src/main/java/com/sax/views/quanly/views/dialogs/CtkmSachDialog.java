@@ -224,7 +224,7 @@ public class CtkmSachDialog extends JDialog {
                     tempIdSet.clear();
                     fillTable(listCtkmSach.stream().map(CtkmSachViewObject::new).collect(Collectors.toList()));
                 } catch (Exception e) {
-                    MsgBox.alert(null, e.getMessage());
+                    MsgBox.alert(this, e.getMessage());
                 }
             }
         }
