@@ -123,7 +123,7 @@ public class CameraDialog extends JDialog {
         setLocationRelativeTo(Application.app);
 
         nu.pattern.OpenCV.loadLocally();
-        videoCapture = new VideoCapture(1);
+        videoCapture = new VideoCapture(0);
         frame = new Mat();
     }
 }

@@ -62,7 +62,6 @@ public class QuenMatKhauDialog extends JDialog {
                 if (!timer.isRunning()) {
                     // Gửi OTP và bắt đầu đếm ngược
                     accountDTO = sendOtp();
-                    System.out.println(Session.otp);
                     if (accountDTO != null) startTimer();
                 } else {
                     // Thông báo người dùng chờ cho đến khi hết thời gian

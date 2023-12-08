@@ -21,10 +21,7 @@ import com.sax.views.nhanvien.dialog.HoaDonDialog;
 import com.sax.views.nhanvien.dialog.KhachHangNVDialog;
 import com.sax.views.nhanvien.dialog.UserPopup;
 import com.sax.views.nhanvien.product.ProductItem;
-import com.sax.views.quanly.viewmodel.AbstractViewObject;
-import com.sax.views.quanly.viewmodel.SachViewObject;
 import com.sax.views.quanly.views.dialogs.CameraDialog;
-import lombok.Getter;
 import org.jdesktop.swingworker.SwingWorker;
 import org.jdesktop.swingx.JXTable;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
@@ -92,7 +89,7 @@ public class NhanVienView extends JPanel {
         btnBo.addActionListener((e) -> {
             ((CardLayout) tabContent.getLayout()).show(tabContent, "bo");
         });
-        btnThanhToan.addActionListener((e) -> save());
+        btnThanhToan.addActionListener((e) -> thanhToan());
         xButton.addActionListener((e) -> clear());
         btnKhachHang.addActionListener((e) -> openKhachHang());
         btnDonHang.addActionListener((e) -> openDonHang());
@@ -191,13 +188,14 @@ public class NhanVienView extends JPanel {
         donItem.repaint();
     }
 
-    private void save() {
+    private void thanhToan() {
         try {
             DonHangDTO donHangDTO = readCart();
             if (donHangDTO.getChiTietDonHangs().size() > 0) {
                 donHangDTO.setId(donHangService.insert(donHangDTO).getId());
                 new HoaDonDialog(this, donHangDTO, true).setVisible(true);
                 new Worker(0).execute();
+                fillKhachHang(khachHangService.getAll());
                 loading.setVisible(true);
                 clear();
             }
@@ -207,6 +205,8 @@ public class NhanVienView extends JPanel {
     }
 
     private void clear() {
+        chkDiem.setSelected(false);
+        useDiem.setVisible(false);
         Cart.getCart().clear();
         Cart.tinhTien(cart, lblTienHang, lblChietKhau, lblTPT, chkDiem);
     }
@@ -271,7 +271,6 @@ public class NhanVienView extends JPanel {
     private void fillDiem() {
         if (cboKH.getSelectedItem() != null) {
             int diem = ((KhachHangDTO) cboKH.getSelectedItem()).getDiem();
-            System.out.println(diem);
             if (diem >= 0) {
                 useDiem.setVisible(true);
                 chkDiem.setText(String.valueOf(diem));
@@ -287,8 +286,6 @@ public class NhanVienView extends JPanel {
     private void openScan() {
         CameraDialog dialog = new CameraDialog(cart, lblTienHang, lblChietKhau, lblTPT, chkDiem);
         dialog.setVisible(true);
-        dialog.getFrame().release();
-        dialog.getVideoCapture().release();
     }
 
     private void createUIComponents() {

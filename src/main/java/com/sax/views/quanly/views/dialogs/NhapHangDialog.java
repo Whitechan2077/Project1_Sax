@@ -45,10 +45,9 @@ public class NhapHangDialog extends JDialog {
     private JButton btnEdit;
     private ILichSuNhapHangService lichSuNhapHangService = ContextUtils.getBean(ILichSuNhapHangService.class);
     private ISachService sachService = ContextUtils.getBean(ISachService.class);
-    @Setter
-    private SanPhamPane parentPane;
-    @Setter
-    private int id;
+
+    public int id;
+    public SanPhamPane parentPane;
 
     public NhapHangDialog() {
         btnSave.addActionListener(e -> save());
@@ -111,7 +110,7 @@ public class NhapHangDialog extends JDialog {
 
                 lichSuNH.setSach(sachDTO);
                 lichSuNhapHangService.insert(lichSuNH);
-                parentPane.fillTable(sachService.getAll().stream().map(SachViewObject::new).collect(Collectors.toList()));
+                parentPane.fillTable(sachService.getPage(parentPane.getPageable()).stream().map(SachViewObject::new).collect(Collectors.toList()));
                 dispose();
             } catch (Exception ex) {
                 MsgBox.alert(this, ex.getMessage());

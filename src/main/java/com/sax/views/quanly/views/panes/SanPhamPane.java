@@ -121,8 +121,8 @@ public class SanPhamPane extends JPanel {
     private void nhapHang() {
         if (table.getSelectedRow() >= 0) {
             NhapHangDialog nhapHangDialog = new NhapHangDialog();
-            nhapHangDialog.setParentPane(this);
-            nhapHangDialog.setId((int) table.getValueAt(table.getSelectedRow(), 1));
+            nhapHangDialog.parentPane = this;
+            nhapHangDialog.id = (int) table.getValueAt(table.getSelectedRow(), 1);
             nhapHangDialog.setTitle(sachService.getById((int) table.getValueAt(table.getSelectedRow(), 1)).getTenSach());
             nhapHangDialog.fillTable();
             nhapHangDialog.setVisible(true);

@@ -67,7 +67,6 @@ public class LichSuNhapHangService implements ILichSuNhapHangService {
            LichSuNhapHang lichSuNhapHang = repository.findById(e.getId()).orElseThrow();
            int soLuongCapNhat = e.getSoLuong() - lichSuNhapHang.getSoLuong();
            lichSuNhapHang.setSoLuong(e.getSoLuong());
-           System.out.println(soLuongCapNhat);
            dto.setTrangThai(true);
            dto.setSoLuong(dto.getSoLuong()+soLuongCapNhat);
            sachService.update(dto);
