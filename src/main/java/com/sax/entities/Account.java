@@ -36,7 +36,7 @@ public class Account implements Serializable {
     @Basic
     @Column(name = "email", nullable = true, length = 255)
     private String email;
-    @Column(name = "sdt", nullable = true, length = 13)
+    @Column(name = "sdt", nullable = true, length = 13,unique = true)
     private String sdt;
     @Basic
     @Column(name = "ngay_dang_ki", nullable = false)
