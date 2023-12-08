@@ -8,7 +8,7 @@
       <background color="-657931"/>
       <minimumSize width="1280" height="720"/>
       <opaque value="true"/>
-      <preferredSize width="1500" height="900"/>
+      <preferredSize width="1505" height="900"/>
     </properties>
     <border type="empty">
       <size top="0" left="0" bottom="0" right="0"/>

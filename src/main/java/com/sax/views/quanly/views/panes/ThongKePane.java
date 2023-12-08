@@ -89,6 +89,8 @@ public class ThongKePane extends JPanel {
         XYPlot plot = (XYPlot) chart.getPlot();
         NumberAxis xAxis = (NumberAxis) plot.getDomainAxis();
         xAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
+        xAxis.setLowerBound(1);
+        xAxis.setUpperBound(dataset.getItemCount(0));
 
         // Tạo định dạng tùy chỉnh cho giá trị trục y
         DecimalFormatSymbols symbols = new DecimalFormatSymbols();
@@ -110,12 +112,10 @@ public class ThongKePane extends JPanel {
     }
 
     private void hienThiTheoThang() {
-
         int thang = Integer.parseInt(cboThang.getSelectedItem().toString());
         int nam = Integer.parseInt(cboNamTT.getSelectedItem().toString());
 
         DefaultXYDataset dataset = new DefaultXYDataset();
-
 
         List<DoanhThuNgayDTO> list = thongKeService.getAllTongTienTheoThang(thang, nam);
         double[][] data = new double[2][list.size()];
