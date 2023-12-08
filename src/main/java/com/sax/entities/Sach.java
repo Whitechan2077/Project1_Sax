@@ -15,8 +15,7 @@ import java.util.Set;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
+@Data
 @Table(name = "sach", schema = "dbo", catalog = "SaX")
 public class Sach {
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -10,8 +10,7 @@ import java.util.Collection;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
+@Data
 @Table(name = "hoa_don", schema = "dbo", catalog = "SaX")
 public class DonHang {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
