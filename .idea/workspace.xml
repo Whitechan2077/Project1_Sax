@@ -27,7 +27,8 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "settings.editor.selected.configurable": "com.poratu.idea.plugins.tomcat.setting.TomcatServersConfigurable"
+    "settings.editor.selected.configurable": "com.poratu.idea.plugins.tomcat.setting.TomcatServersConfigurable",
+    "spring.configuration.checksum": "77c70b646374c700c5ebbfc677618f24"
   }
 }]]></component>
   <component name="RunManager">
@@ -58,7 +59,8 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1701939264064</updated>
-      <workItem from="1701939266770" duration="10118000" />
+      <workItem from="1701939266770" duration="12888000" />
+      <workItem from="1702000442666" duration="6104000" />
     </task>
     <servers />
   </component>

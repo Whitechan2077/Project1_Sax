@@ -9,6 +9,7 @@ import java.util.List;
 
 public interface ICtkmSachService extends ICrudServices<CtkmSachDTO,Integer>{
     List<CtkmSachDTO> getAllSachInCtkm(CtkmDTO ctkmDTO);
+    List<CtkmSachDTO> getAllSachByIdCtkm(Integer id);
    List<CtkmSachDTO> insetAll(List<CtkmSachDTO> e);
    List<CtkmSachDTO> searchAllSachInCtkm(String kw,CtkmDTO ctkmDTO);
 }

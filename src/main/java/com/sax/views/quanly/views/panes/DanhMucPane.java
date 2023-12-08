@@ -223,7 +223,7 @@ public class DanhMucPane extends JPanel {
         bg = new RoundPanel(10);
         btnSave = new ButtonToolItem("add.svg", "add.svg");
         btnDel = new ButtonToolItem("trash-c.svg", "trash-c.svg");
-        btnClear = new ButtonToolItem("x-c.svg", "x-c.svg");
+        btnClear = new ButtonToolItem("clear-c.svg", "clear-c.svg");
         btnEdit = new ButtonToolItem("pencil.svg", "pencil.svg");
         txtMoTa = new CustomTextArea();
 
