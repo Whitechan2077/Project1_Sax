@@ -73,7 +73,7 @@ public class SachService implements ISachService {
     public List<SachDTO> getAllSachByIdDanhMuc(Integer id) {
         DanhMuc danhMuc = danhMucRepository.findById(id).orElseThrow();
         List<Sach> list = new ArrayList<>(danhMuc.getSetSach());
-        return findAllGiaGiam(list);
+        return findAllGiaGiam(list.stream().filter(Sach::isTrangThai).toList());
     }
 
     @Override

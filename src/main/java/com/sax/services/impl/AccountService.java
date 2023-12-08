@@ -8,6 +8,7 @@ import com.sax.services.IAccountService;
 import com.sax.utils.DTOUtils;
 import com.sax.utils.HashUtils;
 import com.sax.utils.ImageUtils;
+import net.bytebuddy.implementation.bytecode.Throw;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 
@@ -98,19 +99,25 @@ public class AccountService implements IAccountService {
 
     @Override
     public void deleteAll(Set<Integer> ids) throws SQLServerException {
-        boolean check = true;
-        StringBuilder name = new StringBuilder("Nhân viên");
-        for (Integer x : ids) {
-            Account e = repository.findRelative(x);
-            if (e == null)repository.deleteById(x);
+        StringBuilder name = new StringBuilder();
+        ids.forEach(id->{
+            Account e = repository.findRelative(id);
+            if (e == null){
+                Account account = repository.findById(id).orElseThrow();
+                if (!account.isVaiTro())repository.deleteById(id);
+                else name.append(" ").append(account.getTenNhanVien()).append(", ");
+            }
             else {
+                if (!repository.findById(id).orElseThrow().isVaiTro()){
                 e.setTrangThai(false);
                 repository.save(e);
                 name.append(" ").append(e.getTenNhanVien()).append(", ");
-                check = false;
+                }
+                else name.append(" ").append(e.getTenNhanVien()).append(", ");
             }
-        }
-        if (!check) throw new DataIntegrityViolationException(name + " .Không thể xoá, do nhân viên đã bán hàng! Chuyển trạng nghỉ");
+        });
+        if (!name.isEmpty()) throw new DataIntegrityViolationException("Tài khoaản"+name + " không thể xoá, do tài khoản" +
+                " đã bán hàng hoặc tài khoản là quản lý, Chuyển trạng nghỉ với tài khoản nhân viên");
     }
 
     @Override

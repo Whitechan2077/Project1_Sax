@@ -103,7 +103,7 @@ public class DonHangService implements IDonHangService {
             khach.setDiem(totalPoint);
             khachHangRepository.save(khach);
         }
-        if (donHang.getTongTien()>=200000)
+        if (donHang.getTongTien()>=200000&&khach.getDiem()>=0)
         {
             int point = khach.getDiem();
             khach.setDiem(point+1);
