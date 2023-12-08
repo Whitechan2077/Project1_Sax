@@ -64,6 +64,8 @@ public class KhuyenMaiPane extends JPanel {
     private JCheckBox cbkSelectedAllSP;
     private JButton btnXoaSP;
     private JButton btnSuaSP;
+    private JButton btnBoLuaChon;
+    private JLabel lblTitleSach;
     private ICtkmSachService ctkmSachService = ContextUtils.getBean(ICtkmSachService.class);
     private ICtkmService ctkmService = ContextUtils.getBean(CtkmService.class);
     private ExecutorService executorService = Executors.newSingleThreadExecutor();
@@ -96,6 +98,8 @@ public class KhuyenMaiPane extends JPanel {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (e.getClickCount() == 2) updateKM();
+                locSPCtkm();
+
             }
         });
         listPageKM.addMouseListener(new MouseAdapter() {
@@ -115,7 +119,7 @@ public class KhuyenMaiPane extends JPanel {
         btnAddSachTo.addActionListener((e) -> addSP());
         btnSuaSP.addActionListener((e) -> updateSP());
         btnXoaSP.addActionListener((e) -> deleteSP());
-        cboCTKM.addActionListener((e) -> locSPCtkm());
+        btnBoLuaChon.addActionListener((e) -> boLuaChon());
         tableSP.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -137,7 +141,7 @@ public class KhuyenMaiPane extends JPanel {
         ((DefaultTableModel) tableSP.getModel()).setColumnIdentifiers(new String[]{"", "Id", "Tên sách", "Tên sự kiện", "Ngày bắt đầu", "Ngày kết thúc", "Giá trị giảm", "Trạng thái"});
         new WorkerKM().execute();
         loading.setVisible(true);
-        new WorkerSP().execute();
+        new WorkerSP(-1).execute();
         loading.setVisible(true);
         timerKM = new Timer(300, e -> {
             searchByKeywordKM();
@@ -210,7 +214,11 @@ public class KhuyenMaiPane extends JPanel {
             fillTableKM(ctkmService.searchByKeyword(keyword).stream().map(CtkmViewObject::new).collect(Collectors.toList()));
             phanTrangPane.setVisible(false);
         } else {
-            fillTableKM(ctkmService.getAll().stream().map(CtkmViewObject::new).collect(Collectors.toList()));
+            new WorkerKM().execute();
+            loading.setVisible(true);
+            new WorkerSP(-1).execute();
+            loading.setVisible(true);
+            lblTitleSach.setText("Sách được áp dụng trong tất cả CTKM");
             phanTrangPane.setVisible(true);
         }
     }
@@ -316,12 +324,20 @@ public class KhuyenMaiPane extends JPanel {
     }
 
     public void locSPCtkm() {
-        if (cboCTKM.getSelectedItem() instanceof String)
-            fillTableSP(ctkmSachService.getAll().stream().map(CtkmSachViewObject::new).collect(Collectors.toList()));
-        else {
-            CtkmDTO ctkmDTO = (CtkmDTO) cboCTKM.getSelectedItem();
-            fillTableSP(ctkmSachService.getAllSachInCtkm(ctkmDTO).stream().map(CtkmSachViewObject::new).collect(Collectors.toList()));
+        if (tableCTKM.getSelectedRow() >= 0) {
+            new WorkerSP((int) tableCTKM.getValueAt(tableCTKM.getSelectedRow(), 1)).execute();
+            loading.setVisible(true);
+            lblTitleSach.setText("Sách được áp dụng trong " + tableCTKM.getValueAt(tableCTKM.getSelectedRow(), 2).toString());
+        } else {
+            new WorkerSP(-1).execute();
+            loading.setVisible(true);
+            lblTitleSach.setText("Sách được áp dụng trong tất cả CTKM");
         }
+    }
+
+    public void boLuaChon() {
+        tableCTKM.clearSelection();
+        locSPCtkm();
     }
 
     public void searchByKeywordSP() {
@@ -329,10 +345,8 @@ public class KhuyenMaiPane extends JPanel {
         if (!keyword.isEmpty())
             fillTableSP(ctkmSachService.searchByKeyword(keyword).stream().map(CtkmSachViewObject::new).collect(Collectors.toList()));
         else {
-            if (cboCTKM.getSelectedItem() instanceof String)
-                fillTableSP(ctkmSachService.getAll().stream().map(CtkmSachViewObject::new).collect(Collectors.toList()));
-            else
-                fillTableSP(ctkmSachService.getAllSachInCtkm((CtkmDTO) cboCTKM.getSelectedItem()).stream().map(CtkmSachViewObject::new).collect(Collectors.toList()));
+            new WorkerSP((int) tableCTKM.getValueAt(tableCTKM.getSelectedRow(), 1)).execute();
+            loading.setVisible(true);
         }
     }
 
@@ -349,6 +363,7 @@ public class KhuyenMaiPane extends JPanel {
         btnEdit = new ButtonToolItem("pencil.svg", "pencil.svg");
         btnXoaSP = new ButtonToolItem("trash-c.svg", "trash-c.svg");
         btnSuaSP = new ButtonToolItem("pencil.svg", "pencil.svg");
+        btnBoLuaChon = new ButtonToolItem("clear-c.svg", "clear-c.svg");
 
         listPageKM = new ListPageNumber();
     }
@@ -372,8 +387,16 @@ public class KhuyenMaiPane extends JPanel {
     }
 
     class WorkerSP extends SwingWorker<List<AbstractViewObject>, Integer> {
+        int id;
+
+        public WorkerSP(int id) {
+            this.id = id;
+        }
+
         @Override
         protected List<AbstractViewObject> doInBackground() {
+            if (id >= 0)
+                return ctkmSachService.getAllSachByIdCtkm(id).stream().map(CtkmSachViewObject::new).collect(Collectors.toList());
             return ctkmSachService.getAll().stream().map(CtkmSachViewObject::new).collect(Collectors.toList());
         }
 

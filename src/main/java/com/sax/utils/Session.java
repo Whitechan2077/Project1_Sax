@@ -41,6 +41,7 @@ public class Session {
             Application.app.pack();
             Application.app.setLocationRelativeTo(null);
             accountid = null;
+            Cart.getCart().clear();
         }
     }
 

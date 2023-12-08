@@ -13,4 +13,5 @@ public interface ICtkmService extends ICrudServices<CtkmDTO,Integer> {
     List<CtkmDTO> getAllNotAvailable(Pageable pageable);
     int getAllNotAvailableToTalPage(Pageable pageable);
     int getAllAvailableToTalPage(Pageable pageable);
+
 }

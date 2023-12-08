@@ -19,4 +19,6 @@ public interface ICtkmSachRepository extends JpaRepository<CtkmSach,Integer> {
 
     @Query("SELECT e FROM CtkmSach e WHERE CAST(e.id AS string) like %:keyword% OR e.sach.tenSach LIKE %:keyword% OR e.ctkm.tenSuKien LIKE %:keyword%")
     List<CtkmSach> findAllByKeyword(@Param("keyword") String keyword);
+
+    List<CtkmSach> findAllByIdKM(@Param("id") Integer id);
 }

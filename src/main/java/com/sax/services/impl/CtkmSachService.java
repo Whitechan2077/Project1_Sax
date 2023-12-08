@@ -118,4 +118,9 @@ public class CtkmSachService implements ICtkmSachService {
                         , CtkmSachDTO.class);
     }
 
+    @Override
+    public List<CtkmSachDTO> getAllSachByIdCtkm(Integer id) {
+        return DTOUtils.getInstance().convertToDTOList(repository.findAllByIdKM(id), CtkmSachDTO.class);
+    }
+
 }
