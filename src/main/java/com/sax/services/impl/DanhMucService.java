@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class DanhMucService implements IDanhMucService {
@@ -92,30 +93,20 @@ public class DanhMucService implements IDanhMucService {
     @Override
     @Transactional
     public void deleteAllDanhMucSach(Set<Integer> ids) {
-            try{
-                List<Sach> sachList = sachRepository.findAll();
-                Map<Integer, DanhMuc> danhMucMap = new HashMap<>();
-                sachList.forEach(sach -> sach.getSetDanhMuc()
-                        .forEach(danhMuc -> danhMucMap.put(danhMuc.getId(), danhMuc)));
-                ids.forEach(id -> {
-                    repository.updateAllByDanhMucCha(id);
-                    sachList.forEach(sach -> {
-                        sach.getSetDanhMuc().remove(danhMucMap.get(id));
-                    });
-                });
-                sachRepository.saveAll(sachList);
-                repository.deleteAllById(ids);
-            }
-            catch (Exception e){
-                e.printStackTrace();
-            }
+        List<Sach> sachList = repository.findAllById(ids).stream()
+                .flatMap(ditMe -> ditMe.getSetSach().stream())
+                .peek(sach -> repository.findAllById(ids).forEach(sach.getSetDanhMuc()::remove))
+                .collect(Collectors.toList());
+        ids.forEach(id -> repository.updateAllByDanhMucCha(id));
+        sachRepository.saveAll(sachList);
+        repository.deleteAllById(ids);
     }
 
     @Override
     public List<DanhMucDTO> getAllDanhMucForUpdate(int id) {
         DanhMuc danhMuc = repository.findById(id).orElseThrow(() -> new NoSuchElementException("sai id ko tim thay"));
-        List<DanhMucDTO> listAll =this.getAll();
-        listAll.removeAll( getChildDanhMucDTO(danhMuc,0));
+        List<DanhMucDTO> listAll = this.getAll();
+        listAll.removeAll(getChildDanhMucDTO(danhMuc, 0));
         return listAll;
     }
 

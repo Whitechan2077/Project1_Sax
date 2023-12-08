@@ -33,7 +33,7 @@ public class Cart {
             if (chkDiem.isSelected()) {
                 lblChietKhau.setText("-" + CurrencyConverter.parseString(Integer.valueOf(chkDiem.getText()) * 1000));
             } else {
-                lblChietKhau.setText("-" + CurrencyConverter.parseString(0));
+                lblChietKhau.setText(CurrencyConverter.parseString(0));
             }
             long km = CurrencyConverter.parseLong(lblChietKhau.getText().replace("-", ""));
             lblTPT.setText(CurrencyConverter.parseString(tienHang - km));
