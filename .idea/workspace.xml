@@ -51,6 +51,9 @@
       <recent name="$PROJECT_DIR$/src/main/java/com/sax/views/nhanvien/cart/table" />
       <recent name="$PROJECT_DIR$/src/main/java/com/sax/views/nhanvien/cart" />
     </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/java/com/sax/views/nhanvien/dialog/hoadon" />
+    </key>
   </component>
   <component name="RunManager">
     <configuration name="Application" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
@@ -84,7 +87,7 @@
       <workItem from="1702050480963" duration="1851000" />
       <workItem from="1702089254601" duration="8191000" />
       <workItem from="1702107158803" duration="19427000" />
-      <workItem from="1702133916507" duration="8713000" />
+      <workItem from="1702133916507" duration="15006000" />
     </task>
     <servers />
   </component>

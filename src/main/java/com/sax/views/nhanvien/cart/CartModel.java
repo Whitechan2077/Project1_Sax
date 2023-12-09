@@ -23,14 +23,14 @@ public class CartModel {
     private long giaBan;
     private JButton xoa;
 
-    public CartModel(SachDTO sachDTO, JXTable table, JLabel lblTT, JLabel lblKM, JLabel lblTPT,JCheckBox chkdiem) {
+    public CartModel(SachDTO sachDTO, JXTable table, JLabel lblTT, JLabel lblKM, JLabel lblTPT, JCheckBox chkdiem) {
         id = sachDTO.getId();
         icon = sachDTO.getHinhAnh();
         name = sachDTO.getTenSach();
-        donGia = sachDTO.getGiaBan() -sachDTO.getGiaGiam();
+        donGia = sachDTO.getGiaBan() - sachDTO.getGiaGiam();
         giaBan = sachDTO.getGiaBan();
         soLuong = new CustomSpinner();
-        xoa = new ButtonToolItem("x-c.svg","x-c.svg");
+        xoa = new ButtonToolItem("x-c.svg", "x-c.svg");
 
         FlatBorder flatBorder = new FlatButtonBorder() {
             @Override

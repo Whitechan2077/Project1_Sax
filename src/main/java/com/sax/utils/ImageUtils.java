@@ -15,10 +15,6 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 
 public class ImageUtils {
     private static final String ABSOLUTE_PATH = ImageUtils.class.getProtectionDomain().getCodeSource().getLocation().getPath();
@@ -165,13 +161,14 @@ public class ImageUtils {
         return (image != null) ? image.getAbsolutePath() : null;
     }
 
-    public static void saveBufferImageToFile(BufferedImage image, String nameFile) {
+    public static void saveBufferImageToRaster(BufferedImage image, String nameFile) {
         try {
             ImageIO.write(image, "png", new File("images/" + nameFile));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
+
     public static void saveBufferImageToPdf(BufferedImage image, String nameFile) {
         try {
             Document document = new Document(PageSize.A6);
@@ -181,14 +178,11 @@ public class ImageUtils {
             float pdfWidth = PageSize.A6.getWidth();
             float pdfHeight = PageSize.A6.getHeight();
 
-            // Lấy kích thước của hình ảnh
             float imageWidth = image.getWidth();
             float imageHeight = image.getHeight();
 
-            // Tính toán tỷ lệ scale để fit hình ảnh vào trang PDF
             float scale = Math.min(pdfWidth / imageWidth, pdfHeight / imageHeight);
 
-            // Tính toán vị trí để đưa hình ảnh vào trên cùng và giữa trang PDF
             float x = (pdfWidth - imageWidth * scale) / 2;
             float y = pdfHeight - imageHeight * scale;
 

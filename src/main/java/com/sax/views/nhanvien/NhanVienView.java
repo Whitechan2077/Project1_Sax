@@ -17,6 +17,8 @@ import com.sax.views.components.libraries.RoundPanel;
 import com.sax.views.components.libraries.WrapLayout;
 import com.sax.views.nhanvien.cart.CustomCart;
 import com.sax.views.nhanvien.dialog.*;
+import com.sax.views.nhanvien.dialog.hoadon.HoaDonDialog;
+import com.sax.views.nhanvien.doncho.DonChoViewObject;
 import com.sax.views.nhanvien.product.ProductItem;
 import com.sax.views.quanly.views.dialogs.CameraDialog;
 import org.jdesktop.swingworker.SwingWorker;
@@ -28,6 +30,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.FileNotFoundException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -289,15 +292,21 @@ public class NhanVienView extends JPanel {
     }
 
     private void themTam() {
-        DonHangDTO donHangDTO = readCart();
-        if (donHangDTO.getChiTietDonHangs().size() > 0) {
-            donHangDTO.setId(Session.listDonCho.size() + 1);
-            String tenKhachHang = MsgBox.prompt(this, "Nhập tên khách hàng");
-            donHangDTO.getKhach().setTenKhach(tenKhachHang);
-            Session.listDonCho.add(donHangDTO);
-            new Worker(0).execute();
-            fillKhachHang(khachHangService.getAll());
-            loading.setVisible(true);
+        if (Cart.getCart().size() > 0) {
+            DonChoViewObject donCho = new DonChoViewObject();
+            donCho.setId(Session.listDonCho.size() + 1);
+            donCho.setTienHang(lblTienHang.getText());
+            donCho.setChietKhau(lblChietKhau.getText());
+            donCho.setTongtien(lblTPT.getText());
+            donCho.setListCart(new ArrayList<>(Cart.getCart()));
+            if (cboKH.getSelectedIndex() == 0) {
+                KhachHangDTO khachHangDTO = new KhachHangDTO();
+                String tenKhachHang = MsgBox.prompt(this, "Nhập tên khách hàng");
+                if (tenKhachHang == null) return;
+                khachHangDTO.setTenKhach(tenKhachHang);
+                donCho.setKhachHang(khachHangDTO);
+            } else donCho.setKhachHang((KhachHangDTO) cboKH.getSelectedItem());
+            Session.listDonCho.add(donCho);
             clear();
         }
     }

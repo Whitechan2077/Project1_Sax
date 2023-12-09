@@ -1,12 +1,10 @@
-package com.sax.views.nhanvien.dialog;
+package com.sax.views.nhanvien.dialog.hoadon;
 
 import com.sax.dtos.DonHangDTO;
-import com.sax.dtos.SachDTO;
 import com.sax.utils.CurrencyConverter;
 import com.sax.utils.ImageUtils;
 import com.sax.views.components.libraries.ButtonToolItem;
-import com.sax.views.nhanvien.cart.table.TableCustom;
-import com.sax.views.nhanvien.cart.table.TextAreaCellRenderer;
+import com.sax.views.nhanvien.dialog.hoadon.table.TableCustom;
 import org.jdesktop.swingx.JXTable;
 
 import javax.print.*;
@@ -107,7 +105,7 @@ public class HoaDonDialog extends JDialog {
             hd.paint(g2D);
             g2D.translate(0, this.getHeight());
             hd.paint(g2D);
-            ImageUtils.saveBufferImageToFile(hoadon, "invoices/" + donHangDTO.getId() + ".png");
+            ImageUtils.saveBufferImageToRaster(hoadon, "invoices/" + donHangDTO.getId() + ".png");
 
             FileInputStream fileInputStream = null;
             try {

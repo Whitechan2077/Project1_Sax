@@ -9,7 +9,9 @@ import com.sax.views.components.table.CustomHeaderTableCellRenderer;
 import com.sax.views.components.table.CustomTableCellEditor;
 import com.sax.views.components.table.CustomTableCellRender;
 import com.sax.views.nhanvien.cart.CartModel;
+import com.sax.views.nhanvien.doncho.DonChoViewObject;
 import com.sax.views.quanly.viewmodel.AbstractViewObject;
+import com.sax.views.quanly.viewmodel.DonHangViewObject;
 import org.jdesktop.swingx.JXTable;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
@@ -31,7 +33,7 @@ public class Session {
     public static String otp;
     public static JLabel lblName;
     public static JPanel avatar;
-    public static List<DonHangDTO> listDonCho = new ArrayList<>();
+    public static List<DonChoViewObject> listDonCho = new ArrayList<>();
 
     private static final String CONFIG_FILE_PATH = "config.yaml";
 
