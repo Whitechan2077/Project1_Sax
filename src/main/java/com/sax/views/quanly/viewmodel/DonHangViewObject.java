@@ -38,4 +38,9 @@ public class DonHangViewObject extends AbstractViewObject {
         });
         return new Object[]{checkBoxDelete, id, name, maNV, tienHang, chietKhau, tongTien, pttt ? "Tiền mặt" : "Chuyển khoản", ngayTao};
     }
+    
+    public Object[] toObject()
+    {
+        return new Object[] {checkBoxDelete, id, name, tienHang, chietKhau, tongTien, pttt ? "Tiền mặt" : "Chuyển khoản"};
+    }
 }

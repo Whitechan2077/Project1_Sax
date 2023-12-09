@@ -10,11 +10,9 @@ import java.util.List;
 
 public class CustomTableCellRender extends DefaultTableCellRenderer {
     private List<AbstractViewObject> list;
-    private JCheckBox cbkSelect;
 
-    public CustomTableCellRender(List<AbstractViewObject> list, JCheckBox cbkSelect) {
+    public CustomTableCellRender(List<AbstractViewObject> list) {
         this.list = list;
-        this.cbkSelect = cbkSelect;
     }
 
     @Override

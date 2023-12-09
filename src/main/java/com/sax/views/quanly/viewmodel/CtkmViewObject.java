@@ -42,4 +42,9 @@ public class CtkmViewObject extends AbstractViewObject {
         });
         return new Object[]{checkBoxDelete, id, name, ngayBatDau, ngayKetThuc, kieuGiamGia ? "Phần trăm" : "Số tiền", getTrangThai()};
     }
+
+    @Override
+    public Object[] toObject() {
+        return new Object[0];
+    }
 }

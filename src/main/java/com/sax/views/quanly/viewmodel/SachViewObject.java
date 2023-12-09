@@ -42,4 +42,9 @@ public class SachViewObject extends AbstractViewObject {
         });
         return new Object[]{checkBoxDelete, id, barcode, new CellNameRender(executorService, tbl, hinhAnh, name), soLuong, giaBan, danhMucList, ngayThem, trangThai ? "Hiển thị" : "Ẩn"};
     }
+
+    @Override
+    public Object[] toObject() {
+        return new Object[0];
+    }
 }

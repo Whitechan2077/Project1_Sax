@@ -2,11 +2,13 @@ package com.sax.utils;
 
 import com.sax.Application;
 import com.sax.dtos.AccountDTO;
+import com.sax.dtos.DonHangDTO;
 import com.sax.services.ICrudServices;
 import com.sax.views.LoginView;
 import com.sax.views.components.table.CustomHeaderTableCellRenderer;
 import com.sax.views.components.table.CustomTableCellEditor;
 import com.sax.views.components.table.CustomTableCellRender;
+import com.sax.views.nhanvien.cart.CartModel;
 import com.sax.views.quanly.viewmodel.AbstractViewObject;
 import org.jdesktop.swingx.JXTable;
 import org.yaml.snakeyaml.DumperOptions;
@@ -15,15 +17,13 @@ import org.yaml.snakeyaml.nodes.Tag;
 import org.yaml.snakeyaml.representer.Representer;
 
 import java.io.*;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.util.List;
-import java.util.Set;
 import java.util.concurrent.ExecutorService;
 
 public class Session {
@@ -31,6 +31,7 @@ public class Session {
     public static String otp;
     public static JLabel lblName;
     public static JPanel avatar;
+    public static List<DonHangDTO> listDonCho = new ArrayList<>();
 
     private static final String CONFIG_FILE_PATH = "config.yaml";
 
@@ -78,8 +79,9 @@ public class Session {
         table.getTableHeader().setEnabled(false);
         table.getTableHeader().setPreferredSize(new Dimension(-1, 28));
         table.getColumnModel().getColumn(0).setCellEditor(new CustomTableCellEditor(list));
-        table.setDefaultRenderer(Object.class, new CustomTableCellRender(list, cbkSelectedAll));
+        table.setDefaultRenderer(Object.class, new CustomTableCellRender(list));
         table.packAll();
+        Application.app.pack();
         table.getColumns().forEach(i -> i.sizeWidthToFit());
         table.setCursor(new Cursor(Cursor.HAND_CURSOR));
     }

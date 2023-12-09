@@ -34,4 +34,9 @@ public class DanhMucViewObject extends AbstractViewObject {
         });
         return new Object[]{checkBoxDelete, id, name, moTa, tenDanhMucCha};
     }
+
+    @Override
+    public Object[] toObject() {
+        return new Object[0];
+    }
 }
