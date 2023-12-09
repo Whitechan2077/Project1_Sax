@@ -22,7 +22,7 @@ public class CtkmSach {
     @Basic
     @Column(name = "id_giam_gia", nullable = false,insertable = false,updatable = false)
     private int idKM;
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "id_sach", referencedColumnName = "id", nullable = false)
     private Sach sach;
     @ManyToOne

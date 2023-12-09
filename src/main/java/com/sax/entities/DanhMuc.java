@@ -32,8 +32,8 @@ public class DanhMuc {
     @JoinColumn(name = "id_loai_cha", referencedColumnName = "id")
     private DanhMuc danhMucCha;
 
-    @OneToMany(mappedBy = "danhMucCha",fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "danhMucCha")
     private Set<DanhMuc> danhMucCon;
-    @ManyToMany(mappedBy = "setDanhMuc",fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "setDanhMuc")
     private Set<Sach> setSach = new HashSet<>();
 }

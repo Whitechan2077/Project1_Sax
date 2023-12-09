@@ -31,6 +31,6 @@ public class KhachHang {
     @Basic
     @Column(name = "gioi_tinh", nullable = false)
     private boolean gioiTinh;
-    @OneToMany(mappedBy = "khachHangByIdKhach")
-    private Collection<DonHang> hoaDonsById;
+    @OneToMany(mappedBy = "khachHang")
+    private Collection<DonHang> donHangs;
 }

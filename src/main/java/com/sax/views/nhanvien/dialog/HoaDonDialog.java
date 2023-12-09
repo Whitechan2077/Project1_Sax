@@ -18,6 +18,7 @@ import java.io.*;
 import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 
 public class HoaDonDialog extends JDialog {
     private JPanel contentPane;
@@ -103,9 +104,10 @@ public class HoaDonDialog extends JDialog {
             PrintRequestAttributeSet aset = new HashPrintRequestAttributeSet();
             aset.add(new Copies(1));
             aset.add(OrientationRequested.REVERSE_PORTRAIT);
-            aset.add(Sides.ONE_SIDED);
+//            aset.add(Sides.ONE_SIDED);
 
             PrintService[] services = PrintServiceLookup.lookupPrintServices(myFormat, aset);
+            System.out.println(Arrays.toString(services));
             if (services.length != 0) {
                 DocPrintJob printJob = services[0].createPrintJob();
                 try {
