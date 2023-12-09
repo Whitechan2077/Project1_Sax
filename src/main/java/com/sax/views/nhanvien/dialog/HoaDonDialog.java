@@ -1,9 +1,12 @@
 package com.sax.views.nhanvien.dialog;
 
 import com.sax.dtos.DonHangDTO;
+import com.sax.dtos.SachDTO;
 import com.sax.utils.CurrencyConverter;
 import com.sax.utils.ImageUtils;
 import com.sax.views.components.libraries.ButtonToolItem;
+import com.sax.views.nhanvien.cart.table.TableCustom;
+import com.sax.views.nhanvien.cart.table.TextAreaCellRenderer;
 import org.jdesktop.swingx.JXTable;
 
 import javax.print.*;
@@ -15,7 +18,6 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
-import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
@@ -35,13 +37,13 @@ public class HoaDonDialog extends JDialog {
     private JButton btnClose;
     private JLabel lblChietKhau;
     private JLabel lblLogo;
+    private JPanel hd;
+    private JButton btnSave;
     private DefaultTableModel tableModel;
-    private DecimalFormat decimalFormat;
 
     public HoaDonDialog(Component parent, DonHangDTO donHangDTO, boolean check) throws FileNotFoundException {
         table = new JXTable();
         tableModel = (DefaultTableModel) table.getModel();
-        decimalFormat = new DecimalFormat();
 
         lblTenKH.setText(donHangDTO.getKhach().getTenKhach().toUpperCase());
         lblSdt.setText("Số điện thoại: " + donHangDTO.getKhach().getSdt());
@@ -58,11 +60,18 @@ public class HoaDonDialog extends JDialog {
                 i.getGiaGiam() > 0 ? "-" + CurrencyConverter.parseString(i.getGiaGiam()) : CurrencyConverter.parseString(i.getGiaGiam()),
                 CurrencyConverter.parseString((i.getGiaBan() - i.getGiaGiam()) * i.getSoLuong())
         }).toArray(Object[][]::new), columnNames);
-        table.packAll();
         table.setFocusable(false);
+        table.setDefaultEditor(Object.class, null);
 
         JScrollPane scrollPane = new JScrollPane(table);
         scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+        TableCustom.apply(scrollPane);
+        table.packAll();
+
+        table.setPreferredScrollableViewportSize(table.getPreferredSize());
+
+        sp.add(scrollPane);
+
         lblNgayTao.setText("Ngày tạo: "
                 + LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
                 + " - "
@@ -72,7 +81,6 @@ public class HoaDonDialog extends JDialog {
         lblTPT.setText(CurrencyConverter.parseString(donHangDTO.getTongTien()));
         lblLogo.setIcon(new ImageIcon(ImageUtils.readImage("logo-com.png").getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
 
-        sp.add(scrollPane);
 
         setContentPane(contentPane);
         setModal(true);
@@ -81,17 +89,27 @@ public class HoaDonDialog extends JDialog {
         setFocusableWindowState(true);
         setAlwaysOnTop(true);
 
-        if (check) {
-            BufferedImage hoadon = new BufferedImage(contentPane.getWidth(), contentPane.getHeight(),
+        btnSave.addActionListener((e) -> {
+            BufferedImage hoadon = new BufferedImage(hd.getWidth(), hd.getHeight(),
                     BufferedImage.TYPE_INT_RGB);
             Graphics2D g2D = (Graphics2D) hoadon.getGraphics();
-            contentPane.paint(g2D);
+            hd.paint(g2D);
             g2D.translate(0, this.getHeight());
-            contentPane.paint(g2D);
-            ImageUtils.saveBufferImageToFile(hoadon, "invoices/" + donHangDTO.getId() + ".png");
-        }
+            hd.paint(g2D);
+//            ImageUtils.saveBufferImageToFile(hoadon, "invoices/" + donHangDTO.getId() + ".png");
+            ImageUtils.saveBufferImageToPdf(hoadon, "invoices/" + donHangDTO.getId() + ".pdf");
+            dispose();
+        });
 
         btnSubmit.addActionListener((e) -> {
+            BufferedImage hoadon = new BufferedImage(hd.getWidth(), hd.getHeight(),
+                    BufferedImage.TYPE_INT_RGB);
+            Graphics2D g2D = (Graphics2D) hoadon.getGraphics();
+            hd.paint(g2D);
+            g2D.translate(0, this.getHeight());
+            hd.paint(g2D);
+            ImageUtils.saveBufferImageToFile(hoadon, "invoices/" + donHangDTO.getId() + ".png");
+
             FileInputStream fileInputStream = null;
             try {
                 fileInputStream = new FileInputStream("images/invoices/" + donHangDTO.getId() + ".png");
@@ -122,9 +140,9 @@ public class HoaDonDialog extends JDialog {
         btnClose.addActionListener((e) -> dispose());
     }
 
-
     private void createUIComponents() {
         btnSubmit = new ButtonToolItem("ctkm.svg", "ctkm.svg");
         btnClose = new ButtonToolItem("x-c.svg", "x-c.svg");
+        btnSave = new ButtonToolItem("save-c.svg", "save-c.svg");
     }
 }

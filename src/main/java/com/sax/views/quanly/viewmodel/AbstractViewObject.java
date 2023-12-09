@@ -23,6 +23,7 @@ public abstract class AbstractViewObject {
     }
 
 
-
     public abstract Object[] toObject(ExecutorService executorService, JTable tbl, Set tempIdSet, List<JCheckBox> setCbk);
+
+    public abstract Object[] toObject();
 }

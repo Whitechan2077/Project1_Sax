@@ -42,4 +42,9 @@ public class CtkmSachViewObject extends AbstractViewObject {
         });
         return new Object[]{checkBoxDelete, id, new CellNameRender(executorService, tbl, sach.getHinhAnh(), name), ctkm.getTenSuKien(), ctkm.getNgayBatDau(), ctkm.getNgayKetThuc(), ctkm.isKieuGiamGia() ? giaTriGiam + "%" : CurrencyConverter.parseString(giaTriGiam), getTrangThai()};
     }
+
+    @Override
+    public Object[] toObject() {
+        return new Object[0];
+    }
 }

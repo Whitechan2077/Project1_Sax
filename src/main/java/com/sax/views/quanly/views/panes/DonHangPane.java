@@ -63,7 +63,6 @@ public class DonHangPane extends JPanel {
     private IDonHangService donHangService = ContextUtils.getBean(DonHangService.class);
     private IDonHangChiTetService donHangChiTetService = ContextUtils.getBean(DonHangChiTietService.class);
     private ExecutorService executorService = Executors.newSingleThreadExecutor();
-    ;
     private Set tempIdSet = new HashSet();
     private List<JCheckBox> listCbk = new ArrayList<>();
     private Loading loading = new Loading(this);

@@ -50,4 +50,9 @@ public class NhanVienViewObject extends AbstractViewObject {
         });
         return new Object[]{checkBoxDelete, id, new CellNameRender(executorService, tbl, hinhAnh, name), username, email, sdt, getGioiTinh(), vaiTro ? "Quản lý" : "Nhân viên", ngayThem, trangThai ? "Đang làm" : "Đã nghỉ"};
     }
+
+    @Override
+    public Object[] toObject() {
+        return new Object[0];
+    }
 }

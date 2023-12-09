@@ -39,4 +39,9 @@ public class KhachHangViewObject extends AbstractViewObject {
         });
         return new Object[]{checkBoxDelete, id, name, diemTichLuy, sdt, getGioiTinh(), ngayThem};
     }
+
+    @Override
+    public Object[] toObject() {
+        return new Object[0];
+    }
 }

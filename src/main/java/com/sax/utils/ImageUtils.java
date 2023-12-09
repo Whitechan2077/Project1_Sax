@@ -2,6 +2,9 @@ package com.sax.utils;
 
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import com.formdev.flatlaf.ui.FlatLineBorder;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.PageSize;
+import com.itextpdf.text.pdf.PdfWriter;
 import org.imgscalr.Scalr;
 import org.jdesktop.swingx.JXImageView;
 import org.opencv.core.Mat;
@@ -45,7 +48,7 @@ public class ImageUtils {
 
     public static FlatSVGIcon readSVG(String path) {
         try {
-            if (path == null || path == "") return null;
+            if (path == null || path.equals("")) return null;
             return new FlatSVGIcon(ImageUtils.class.getResourceAsStream("/icons/" + path));
         } catch (IOException e) {
             return null;
@@ -166,6 +169,39 @@ public class ImageUtils {
         try {
             ImageIO.write(image, "png", new File("images/" + nameFile));
         } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public static void saveBufferImageToPdf(BufferedImage image, String nameFile) {
+        try {
+            Document document = new Document(PageSize.A6);
+            PdfWriter.getInstance(document, new FileOutputStream("images/" + nameFile));
+            document.open();
+
+            float pdfWidth = PageSize.A6.getWidth();
+            float pdfHeight = PageSize.A6.getHeight();
+
+            // Lấy kích thước của hình ảnh
+            float imageWidth = image.getWidth();
+            float imageHeight = image.getHeight();
+
+            // Tính toán tỷ lệ scale để fit hình ảnh vào trang PDF
+            float scale = Math.min(pdfWidth / imageWidth, pdfHeight / imageHeight);
+
+            // Tính toán vị trí để đưa hình ảnh vào trên cùng và giữa trang PDF
+            float x = (pdfWidth - imageWidth * scale) / 2;
+            float y = pdfHeight - imageHeight * scale;
+
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ImageIO.write(image, "png", baos);
+            byte[] imageBytes = baos.toByteArray();
+            com.itextpdf.text.Image pdfImage = com.itextpdf.text.Image.getInstance(imageBytes);
+            pdfImage.scaleToFit(imageWidth * scale, imageHeight * scale);
+            pdfImage.setAbsolutePosition(x, y);
+            document.add(pdfImage);
+
+            document.close();
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }

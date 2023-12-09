@@ -16,10 +16,7 @@ import com.sax.views.components.libraries.CustomScrollPane;
 import com.sax.views.components.libraries.RoundPanel;
 import com.sax.views.components.libraries.WrapLayout;
 import com.sax.views.nhanvien.cart.CustomCart;
-import com.sax.views.nhanvien.dialog.DonHangDialog;
-import com.sax.views.nhanvien.dialog.HoaDonDialog;
-import com.sax.views.nhanvien.dialog.KhachHangNVDialog;
-import com.sax.views.nhanvien.dialog.UserPopup;
+import com.sax.views.nhanvien.dialog.*;
 import com.sax.views.nhanvien.product.ProductItem;
 import com.sax.views.quanly.views.dialogs.CameraDialog;
 import org.jdesktop.swingworker.SwingWorker;
@@ -70,6 +67,8 @@ public class NhanVienView extends JPanel {
     private JCheckBox chkDiem;
     private JButton btnKhachHang;
     private JPanel useDiem;
+    private JButton btnDonHangCho;
+    private JButton btnThemTam;
     private ExecutorService executorService = Executors.newSingleThreadExecutor();
     private ISachService sachService = ContextUtils.getBean(ISachService.class);
     private IDonHangService donHangService = ContextUtils.getBean(DonHangService.class);
@@ -114,6 +113,8 @@ public class NhanVienView extends JPanel {
         btnScan.addActionListener((e) -> openScan());
         cboKH.addActionListener(e -> fillDiem());
         chkDiem.addActionListener(e -> Cart.tinhTien(cart, lblTienHang, lblChietKhau, lblTPT, chkDiem));
+        btnThemTam.addActionListener((e) -> themTam());
+        btnDonHangCho.addActionListener((e) -> openDonHangCho());
     }
 
     private void intiComponent() {
@@ -132,7 +133,6 @@ public class NhanVienView extends JPanel {
         avatar.add(ImageUtils.getCircleImage(Session.accountid.getAnh(), 30, 30, null, 0));
         lblLogo.setIcon(new ImageIcon(ImageUtils.readImage("logo.png").getScaledInstance(73, 50, Image.SCALE_SMOOTH)));
         ((JLayeredPane) avatar.getComponent(0)).getComponent(0).setCursor(new Cursor(Cursor.HAND_CURSOR));
-
         timer = new Timer(300, e -> {
             searchByKeyword();
             timer.stop();
@@ -216,7 +216,7 @@ public class NhanVienView extends JPanel {
         list.forEach(i -> cboKH.addItem(i));
     }
 
-    private DonHangDTO readCart() throws SQLServerException {
+    private DonHangDTO readCart() {
         KhachHangDTO kh = (KhachHangDTO) cboKH.getSelectedItem();
         AccountDTO nv = Session.accountid;
         long tienHang = CurrencyConverter.parseLong(lblTienHang.getText());
@@ -288,6 +288,24 @@ public class NhanVienView extends JPanel {
         dialog.setVisible(true);
     }
 
+    private void themTam() {
+        DonHangDTO donHangDTO = readCart();
+        if (donHangDTO.getChiTietDonHangs().size() > 0) {
+            donHangDTO.setId(Session.listDonCho.size() + 1);
+            String tenKhachHang = MsgBox.prompt(this, "Nhập tên khách hàng");
+            donHangDTO.getKhach().setTenKhach(tenKhachHang);
+            Session.listDonCho.add(donHangDTO);
+            new Worker(0).execute();
+            fillKhachHang(khachHangService.getAll());
+            loading.setVisible(true);
+            clear();
+        }
+    }
+
+    private void openDonHangCho() {
+        new DonHangChoDialog().setVisible(true);
+    }
+
     private void createUIComponents() {
         contentPane = this;
         categoryPane = new RoundPanel(10);
@@ -308,6 +326,7 @@ public class NhanVienView extends JPanel {
         btnKhachHang = new ButtonToolItem("khachhang-c.svg", "khachhang-c.svg");
         btnDonHang = new ButtonToolItem("donhang-c.svg", "donhang-c.svg");
         btnTK = new ButtonToolItem("tknv-c.svg", "tknv-c.svg");
+        btnThemTam = new ButtonToolItem("", "");
 
         cboKH = new ComboBoxSearch();
 
