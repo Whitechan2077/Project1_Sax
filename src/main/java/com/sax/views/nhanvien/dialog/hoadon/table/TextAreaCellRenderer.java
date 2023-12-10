@@ -1,4 +1,4 @@
-package com.sax.views.nhanvien.cart.table;
+package com.sax.views.nhanvien.dialog.hoadon.table;
 
 import org.jdesktop.swingx.JXTextArea;
 

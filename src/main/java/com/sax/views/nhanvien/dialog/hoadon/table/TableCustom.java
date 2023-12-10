@@ -1,25 +1,19 @@
-package com.sax.views.nhanvien.cart.table;
+package com.sax.views.nhanvien.dialog.hoadon.table;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionAdapter;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.border.LineBorder;
-import javax.swing.table.TableCellRenderer;
 
-import com.sax.views.nhanvien.cart.scroll.ScrollBarCustomUI;
+import com.sax.views.nhanvien.dialog.hoadon.scroll.ScrollBarCustomUI;
 
 public class TableCustom {
 
     public static void apply(JScrollPane scroll) {
         JTable table = (JTable) scroll.getViewport().getComponent(0);
         table.getTableHeader().setReorderingAllowed(false);
-//        table.getTableHeader().setDefaultRenderer(new TableHeaderCustomCellRender(table));
-//        table.setRowHeight(80);
         table.setDefaultRenderer(Object.class, new TextAreaCellRenderer());
         table.setShowVerticalLines(true);
         table.setGridColor(new Color(220, 220, 220));

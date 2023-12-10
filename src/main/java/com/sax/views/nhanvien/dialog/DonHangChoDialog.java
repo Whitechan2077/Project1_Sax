@@ -12,6 +12,8 @@ import com.sax.views.components.libraries.RoundPanel;
 import com.sax.views.components.table.CustomHeaderTableCellRenderer;
 import com.sax.views.components.table.CustomTableCellEditor;
 import com.sax.views.components.table.CustomTableCellRender;
+import com.sax.views.nhanvien.NhanVienView;
+import com.sax.views.nhanvien.doncho.DonChoViewObject;
 import com.sax.views.quanly.viewmodel.AbstractViewObject;
 import com.sax.views.quanly.viewmodel.DonHangViewObject;
 import org.jdesktop.swingx.JXTable;
@@ -50,32 +52,30 @@ public class DonHangChoDialog extends JDialog {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (e.getClickCount() == 2) {
-
+                    sentDonTamToDonHang();
                 }
             }
         });
     }
 
-    private void initComponent()
-    {
+    private void initComponent() {
         setContentPane(donHangChoPane);
         setModal(true);
         setLocationRelativeTo(Application.app);
 
-        ((DefaultTableModel) table.getModel()).setColumnIdentifiers(new String[]{"", "ID", "Tên khách hàng", "Tiền hàng", "Chiết khấu", "Tổng tiền", "Phương thức thanh toán"});
-        fillTable(Session.listDonCho.stream().map(DonHangViewObject::new).collect(Collectors.toList()));
+        ((DefaultTableModel) table.getModel()).setColumnIdentifiers(new String[]{"", "ID", "Tên khách hàng", "Số sản phẩm", "Tiền hàng", "Chiết khấu", "Tổng tiền"});
+        fillTable(Session.listDonCho);
     }
 
-    private void fillTable(List<AbstractViewObject> list)
-    {
+    private void fillTable(List<DonChoViewObject> list) {
         ((DefaultTableModel) table.getModel()).setRowCount(0);
         list.forEach(i -> ((DefaultTableModel) table.getModel()).addRow(i.toObject()));
         table.setDefaultEditor(Object.class, null);
         table.getTableHeader().setDefaultRenderer(new CustomHeaderTableCellRenderer());
         table.getTableHeader().setEnabled(false);
         table.getTableHeader().setPreferredSize(new Dimension(-1, 28));
-        table.getColumnModel().getColumn(0).setCellEditor(new CustomTableCellEditor(list));
-        table.setDefaultRenderer(Object.class, new CustomTableCellRender(list));
+//        table.getColumnModel().getColumn(0).setCellEditor(new CustomTableCellEditor(list));
+//        table.setDefaultRenderer(Object.class, new CustomTableCellRender(list));
         table.packAll();
         pack();
         table.getColumns().forEach(TableColumn::sizeWidthToFit);
@@ -83,12 +83,12 @@ public class DonHangChoDialog extends JDialog {
     }
 
     private void sentDonTamToDonHang() {
-        if (table.getRowCount() >= 0) {
-            int id = (int) table.getValueAt(table.getRowCount(), 1);
-            DonHangDTO donHangDTO = Session.listDonCho.stream().filter(i -> i.getId() == id).findFirst().orElse(null);
-            if (donHangDTO != null) {
-
-            }
+        if (table.getSelectedRow() >= 0) {
+            int id = (int) table.getValueAt(table.getSelectedRow(), 1);
+            DonChoViewObject donCho = Session.listDonCho.stream().filter(i -> i.getId() == id).findFirst().orElse(null);
+            Cart.getCart().addAll(donCho.getListCart());
+            Session.listDonCho.remove(donCho);
+            dispose();
         }
     }
 
